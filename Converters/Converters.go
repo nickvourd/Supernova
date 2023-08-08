@@ -1,4 +1,4 @@
-package Converter
+package Converters
 
 import (
 	"encoding/hex"

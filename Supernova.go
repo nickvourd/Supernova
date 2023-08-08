@@ -2,7 +2,7 @@ package main
 
 import (
 	"Supernova/Arguments"
-	"Supernova/Converter"
+	"Supernova/Converters"
 	"Supernova/Utils"
 	"flag"
 	"fmt"
@@ -73,7 +73,7 @@ func main() {
 	Arguments.ArgumentEmpty(options.inputFile, 1)
 
 	// Call function name ConvertShellcode2String
-	rawShellcode, err := Converter.ConvertShellcode2String(options.inputFile)
+	rawShellcode, err := Converters.ConvertShellcode2String(options.inputFile)
 	if err != nil {
 		fmt.Println("[!] Error:", err)
 		return
@@ -102,10 +102,10 @@ func main() {
 	}
 
 	// Call function named ConvertShellcode2Hex
-	convertedShellcode := Converter.ConvertShellcode2Hex(rawShellcode, foundLanguage)
+	convertedShellcode := Converters.ConvertShellcode2Hex(rawShellcode, foundLanguage)
 
 	fmt.Println(convertedShellcode)
 
 	// Call function named ConvertShellcode2Template
-	Converter.ConvertShellcode2Template(options.inputFile, foundLanguage)
+	Converters.ConvertShellcode2Template(options.inputFile, foundLanguage)
 }
