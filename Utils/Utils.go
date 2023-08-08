@@ -2,7 +2,6 @@
 package Utils
 
 import (
-	//"fmt"
 	"log"
 	"os"
 	"runtime"
@@ -12,7 +11,6 @@ import (
 
 func Version() {
 	Version := runtime.Version()
-	//fmt.Println(Version)
 	Version = strings.Replace(Version, "go1.", "", -1)
 	VerNumb, _ := strconv.ParseFloat(Version, 64)
 	if VerNumb >= 19.1 {

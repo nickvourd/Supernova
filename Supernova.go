@@ -48,7 +48,7 @@ func Options() *FlagOptions {
 	inputFile := flag.String("i", "", "Path to the raw 64-bit shellcode.")
 	encryption := flag.String("enc", "", "Shellcode encryption (i.e., XOR, RC4, AES)")
 	obfuscation := flag.String("obs", "", "Shellcode obfuscation")
-	language := flag.String("lang", "", "Programming language to translate the shellcode (i.e., Nim, Rust, C, C#)")
+	language := flag.String("lang", "", "Programming language to translate the shellcode (i.e., Nim, Rust, C, CSharp)")
 	outFile := flag.String("o", "", "Name of output file")
 	flag.Parse()
 
@@ -72,11 +72,18 @@ func main() {
 	// Call function named ArgumentEmpty
 	Arguments.ArgumentEmpty(options.inputFile, 1)
 
+	// Call function name ConvertShellcode2String
+	rawShellcode, err := Converter.ConvertShellcode2String(options.inputFile)
+	if err != nil {
+		fmt.Println("[!] Error:", err)
+		return
+	}
+
 	// Call function named ArgumentEmpty
 	Arguments.ArgumentEmpty(options.language, 2)
 
 	// Check for valid values of language argument
-	foundLanguage := Arguments.ValidateArgument("lang", options.language, []string{"Nim", "Rust", "C", "C#"})
+	foundLanguage := Arguments.ValidateArgument("lang", options.language, []string{"Nim", "Rust", "C", "CSharp"})
 
 	// Checks if either encryption or obfuscation options are provided.
 	if options.encryption == "" && options.obfuscation == "" {
@@ -93,6 +100,11 @@ func main() {
 	if options.obfuscation != "" {
 		Arguments.ValidateArgument("obs", options.obfuscation, []string{"IPv4", "IPv6", "MAC", "UUID"})
 	}
+
+	// Call function named ConvertShellcode2Hex
+	convertedShellcode := Converter.ConvertShellcode2Hex(rawShellcode, foundLanguage)
+
+	fmt.Println(convertedShellcode)
 
 	// Call function named ConvertShellcode2Template
 	Converter.ConvertShellcode2Template(options.inputFile, foundLanguage)
