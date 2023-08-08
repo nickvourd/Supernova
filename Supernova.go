@@ -104,8 +104,6 @@ func main() {
 	// Call function named ConvertShellcode2Hex
 	convertedShellcode := Converters.ConvertShellcode2Hex(rawShellcode, foundLanguage)
 
-	fmt.Println(convertedShellcode)
-
 	// Call function named ConvertShellcode2Template
-	Converters.ConvertShellcode2Template(options.inputFile, foundLanguage)
+	Converters.ConvertShellcode2Template(convertedShellcode, foundLanguage)
 }

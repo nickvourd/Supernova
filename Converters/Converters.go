@@ -4,6 +4,7 @@ import (
 	"encoding/hex"
 	"fmt"
 	"io/ioutil"
+	"os"
 	"strings"
 )
 
@@ -49,6 +50,7 @@ func ConvertShellcode2Template(shellcode string, language string) {
 		fmt.Println(language)
 	default:
 		fmt.Println("[!] Unsupported programming language:", language)
+		os.Exit(1)
 	}
 }
 
