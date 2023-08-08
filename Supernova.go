@@ -1,11 +1,13 @@
 package main
 
 import (
+	"Supernova/Arguments"
+	"Supernova/Converter"
+	"Supernova/Utils"
 	"flag"
 	"fmt"
 	"log"
 	"os"
-	"strings"
 )
 
 // Structure
@@ -41,50 +43,6 @@ Please visit %s for more...
 
 `
 
-// ConvertShellcode2Template function
-func ConvertShellcode2Template(shellcode string, language string) {
-	switch language {
-	case "nim":
-		fmt.Println(language)
-	case "rust":
-		fmt.Println(language)
-	case "c":
-		fmt.Println(language)
-	case "c#":
-		fmt.Println(language)
-	default:
-		fmt.Println("[!] Unsupported programming language:", language)
-	}
-}
-
-// ValidateArgument function
-func ValidateArgument(argName string, argValue string, validValues []string) string {
-	for _, valid := range validValues {
-		if strings.ToLower(argValue) == strings.ToLower(valid) {
-			valid = strings.ToLower(valid)
-			return valid
-		}
-	}
-	fmt.Printf("[!] Invalid value '%s' for argument '%s'. Valid values are: %v\n", argValue, argName, validValues)
-	os.Exit(1)
-	return ""
-}
-
-// ArgumentEmpty function
-func ArgumentEmpty(statement string, option int) {
-	if statement == "" {
-		logger := log.New(os.Stderr, "[!] ", 0)
-		switch option {
-		case 1:
-			logger.Fatal("Please provide a path to a file containing raw 64-bit shellcode.")
-		case 2:
-			logger.Fatal("Please provide a valid value for the programming language (e.g., C++, C#, Rust, Nim).")
-		default:
-			logger.Fatal("Invalid option specified for ArgumentEmpty function.")
-		}
-	}
-}
-
 // Options function
 func Options() *FlagOptions {
 	inputFile := flag.String("i", "", "Path to the raw 64-bit shellcode.")
@@ -102,24 +60,23 @@ func main() {
 	// Print ascii
 	fmt.Printf(__ascii__, __version__, __license__, __author__, __github__)
 
+	// Check GO version of the current system
+	Utils.Version()
+
 	// Retrieve command-line options using the Options function
 	options := Options()
 
-	// if no arguments print help menu
-	if len(os.Args) == 1 {
-		fmt.Println("Usage of Suprenova.exe:")
-		flag.PrintDefaults()
-		os.Exit(0)
-	}
+	// Check Arguments Length
+	Arguments.ArgumentLength()
 
 	// Call function named ArgumentEmpty
-	ArgumentEmpty(options.inputFile, 1)
+	Arguments.ArgumentEmpty(options.inputFile, 1)
 
 	// Call function named ArgumentEmpty
-	ArgumentEmpty(options.language, 2)
+	Arguments.ArgumentEmpty(options.language, 2)
 
 	// Check for valid values of language argument
-	foundLanguage := ValidateArgument("lang", options.language, []string{"Nim", "Rust", "C", "C#"})
+	foundLanguage := Arguments.ValidateArgument("lang", options.language, []string{"Nim", "Rust", "C", "C#"})
 
 	// Checks if either encryption or obfuscation options are provided.
 	if options.encryption == "" && options.obfuscation == "" {
@@ -129,14 +86,14 @@ func main() {
 
 	// Check for valid values of encryption argument
 	if options.encryption != "" {
-		ValidateArgument("enc", options.encryption, []string{"XOR", "RC4", "AES"})
+		Arguments.ValidateArgument("enc", options.encryption, []string{"XOR", "RC4", "AES"})
 	}
 
 	// Check for valid values of obfuscation argument
 	if options.obfuscation != "" {
-		ValidateArgument("obs", options.obfuscation, []string{"IPv4", "IPv6", "MAC", "UUID"})
+		Arguments.ValidateArgument("obs", options.obfuscation, []string{"IPv4", "IPv6", "MAC", "UUID"})
 	}
 
 	// Call function named ConvertShellcode2Template
-	ConvertShellcode2Template(options.inputFile, foundLanguage)
+	Converter.ConvertShellcode2Template(options.inputFile, foundLanguage)
 }
