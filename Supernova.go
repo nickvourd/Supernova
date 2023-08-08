@@ -41,10 +41,27 @@ Please visit %s for more...
 
 `
 
+// ConvertShellcode2Template function
+func ConvertShellcode2Template(shellcode string, language string) {
+	switch language {
+	case "nim":
+		fmt.Println(language)
+	case "rust":
+		fmt.Println(language)
+	case "c":
+		fmt.Println(language)
+	case "c#":
+		fmt.Println(language)
+	default:
+		fmt.Println("[!] Unsupported programming language:", language)
+	}
+}
+
 // ValidateArgument function
 func ValidateArgument(argName string, argValue string, validValues []string) string {
 	for _, valid := range validValues {
 		if strings.ToLower(argValue) == strings.ToLower(valid) {
+			valid = strings.ToLower(valid)
 			return valid
 		}
 	}
@@ -53,8 +70,8 @@ func ValidateArgument(argName string, argValue string, validValues []string) str
 	return ""
 }
 
-// ArgumentsEmpty function
-func ArgumentsEmpty(statement string, option int) {
+// ArgumentEmpty function
+func ArgumentEmpty(statement string, option int) {
 	if statement == "" {
 		logger := log.New(os.Stderr, "[!] ", 0)
 		switch option {
@@ -62,6 +79,8 @@ func ArgumentsEmpty(statement string, option int) {
 			logger.Fatal("Please provide a path to a file containing raw 64-bit shellcode.")
 		case 2:
 			logger.Fatal("Please provide a valid value for the programming language (e.g., C++, C#, Rust, Nim).")
+		default:
+			logger.Fatal("Invalid option specified for ArgumentEmpty function.")
 		}
 	}
 }
@@ -71,7 +90,7 @@ func Options() *FlagOptions {
 	inputFile := flag.String("i", "", "Path to the raw 64-bit shellcode.")
 	encryption := flag.String("enc", "", "Shellcode encryption (i.e., XOR, RC4, AES)")
 	obfuscation := flag.String("obs", "", "Shellcode obfuscation")
-	language := flag.String("lang", "", "Programming language to translate the shellcode (i.e., Nim, Rust, C++, C#)")
+	language := flag.String("lang", "", "Programming language to translate the shellcode (i.e., Nim, Rust, C, C#)")
 	outFile := flag.String("o", "", "Name of output file")
 	flag.Parse()
 
@@ -93,14 +112,20 @@ func main() {
 		os.Exit(0)
 	}
 
-	// Call function named ArgumentsEmpty
-	ArgumentsEmpty(options.inputFile, 1)
+	// Call function named ArgumentEmpty
+	ArgumentEmpty(options.inputFile, 1)
 
-	// Call function named ArgumentsEmpty
-	ArgumentsEmpty(options.language, 2)
+	// Call function named ArgumentEmpty
+	ArgumentEmpty(options.language, 2)
 
 	// Check for valid values of language argument
-	ValidateArgument("lang", options.language, []string{"Nim", "Rust", "C++", "C#"})
+	foundLanguage := ValidateArgument("lang", options.language, []string{"Nim", "Rust", "C", "C#"})
+
+	// Checks if either encryption or obfuscation options are provided.
+	if options.encryption == "" && options.obfuscation == "" {
+		logger := log.New(os.Stderr, "[!] ", 0)
+		logger.Fatal("Please provide at least -enc or -obs option with a valid value...")
+	}
 
 	// Check for valid values of encryption argument
 	if options.encryption != "" {
@@ -111,4 +136,7 @@ func main() {
 	if options.obfuscation != "" {
 		ValidateArgument("obs", options.obfuscation, []string{"IPv4", "IPv6", "MAC", "UUID"})
 	}
+
+	// Call function named ConvertShellcode2Template
+	ConvertShellcode2Template(options.inputFile, foundLanguage)
 }
