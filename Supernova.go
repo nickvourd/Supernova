@@ -71,7 +71,7 @@ func Options() *FlagOptions {
 	inputFile := flag.String("i", "", "Path to the raw 64-bit shellcode.")
 	encryption := flag.String("enc", "", "Shellcode encryption (i.e., XOR, RC4, AES)")
 	obfuscation := flag.String("obs", "", "Shellcode obfuscation")
-	language := flag.String("lang", "", "Programming language to translate shellcode (i.e., Nim, Rust, C++, C#)")
+	language := flag.String("lang", "", "Programming language to translate the shellcode (i.e., Nim, Rust, C++, C#)")
 	outFile := flag.String("o", "", "Name of output file")
 	flag.Parse()
 
