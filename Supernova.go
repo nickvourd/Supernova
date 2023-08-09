@@ -4,6 +4,7 @@ import (
 	"Supernova/Arguments"
 	"Supernova/Converters"
 	"Supernova/Encryptors"
+	"Supernova/Output"
 	"Supernova/Utils"
 	"flag"
 	"fmt"
@@ -124,6 +125,8 @@ func main() {
 		template := Converters.ConvertShellcode2Template(encryptedShellcode, foundLanguage, payloadLength, options.variable)
 		// Print encrypted template
 		fmt.Printf("[+] The encrypted payload with %s:\n\n%s\n\n", strings.ToLower(options.encryption), template)
+		// Call function OutputDecryption
+		Output.OutputDecryption(foundLanguage, options.variable)
 	}
 
 	// Check for valid values of obfuscation argument
