@@ -47,7 +47,7 @@ func ConvertShellcode2Hex(shellcode string, language string) string {
 func ConvertShellcode2Template(shellcode string, language string, variable string) string {
 	switch language {
 	case "c":
-		template := fmt.Sprintf(`unsigned char %s[] = {%s};`, variable, shellcode)
+		template := fmt.Sprintf(`unsigned char %s[] = "%s";`, variable, shellcode)
 		return template
 	case "csharp":
 		template := fmt.Sprintf(`byte[] %s= new byte[%d] {%s};`, variable, CalculateShellcodeLength(shellcode), shellcode)
