@@ -18,7 +18,7 @@ func GenerateRandomXORKey(length int) []byte {
 }
 
 // DetectEncryption function
-func DetectEncryption(cipher string, shellcode string, key int) {
+func DetectEncryption(cipher string, shellcode string, key int) string {
 	// Set logger for errors
 	logger := log.New(os.Stderr, "[!] ", 0)
 
@@ -33,10 +33,12 @@ func DetectEncryption(cipher string, shellcode string, key int) {
 		// Call function named GenerateRandomXORKey
 		xorKey := GenerateRandomXORKey(keyLength)
 
-		// Print generated xor key
+		// Print generated XOR key
 		fmt.Printf("[+] Generated XOR key: ")
 		for i, b := range xorKey {
-			fmt.Printf("byte(0x%02x) => %02x", b, b)
+			decimalValue := int(b)
+			hexValue := fmt.Sprintf("%02x", b)
+			fmt.Printf("byte(0x%s) => %d", hexValue, decimalValue)
 			if i < len(xorKey)-1 {
 				fmt.Printf(", ")
 			}
@@ -45,7 +47,9 @@ func DetectEncryption(cipher string, shellcode string, key int) {
 		fmt.Printf("\n\n")
 
 		shellcodeInBytes := []byte(shellcode)
-		encryptedShellcode := XOREncryption(shellcodeInBytes, xorKey[0])
+		// fmt.Println(shellcodeInBytes)
+		encryptedShellcode := XOREncryption(shellcodeInBytes, xorKey)
+		// fmt.Println(encryptedShellcode)
 
 		// Convert Encrypted shellcode to formatted string
 		var formattedShellcode []string
@@ -57,23 +61,30 @@ func DetectEncryption(cipher string, shellcode string, key int) {
 		shellcodeFormatted := strings.Join(formattedShellcode, ", ")
 
 		// Print the formatted Encrypted shellcode
-		fmt.Println("Encrypted Shellcode:", shellcodeFormatted)
+		//fmt.Println("Encrypted Shellcode:", shellcodeFormatted)
 		//fmt.Println("Encrypted Shellcode Length:", len(encryptedShellcode))
+		return shellcodeFormatted
 
 	case "aes":
 		fmt.Println("Hello2")
+		return ""
 	case "rc4":
 		fmt.Println("Hello 3")
+		return ""
 	default:
 		logger.Fatal("Unsupported encryption cipher")
+		return ""
 	}
 }
 
-// XOREncryption function performs XOR encryption on input shellcode using a key.
-func XOREncryption(shellcode []byte, key byte) []byte {
+// XOREncryption function performs XOR encryption on input shellcode using a multi xor key.
+func XOREncryption(shellcode []byte, key []byte) []byte {
 	encoded := make([]byte, len(shellcode))
+	keyLen := len(key)
+
 	for i := 0; i < len(shellcode); i++ {
-		encoded[i] = shellcode[i] ^ key
+		encoded[i] = shellcode[i] ^ key[i%keyLen]
 	}
+
 	return encoded
 }

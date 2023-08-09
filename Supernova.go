@@ -9,6 +9,7 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"strings"
 )
 
 // Structure
@@ -118,7 +119,11 @@ func main() {
 		// Call function named ValidateArgument
 		Arguments.ValidateArgument("enc", options.encryption, []string{"XOR", "RC4", "AES"})
 		// Call function named DetectEncryption
-		Encryptors.DetectEncryption(options.encryption, rawShellcode, options.key)
+		encryptedShellcode := Encryptors.DetectEncryption(options.encryption, rawShellcode, options.key)
+		// Call function named ConvertShellcode2Template
+		template := Converters.ConvertShellcode2Template(encryptedShellcode, foundLanguage, payloadLength, options.variable)
+		// Print encrypted template
+		fmt.Printf("[+] The encrypted payload with %s:\n\n%s\n\n", strings.ToLower(options.encryption), template)
 	}
 
 	// Check for valid values of obfuscation argument
