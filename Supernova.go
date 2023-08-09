@@ -104,14 +104,15 @@ func main() {
 	}
 
 	// Call function named ConvertShellcode2Hex
-	convertedShellcode := Converters.ConvertShellcode2Hex(rawShellcode, foundLanguage)
+	convertedShellcode, payloadLength := Converters.ConvertShellcode2Hex(rawShellcode, foundLanguage)
 
 	if options.variable == "" {
 		options.variable = "shellcode"
 	}
 
 	// Call function named ConvertShellcode2Template
-	template := Converters.ConvertShellcode2Template(convertedShellcode, foundLanguage, options.variable)
+	template := Converters.ConvertShellcode2Template(convertedShellcode, foundLanguage, payloadLength, options.variable)
 
+	fmt.Printf("[+] Payload size: %d\n\n", payloadLength)
 	fmt.Println(template)
 }
