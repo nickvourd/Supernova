@@ -113,6 +113,6 @@ func main() {
 	// Call function named ConvertShellcode2Template
 	template := Converters.ConvertShellcode2Template(convertedShellcode, foundLanguage, payloadLength, options.variable)
 
-	fmt.Printf("[+] Payload size: %d\n\n", payloadLength)
+	fmt.Printf("[+] Payload size: %d bytes\n\n[+] Converted your payload to %s language\n\n", payloadLength, foundLanguage)
 	fmt.Println(template)
 }
