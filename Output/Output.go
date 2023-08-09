@@ -1,8 +1,11 @@
 package Output
 
-import "fmt"
+import (
+	"fmt"
+	"strings"
+)
 
-var __csharp__ = `static byte[] XORDecryption(byte[] %s, byte[] key)
+var __csharp_xor__ = `static byte[] XORDecryption(byte[] %s, byte[] key)
 {
 	byte[] decrypted = new byte[%s.Length];
 	int keyLen = key.Length;
@@ -16,12 +19,14 @@ var __csharp__ = `static byte[] XORDecryption(byte[] %s, byte[] key)
 }`
 
 // OutputDecryption function
-func OutputDecryption(language string, variable string) {
-	switch language {
-	case "csharp":
-		fmt.Printf("[+] Csharp function for decryption:\n\n"+__csharp__+"\n\n", variable, variable, variable, variable)
-		fmt.Printf("[+] Set key in main:\n\nbyte[] key = new byte[] { /* XOR key bytes here */ };\n\n")
-		fmt.Printf("[+] Call function in main:\n\n"+"byte[] decryptedShellcode = XORDecryption(%s, key);\n\n", variable)
+func OutputDecryption(language string, variable string, encryption string, key []byte) {
+	switch strings.ToLower(encryption) {
+	case "xor":
+		switch language {
+		case "csharp":
+			fmt.Printf("[+] %s function for decryption (%s):\n\n"+__csharp_xor__+"\n\n", strings.ToUpper(language), strings.ToLower(encryption), variable, variable, variable, variable)
+			fmt.Printf("[+] Set key in main:\n\nbyte[] key = new byte[] { /* XOR key bytes here */ };\n\n")
+			fmt.Printf("[+] Call function in main:\n\n"+"byte[] decryptedShellcode = XORDecryption(%s, key);\n\n", variable)
+		}
 	}
-
 }

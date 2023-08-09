@@ -18,7 +18,7 @@ func GenerateRandomXORKey(length int) []byte {
 }
 
 // DetectEncryption function
-func DetectEncryption(cipher string, shellcode string, key int) string {
+func DetectEncryption(cipher string, shellcode string, key int) (string, []byte) {
 	// Set logger for errors
 	logger := log.New(os.Stderr, "[!] ", 0)
 
@@ -63,17 +63,16 @@ func DetectEncryption(cipher string, shellcode string, key int) string {
 		// Print the formatted Encrypted shellcode
 		//fmt.Println("Encrypted Shellcode:", shellcodeFormatted)
 		//fmt.Println("Encrypted Shellcode Length:", len(encryptedShellcode))
-		return shellcodeFormatted
-
+		return shellcodeFormatted, xorKey
 	case "aes":
 		fmt.Println("Hello2")
-		return ""
+		return "", nil
 	case "rc4":
 		fmt.Println("Hello 3")
-		return ""
+		return "", nil
 	default:
 		logger.Fatal("Unsupported encryption cipher")
-		return ""
+		return "", nil
 	}
 }
 

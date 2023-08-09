@@ -23,6 +23,7 @@ type FlagOptions struct {
 	variable    string
 	key         int
 	debug       bool
+	guide       bool
 }
 
 // global variables
@@ -59,9 +60,10 @@ func Options() *FlagOptions {
 	variable := flag.String("v", "shellcode", "Name of shellcode variable")
 	debug := flag.Bool("d", false, "Enable Debug mode")
 	key := flag.Int("k", 1, "Key lenght size for encryption (1-8).")
+	guide := flag.Bool("g", false, "Enable guide mode")
 	flag.Parse()
 
-	return &FlagOptions{outFile: *outFile, inputFile: *inputFile, language: *language, encryption: *encryption, obfuscation: *obfuscation, variable: *variable, debug: *debug, key: *key}
+	return &FlagOptions{outFile: *outFile, inputFile: *inputFile, language: *language, encryption: *encryption, obfuscation: *obfuscation, variable: *variable, debug: *debug, key: *key, guide: *guide}
 }
 
 // main function
@@ -120,18 +122,15 @@ func main() {
 		// Call function named ValidateArgument
 		Arguments.ValidateArgument("enc", options.encryption, []string{"XOR", "RC4", "AES"})
 		// Call function named DetectEncryption
-		encryptedShellcode := Encryptors.DetectEncryption(options.encryption, rawShellcode, options.key)
+		encryptedShellcode, foundKey := Encryptors.DetectEncryption(options.encryption, rawShellcode, options.key)
 		// Call function named ConvertShellcode2Template
 		template := Converters.ConvertShellcode2Template(encryptedShellcode, foundLanguage, payloadLength, options.variable)
 		// Print encrypted template
 		fmt.Printf("[+] The encrypted payload with %s:\n\n%s\n\n", strings.ToLower(options.encryption), template)
-		// Call function OutputDecryption
-		Output.OutputDecryption(foundLanguage, options.variable)
-	}
 
-	// Check for valid values of obfuscation argument
-	if options.obfuscation != "" {
-		Arguments.ValidateArgument("obs", options.obfuscation, []string{"IPv4", "IPv6", "MAC", "UUID"})
+		if options.guide != false {
+			// Call function OutputDecryption
+			Output.OutputDecryption(foundLanguage, options.variable, options.encryption, foundKey)
+		}
 	}
-
 }
