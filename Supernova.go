@@ -18,6 +18,7 @@ type FlagOptions struct {
 	encryption  string
 	obfuscation string
 	variable    string
+	debug       bool
 }
 
 // global variables
@@ -51,10 +52,11 @@ func Options() *FlagOptions {
 	obfuscation := flag.String("obs", "", "Shellcode obfuscation")
 	language := flag.String("lang", "", "Programming language to translate the shellcode (i.e., Nim, Rust, C, CSharp)")
 	outFile := flag.String("o", "", "Name of output file")
-	variable := flag.String("v", "", "Name of shellcode variable (Default is shellcode)")
+	variable := flag.String("v", "shellcode", "Name of shellcode variable")
+	debug := flag.Bool("d", false, "Enable Debug mode")
 	flag.Parse()
 
-	return &FlagOptions{outFile: *outFile, inputFile: *inputFile, language: *language, encryption: *encryption, obfuscation: *obfuscation, variable: *variable}
+	return &FlagOptions{outFile: *outFile, inputFile: *inputFile, language: *language, encryption: *encryption, obfuscation: *obfuscation, variable: *variable, debug: *debug}
 }
 
 // main function
@@ -106,13 +108,13 @@ func main() {
 	// Call function named ConvertShellcode2Hex
 	convertedShellcode, payloadLength := Converters.ConvertShellcode2Hex(rawShellcode, foundLanguage)
 
-	if options.variable == "" {
-		options.variable = "shellcode"
+	// Print payload size and choosen language
+	fmt.Printf("[+] Payload size: %d bytes\n\n[+] Converted payload to %s language\n\n", payloadLength, foundLanguage)
+
+	if options.debug != false {
+		// Call function named ConvertShellcode2Template
+		template := Converters.ConvertShellcode2Template(convertedShellcode, foundLanguage, payloadLength, options.variable)
+		// Print original template
+		fmt.Printf("[+] The original payload:\n\n%s\n\n", template)
 	}
-
-	// Call function named ConvertShellcode2Template
-	template := Converters.ConvertShellcode2Template(convertedShellcode, foundLanguage, payloadLength, options.variable)
-
-	fmt.Printf("[+] Payload size: %d bytes\n\n[+] Converted your payload to %s language\n\n", payloadLength, foundLanguage)
-	fmt.Println(template)
 }
