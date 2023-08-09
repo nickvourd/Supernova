@@ -44,3 +44,11 @@ func ValidateArgument(argName string, argValue string, validValues []string) str
 	os.Exit(1)
 	return ""
 }
+
+// ValidateKeySize function
+func ValidateKeySize(key int) {
+	if key <= 0 || key > 8 {
+		logger := log.New(os.Stderr, "[!] ", 0)
+		logger.Fatal("Please provide a valid key value for the size ranging 1-8.")
+	}
+}

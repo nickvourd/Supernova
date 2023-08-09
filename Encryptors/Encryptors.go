@@ -18,13 +18,19 @@ func GenerateRandomXORKey(length int) []byte {
 }
 
 // DetectEncryption function
-func DetectEncryption(cipher string, shellcode string) {
+func DetectEncryption(cipher string, shellcode string, key int) {
+	// Set logger for errors
 	logger := log.New(os.Stderr, "[!] ", 0)
+
+	// Set cipher to lower
 	cipher = strings.ToLower(cipher)
-	keyLength := 1 // Specify the desired key length in bytes
+
+	// Set key size
+	keyLength := key
+
 	xorKey := GenerateRandomXORKey(keyLength)
 
-	fmt.Printf("Generated XOR key: ")
+	/*fmt.Printf("Generated XOR key: ")
 	for _, b := range xorKey {
 		fmt.Printf("byte(0x%02x), ", b)
 	}
@@ -32,7 +38,7 @@ func DetectEncryption(cipher string, shellcode string) {
 	nikos := byte(xorKey[0])
 	kostas := byte(0x55)
 	fmt.Println(nikos)
-	fmt.Println(kostas)
+	fmt.Println(kostas)*/
 
 	switch cipher {
 	case "xor":

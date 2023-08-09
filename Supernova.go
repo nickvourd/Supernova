@@ -19,7 +19,7 @@ type FlagOptions struct {
 	encryption  string
 	obfuscation string
 	variable    string
-	key         string
+	key         int
 	debug       bool
 }
 
@@ -56,7 +56,7 @@ func Options() *FlagOptions {
 	outFile := flag.String("o", "", "Name of output file")
 	variable := flag.String("v", "shellcode", "Name of shellcode variable")
 	debug := flag.Bool("d", false, "Enable Debug mode")
-	key := flag.String("k", "", "Key phrase for encryption")
+	key := flag.Int("k", 1, "Key lenght size for encryption (1-8).")
 	flag.Parse()
 
 	return &FlagOptions{outFile: *outFile, inputFile: *inputFile, language: *language, encryption: *encryption, obfuscation: *obfuscation, variable: *variable, debug: *debug, key: *key}
@@ -86,6 +86,9 @@ func main() {
 		return
 	}
 
+	// Call function ValidateKeySize
+	Arguments.ValidateKeySize(options.key)
+
 	// Call function named ArgumentEmpty
 	Arguments.ArgumentEmpty(options.language, 2)
 
@@ -112,9 +115,10 @@ func main() {
 	}
 
 	if options.encryption != "" {
+		// Call function named ValidateArgument
 		Arguments.ValidateArgument("enc", options.encryption, []string{"XOR", "RC4", "AES"})
 		// Call function named DetectEncryption
-		Encryptors.DetectEncryption(options.encryption, rawShellcode)
+		Encryptors.DetectEncryption(options.encryption, rawShellcode, options.key)
 	}
 
 	// Check for valid values of obfuscation argument
