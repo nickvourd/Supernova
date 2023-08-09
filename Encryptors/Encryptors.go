@@ -12,7 +12,7 @@ func GenerateRandomXORKey(length int) []byte {
 	key := make([]byte, length)
 	_, err := rand.Read(key)
 	if err != nil {
-		panic("Failed to generate random key")
+		panic("[!] Failed to generate random key.")
 	}
 	return key
 }
@@ -28,20 +28,22 @@ func DetectEncryption(cipher string, shellcode string, key int) {
 	// Set key size
 	keyLength := key
 
-	xorKey := GenerateRandomXORKey(keyLength)
-
-	/*fmt.Printf("Generated XOR key: ")
-	for _, b := range xorKey {
-		fmt.Printf("byte(0x%02x), ", b)
-	}
-
-	nikos := byte(xorKey[0])
-	kostas := byte(0x55)
-	fmt.Println(nikos)
-	fmt.Println(kostas)*/
-
 	switch cipher {
 	case "xor":
+		// Call function named GenerateRandomXORKey
+		xorKey := GenerateRandomXORKey(keyLength)
+
+		// Print generated xor key
+		fmt.Printf("[+] Generated XOR key: ")
+		for i, b := range xorKey {
+			fmt.Printf("byte(0x%02x) => %02x", b, b)
+			if i < len(xorKey)-1 {
+				fmt.Printf(", ")
+			}
+		}
+
+		fmt.Printf("\n\n")
+
 		shellcodeInBytes := []byte(shellcode)
 		encryptedShellcode := XOREncryption(shellcodeInBytes, xorKey[0])
 
@@ -56,7 +58,7 @@ func DetectEncryption(cipher string, shellcode string, key int) {
 
 		// Print the formatted Encrypted shellcode
 		fmt.Println("Encrypted Shellcode:", shellcodeFormatted)
-		fmt.Println("Encrypted Shellcode Length:", len(encryptedShellcode))
+		//fmt.Println("Encrypted Shellcode Length:", len(encryptedShellcode))
 
 	case "aes":
 		fmt.Println("Hello2")
@@ -69,7 +71,6 @@ func DetectEncryption(cipher string, shellcode string, key int) {
 
 // XOREncryption function performs XOR encryption on input shellcode using a key.
 func XOREncryption(shellcode []byte, key byte) []byte {
-	fmt.Println(key)
 	encoded := make([]byte, len(shellcode))
 	for i := 0; i < len(shellcode); i++ {
 		encoded[i] = shellcode[i] ^ key
