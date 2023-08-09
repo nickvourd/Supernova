@@ -3,6 +3,7 @@ package main
 import (
 	"Supernova/Arguments"
 	"Supernova/Converters"
+	"Supernova/Encryptors"
 	"Supernova/Utils"
 	"flag"
 	"fmt"
@@ -18,6 +19,7 @@ type FlagOptions struct {
 	encryption  string
 	obfuscation string
 	variable    string
+	key         string
 	debug       bool
 }
 
@@ -54,9 +56,10 @@ func Options() *FlagOptions {
 	outFile := flag.String("o", "", "Name of output file")
 	variable := flag.String("v", "shellcode", "Name of shellcode variable")
 	debug := flag.Bool("d", false, "Enable Debug mode")
+	key := flag.String("k", "", "Key phrase for encryption")
 	flag.Parse()
 
-	return &FlagOptions{outFile: *outFile, inputFile: *inputFile, language: *language, encryption: *encryption, obfuscation: *obfuscation, variable: *variable, debug: *debug}
+	return &FlagOptions{outFile: *outFile, inputFile: *inputFile, language: *language, encryption: *encryption, obfuscation: *obfuscation, variable: *variable, debug: *debug, key: *key}
 }
 
 // main function
@@ -95,16 +98,6 @@ func main() {
 		logger.Fatal("Please provide at least -enc or -obs option with a valid value...")
 	}
 
-	// Check for valid values of encryption argument
-	if options.encryption != "" {
-		Arguments.ValidateArgument("enc", options.encryption, []string{"XOR", "RC4", "AES"})
-	}
-
-	// Check for valid values of obfuscation argument
-	if options.obfuscation != "" {
-		Arguments.ValidateArgument("obs", options.obfuscation, []string{"IPv4", "IPv6", "MAC", "UUID"})
-	}
-
 	// Call function named ConvertShellcode2Hex
 	convertedShellcode, payloadLength := Converters.ConvertShellcode2Hex(rawShellcode, foundLanguage)
 
@@ -117,4 +110,16 @@ func main() {
 		// Print original template
 		fmt.Printf("[+] The original payload:\n\n%s\n\n", template)
 	}
+
+	if options.encryption != "" {
+		Arguments.ValidateArgument("enc", options.encryption, []string{"XOR", "RC4", "AES"})
+		// Call function named DetectEncryption
+		Encryptors.DetectEncryption(options.encryption, rawShellcode)
+	}
+
+	// Check for valid values of obfuscation argument
+	if options.obfuscation != "" {
+		Arguments.ValidateArgument("obs", options.obfuscation, []string{"IPv4", "IPv6", "MAC", "UUID"})
+	}
+
 }

@@ -47,7 +47,7 @@ func ConvertShellcode2Template(shellcode string, language string, length int, va
 		template := fmt.Sprintf(`unsigned char %s[] = "%s";`, variable, shellcode)
 		return template
 	case "csharp":
-		template := fmt.Sprintf(`byte[] %s= new byte[%d] {%s};`, variable, length, shellcode)
+		template := fmt.Sprintf(`byte[] %s = new byte[%d] {%s};`, variable, length, shellcode)
 		return template
 	case "nim":
 		template := fmt.Sprintf(`var %s: array[%d, byte] = [byte %s]`, variable, length, shellcode)
