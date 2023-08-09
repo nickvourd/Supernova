@@ -17,6 +17,7 @@ type FlagOptions struct {
 	language    string
 	encryption  string
 	obfuscation string
+	variable    string
 }
 
 // global variables
@@ -50,9 +51,10 @@ func Options() *FlagOptions {
 	obfuscation := flag.String("obs", "", "Shellcode obfuscation")
 	language := flag.String("lang", "", "Programming language to translate the shellcode (i.e., Nim, Rust, C, CSharp)")
 	outFile := flag.String("o", "", "Name of output file")
+	variable := flag.String("v", "", "Name of shellcode variable (Default is shellcode)")
 	flag.Parse()
 
-	return &FlagOptions{outFile: *outFile, inputFile: *inputFile, language: *language, encryption: *encryption, obfuscation: *obfuscation}
+	return &FlagOptions{outFile: *outFile, inputFile: *inputFile, language: *language, encryption: *encryption, obfuscation: *obfuscation, variable: *variable}
 }
 
 // main function
@@ -104,6 +106,12 @@ func main() {
 	// Call function named ConvertShellcode2Hex
 	convertedShellcode := Converters.ConvertShellcode2Hex(rawShellcode, foundLanguage)
 
+	if options.variable == "" {
+		options.variable = "shellcode"
+	}
+
 	// Call function named ConvertShellcode2Template
-	Converters.ConvertShellcode2Template(convertedShellcode, foundLanguage)
+	template := Converters.ConvertShellcode2Template(convertedShellcode, foundLanguage, options.variable)
+
+	fmt.Println(template)
 }

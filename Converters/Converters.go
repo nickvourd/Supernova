@@ -8,6 +8,12 @@ import (
 	"strings"
 )
 
+// CalculateShellcodeLength function
+func CalculateShellcodeLength(shellcode string) int {
+	// Calculate the length of shellcode
+	return len(strings.Split(shellcode, ","))
+}
+
 // ConvertShellcode2Hex
 func ConvertShellcode2Hex(shellcode string, language string) string {
 	// Convert raw shellcode to hexadecimal
@@ -29,7 +35,7 @@ func ConvertShellcode2Hex(shellcode string, language string) string {
 		for i := 0; i < len(hexValues); i += 2 {
 			formattedHexShellcode += "0x" + hexValues[i] + hexValues[i+1]
 			if i < len(hexValues)-2 {
-				formattedHexShellcode += ", "
+				formattedHexShellcode += ","
 			}
 		}
 	}
@@ -38,19 +44,24 @@ func ConvertShellcode2Hex(shellcode string, language string) string {
 }
 
 // ConvertShellcode2Template function
-func ConvertShellcode2Template(shellcode string, language string) {
+func ConvertShellcode2Template(shellcode string, language string, variable string) string {
 	switch language {
-	case "nim":
-		fmt.Println(language)
-	case "rust":
-		fmt.Println(language)
 	case "c":
-		fmt.Println(language)
+		template := fmt.Sprintf(`unsigned char %s[] = {%s};`, variable, shellcode)
+		return template
 	case "csharp":
-		fmt.Println(language)
+		template := fmt.Sprintf(`byte[] %s= new byte[%d] {%s};`, variable, CalculateShellcodeLength(shellcode), shellcode)
+		return template
+	case "nim":
+		template := fmt.Sprintf(`var %s: array[%d, byte] = [byte %s]`, variable, CalculateShellcodeLength(shellcode), shellcode)
+		return template
+	case "rust":
+		template := fmt.Sprintf(`let %s: [u8; %d] = [%s];`, variable, CalculateShellcodeLength(shellcode), shellcode)
+		return template
 	default:
 		fmt.Println("[!] Unsupported programming language:", language)
 		os.Exit(1)
+		return ""
 	}
 }
 
