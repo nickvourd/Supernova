@@ -54,7 +54,6 @@ Please visit %s for more...
 func Options() *FlagOptions {
 	inputFile := flag.String("i", "", "Path to the raw 64-bit shellcode.")
 	encryption := flag.String("enc", "", "Shellcode encryption (i.e., XOR, RC4, AES)")
-	obfuscation := flag.String("obs", "", "Shellcode obfuscation")
 	language := flag.String("lang", "", "Programming language to translate the shellcode (i.e., Nim, Rust, C, CSharp)")
 	outFile := flag.String("o", "", "Name of output file")
 	variable := flag.String("v", "shellcode", "Name of shellcode variable")
@@ -63,7 +62,7 @@ func Options() *FlagOptions {
 	guide := flag.Bool("g", false, "Enable guide mode")
 	flag.Parse()
 
-	return &FlagOptions{outFile: *outFile, inputFile: *inputFile, language: *language, encryption: *encryption, obfuscation: *obfuscation, variable: *variable, debug: *debug, key: *key, guide: *guide}
+	return &FlagOptions{outFile: *outFile, inputFile: *inputFile, language: *language, encryption: *encryption, variable: *variable, debug: *debug, key: *key, guide: *guide}
 }
 
 // main function
@@ -99,12 +98,6 @@ func main() {
 	// Check for valid values of language argument
 	foundLanguage := Arguments.ValidateArgument("lang", options.language, []string{"Nim", "Rust", "C", "CSharp"})
 
-	// Checks if either encryption or obfuscation options are provided.
-	if options.encryption == "" && options.obfuscation == "" {
-		logger := log.New(os.Stderr, "[!] ", 0)
-		logger.Fatal("Please provide at least -enc or -obs option with a valid value...")
-	}
-
 	// Call function named ConvertShellcode2Hex
 	convertedShellcode, payloadLength := Converters.ConvertShellcode2Hex(rawShellcode, foundLanguage)
 
@@ -132,5 +125,9 @@ func main() {
 			// Call function OutputDecryption
 			Output.OutputDecryption(foundLanguage, options.variable, options.encryption, foundKey)
 		}
+	} else {
+		// If enc option is empty
+		logger := log.New(os.Stderr, "[!] ", 0)
+		logger.Fatal("Please provide at least -enc option with a valid value...")
 	}
 }
