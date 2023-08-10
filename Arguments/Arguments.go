@@ -26,6 +26,8 @@ func ArgumentEmpty(statement string, option int) {
 			logger.Fatal("Please provide a path to a file containing raw 64-bit shellcode.")
 		case 2:
 			logger.Fatal("Please provide a valid value for the programming language (e.g., C++, CSharp, Rust, Nim).")
+		case 3:
+			logger.Fatal("Please provide a valid value for the encryption (e.g., XOR, RC4, AES).")
 		default:
 			logger.Fatal("Invalid option specified for ArgumentEmpty function.")
 		}

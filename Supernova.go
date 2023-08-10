@@ -8,8 +8,6 @@ import (
 	"Supernova/Utils"
 	"flag"
 	"fmt"
-	"log"
-	"os"
 	"strings"
 )
 
@@ -95,6 +93,9 @@ func main() {
 	// Call function named ArgumentEmpty
 	Arguments.ArgumentEmpty(options.language, 2)
 
+	// Call function named ArgumentEmpty
+	Arguments.ArgumentEmpty(options.encryption, 3)
+
 	// Check for valid values of language argument
 	foundLanguage := Arguments.ValidateArgument("lang", options.language, []string{"Nim", "Rust", "C", "CSharp"})
 
@@ -125,9 +126,5 @@ func main() {
 			// Call function OutputDecryption
 			Output.OutputDecryption(foundLanguage, options.variable, options.encryption, foundKey)
 		}
-	} else {
-		// If enc option is empty
-		logger := log.New(os.Stderr, "[!] ", 0)
-		logger.Fatal("Please provide at least -enc option with a valid value...")
 	}
 }
