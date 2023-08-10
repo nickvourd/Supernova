@@ -25,8 +25,8 @@ func OutputDecryption(language string, variable string, encryption string, key [
 		switch language {
 		case "csharp":
 			fmt.Printf("[+] %s function for decryption (%s):\n\n"+__csharp_xor__+"\n\n", strings.ToUpper(language), strings.ToLower(encryption), variable, variable, variable, variable)
-			fmt.Printf("[+] Set key in main:\n\nbyte[] key = new byte[] { /* XOR key bytes here */ };\n\n")
-			fmt.Printf("[+] Call function in main:\n\n"+"byte[] decryptedShellcode = XORDecryption(%s, key);\n\n", variable)
+			fmt.Printf("[+] Set key in main:\n\nbyte[] key = new byte[] { /* XOR key bytes here like 0xfc, 0x55 ...*/ };\n\n")
+			fmt.Printf("[+] Call function in main:\n\n"+"%s = XORDecryption(%s, key);\n\n", variable, variable)
 		}
 	}
 }
