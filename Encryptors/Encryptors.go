@@ -140,7 +140,7 @@ func DetectEncryption(cipher string, shellcode string, key int) (string, []byte,
 		rc4Key := []byte(randomPassphrase)
 
 		// Print generated passphrase
-		fmt.Printf("[+] Generated passphrase: %s\n\n", randomPassphrase)
+		fmt.Printf("[+] Generated Passphrase: %s\n\n", randomPassphrase)
 
 		// Convert shellcode to bytes
 		shellcodeInBytes := []byte(shellcode)
