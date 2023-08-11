@@ -23,5 +23,5 @@ Supernova is licensed under the [![License: MIT](https://img.shields.io/badge/MI
 
 ## Table of Contents
 - [Supernova](#supernova)
-   -[Description](#description)
+  - [Description](#description)
   - [Table of Contents](#table-of-contents)
