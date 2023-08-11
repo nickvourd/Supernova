@@ -6,6 +6,7 @@ import (
 	"strings"
 )
 
+// Template XOR Decryption with CSharp
 var __csharp_xor__ = `static byte[] XORDecryption(byte[] %s, byte[] key)
 {
 	byte[] decrypted = new byte[%s.Length];
@@ -19,6 +20,7 @@ var __csharp_xor__ = `static byte[] XORDecryption(byte[] %s, byte[] key)
 	return decrypted;
 }`
 
+// Template XOR with C
 var __c_xor__ = `unsigned char* XORDecryption(unsigned char* %s, unsigned char* key, size_t %sLength, size_t keyLength){
     unsigned char* decrypted = (unsigned char*)malloc(%sLength);
     
@@ -29,6 +31,7 @@ var __c_xor__ = `unsigned char* XORDecryption(unsigned char* %s, unsigned char* 
     return decrypted;
 }`
 
+// Template XOR with Rust
 var __rust_xor__ = `fn XORDecryption(%s: &[u8], key: &[u8]) -> Vec<u8> {
     let mut decrypted = Vec::with_capacity(%s.len());
     let key_len = key.len();
@@ -40,6 +43,7 @@ var __rust_xor__ = `fn XORDecryption(%s: &[u8], key: &[u8]) -> Vec<u8> {
     decrypted
 }`
 
+// Template XOR with Nim
 var __nim_xor__ = `proc XORDecryption(%s: array[byte], key: array[byte]): array[byte] =
   var decrypted: array[byte, %s.len]
   let keyLen = key.len
@@ -51,10 +55,10 @@ var __nim_xor__ = `proc XORDecryption(%s: array[byte], key: array[byte]): array[
 
 // OutputDecryption function
 func OutputDecryption(language string, variable string, encryption string, key []byte) {
-	// Call function named FormatKeysToHex
-	hexKey := Converters.FormatKeysToHex(key)
 	switch strings.ToLower(encryption) {
 	case "xor":
+		// Call function named FormatKeysToHex
+		hexKey := Converters.FormatKeysToHex(key)
 		switch language {
 		case "csharp":
 			fmt.Printf("[+] %s function for decryption (%s):\n\n"+__csharp_xor__+"\n\n", strings.ToUpper(language), strings.ToLower(encryption), variable, variable, variable, variable)
