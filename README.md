@@ -1,7 +1,7 @@
 # Supernova
 Real fucking shellcode encryption tool.
 
-### Description
+## Description
 Supernova is an open-source Golang tool that empowers users to securely encrypt their raw shellcodes. Additionally, it offers automatic conversion of the encrypted shellcode into formats compatible with various programming languages, including:
 
 - C
@@ -9,12 +9,14 @@ Supernova is an open-source Golang tool that empowers users to securely encrypt 
 - Rust
 - Nim
 
-### Available Ciphers
+## Available Ciphers
 
 - XOR
 - RC4
 - AES
 
-### Version
+## License
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
-#### 1.0.0
+## Version
+### 2.0.0
