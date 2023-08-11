@@ -86,3 +86,15 @@ func FormatKeysToHex(byteArray []byte) string {
 
 	return strings.Join(hexBytes, ", ")
 }
+
+// FormatShellcode function
+func FormatShellcode(encryptedShellcode []byte) string {
+	var formattedShellcode []string
+	for _, b := range encryptedShellcode {
+		formattedShellcode = append(formattedShellcode, fmt.Sprintf("0x%02x", b))
+	}
+
+	shellcodeFormatted := strings.Join(formattedShellcode, ", ")
+
+	return shellcodeFormatted
+}
