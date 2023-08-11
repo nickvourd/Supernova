@@ -57,7 +57,7 @@ func Options() *FlagOptions {
 	variable := flag.String("v", "shellcode", "Name of shellcode variable")
 	debug := flag.Bool("d", false, "Enable Debug mode")
 	key := flag.Int("k", 1, "Key lenght size for encryption.")
-	guide := flag.Bool("g", false, "Enable guide mode")
+	guide := flag.Bool("guide", false, "Enable guide mode")
 	flag.Parse()
 
 	return &FlagOptions{outFile: *outFile, inputFile: *inputFile, language: *language, encryption: *encryption, variable: *variable, debug: *debug, key: *key, guide: *guide}
