@@ -17,4 +17,4 @@ Supernova is an open-source Golang tool that empowers users to securely encrypt 
 
 ### Version
 
-##### 1.0.0
+#### 1.0.0
