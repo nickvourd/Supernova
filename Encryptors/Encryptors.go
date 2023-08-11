@@ -4,10 +4,17 @@ import (
 	"crypto/rand"
 	"fmt"
 	"log"
+	"math/big"
 	"os"
 	"strings"
 )
 
+const (
+	defaultLength = 5
+	chars         = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()_+{}[]"
+)
+
+// GenerateRandomXORKey function
 func GenerateRandomXORKey(length int) []byte {
 	key := make([]byte, length)
 	_, err := rand.Read(key)
@@ -15,6 +22,39 @@ func GenerateRandomXORKey(length int) []byte {
 		panic("[!] Failed to generate random key.")
 	}
 	return key
+}
+
+// GenerateRandomPassphrase function
+func GenerateRandomPassphrase(length int) string {
+	if length <= 0 {
+		length = defaultLength
+	}
+
+	charSetLength := big.NewInt(int64(len(chars)))
+	passphrase := make([]byte, length)
+
+	for i := range passphrase {
+		randomIndex, err := rand.Int(rand.Reader, charSetLength)
+		if err != nil {
+			fmt.Println("Error generating random number:", err)
+			return ""
+		}
+		passphrase[i] = chars[randomIndex.Int64()]
+	}
+
+	return string(passphrase)
+}
+
+// XOREncryption function performs XOR encryption on input shellcode using a multi xor key.
+func XOREncryption(shellcode []byte, key []byte) []byte {
+	encoded := make([]byte, len(shellcode))
+	keyLen := len(key)
+
+	for i := 0; i < len(shellcode); i++ {
+		encoded[i] = shellcode[i] ^ key[i%keyLen]
+	}
+
+	return encoded
 }
 
 // DetectEncryption function
@@ -68,22 +108,11 @@ func DetectEncryption(cipher string, shellcode string, key int) (string, []byte)
 		fmt.Println("Hello2")
 		return "", nil
 	case "rc4":
-		fmt.Println("Hello 3")
+		randomPassphrase := GenerateRandomPassphrase(key)
+		fmt.Println("Random passphrase:", randomPassphrase)
 		return "", nil
 	default:
 		logger.Fatal("Unsupported encryption cipher")
 		return "", nil
 	}
-}
-
-// XOREncryption function performs XOR encryption on input shellcode using a multi xor key.
-func XOREncryption(shellcode []byte, key []byte) []byte {
-	encoded := make([]byte, len(shellcode))
-	keyLen := len(key)
-
-	for i := 0; i < len(shellcode); i++ {
-		encoded[i] = shellcode[i] ^ key[i%keyLen]
-	}
-
-	return encoded
 }
