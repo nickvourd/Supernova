@@ -46,7 +46,7 @@ go build Supernova.go
 ███████║╚██████╔╝██║     ███████╗██║  ██║██║ ╚████║╚██████╔╝ ╚████╔╝ ██║  ██║
 ╚══════╝ ╚═════╝ ╚═╝     ╚══════╝╚═╝  ╚═╝╚═╝  ╚═══╝ ╚═════╝   ╚═══╝  ╚═╝  ╚═╝
 
-Supernova v1.0.0 - A real fucking shellcode encryptor.
+Supernova v1.0.0 - Real fucking shellcode encryptor.
 Supernova is an open source tool licensed under MIT.
 Written with <3 by @nickvourd and @IAMCOMPROMISED...
 Please visit https://github.com/nickvourd/Supernova for more...
@@ -55,7 +55,8 @@ Usage of Supernova.exe:
   -d    Enable Debug mode
   -enc string
         Shellcode encryption (i.e., XOR, RC4, AES)
-  -g    Enable guide mode
+  -guide
+        Enable guide mode
   -i string
         Path to the raw 64-bit shellcode.
   -k int
