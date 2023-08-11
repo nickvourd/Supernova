@@ -125,5 +125,7 @@ func OutputDecryption(language string, variable string, encryption string, key [
 			fmt.Printf("[+] Set key in main:\n\nstring rc4Passphrase = '" + passphrase + "';\n\nbyte[] rc4Key = System.Text.Encoding.UTF8.GetBytes(rc4Passphrase);\n\n")
 			fmt.Printf("[+] Call function in main:\n\n"+"%s = RC4Decryption(%s, rc4Key);\n\n", variable, variable)
 		}
+	case "c":
+		fmt.Println("Hello Wold")
 	}
 }
