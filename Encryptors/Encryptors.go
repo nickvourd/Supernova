@@ -10,8 +10,7 @@ import (
 )
 
 const (
-	defaultLength = 5
-	chars         = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()_+{}[]"
+	chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()_+{}[]"
 )
 
 // GenerateRandomXORKey function
@@ -26,9 +25,6 @@ func GenerateRandomXORKey(length int) []byte {
 
 // GenerateRandomPassphrase function
 func GenerateRandomPassphrase(length int) string {
-	if length <= 0 {
-		length = defaultLength
-	}
 
 	charSetLength := big.NewInt(int64(len(chars)))
 	passphrase := make([]byte, length)
@@ -109,7 +105,7 @@ func DetectEncryption(cipher string, shellcode string, key int) (string, []byte)
 		return "", nil
 	case "rc4":
 		randomPassphrase := GenerateRandomPassphrase(key)
-		fmt.Println("Random passphrase:", randomPassphrase)
+		fmt.Printf("[+] Random passphrase: %s\n\n", randomPassphrase)
 		return "", nil
 	default:
 		logger.Fatal("Unsupported encryption cipher")

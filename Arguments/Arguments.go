@@ -48,9 +48,20 @@ func ValidateArgument(argName string, argValue string, validValues []string) str
 }
 
 // ValidateKeySize function
-func ValidateKeySize(key int) {
-	if key <= 0 || key > 5 {
-		logger := log.New(os.Stderr, "[!] ", 0)
-		logger.Fatal("Please provide a valid key value for the size ranging 1-5.")
+func ValidateKeySize(key int, encryption string) {
+	logger := log.New(os.Stderr, "[!] ", 0)
+	if key <= 0 {
+		logger.Fatal("Please provide a valid key value for the size\n")
+	}
+
+	switch strings.ToLower(encryption) {
+	case "xor":
+		if key > 5 {
+			logger.Fatal("Please provide a valid key value for the size ranging 1-5\n")
+		}
+	case "rc4":
+		if key > 9 {
+			fmt.Printf("[!] Be aware that increasing the size of the character set can enhance the entropy\n\n")
+		}
 	}
 }

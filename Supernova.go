@@ -87,14 +87,14 @@ func main() {
 		return
 	}
 
-	// Call function ValidateKeySize
-	Arguments.ValidateKeySize(options.key)
-
 	// Call function named ArgumentEmpty
 	Arguments.ArgumentEmpty(options.language, 2)
 
 	// Call function named ArgumentEmpty
 	Arguments.ArgumentEmpty(options.encryption, 3)
+
+	// Call function ValidateKeySize
+	Arguments.ValidateKeySize(options.key, options.encryption)
 
 	// Check for valid values of language argument
 	foundLanguage := Arguments.ValidateArgument("lang", options.language, []string{"Nim", "Rust", "C", "CSharp"})
