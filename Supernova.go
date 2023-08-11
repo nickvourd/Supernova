@@ -56,7 +56,7 @@ func Options() *FlagOptions {
 	outFile := flag.String("o", "", "Name of output file")
 	variable := flag.String("v", "shellcode", "Name of shellcode variable")
 	debug := flag.Bool("d", false, "Enable Debug mode")
-	key := flag.Int("k", 1, "Key lenght size for encryption (1-5).")
+	key := flag.Int("k", 1, "Key lenght size for encryption.")
 	guide := flag.Bool("g", false, "Enable guide mode")
 	flag.Parse()
 
@@ -94,7 +94,7 @@ func main() {
 	Arguments.ArgumentEmpty(options.encryption, 3)
 
 	// Call function ValidateKeySize
-	Arguments.ValidateKeySize(options.key, options.encryption)
+	Arguments.ValidateKeySize(options.key)
 
 	// Check for valid values of language argument
 	foundLanguage := Arguments.ValidateArgument("lang", options.language, []string{"Nim", "Rust", "C", "CSharp"})
