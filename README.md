@@ -27,7 +27,9 @@ Supernova is licensed under the [![License: MIT](https://img.shields.io/badge/MI
   - [Description](#description)
   - [Table of Contents](#table-of-contents)
   - [Install](#install)
-  - [Command Line Usage](#command-line-usage)
+  - [Background](#background)
+      - [Command Line Usage](#command-line-usage)
+      - [About Guide](#about-guide)
 
 ## Install
 
@@ -35,6 +37,8 @@ To install Supernova, run the following command, or use the compiled binary:
 ```
 go build Supernova.go
 ```
+
+### Background
 
 ## Command Line Usage
 
@@ -68,3 +72,5 @@ Usage of Supernova.exe:
   -v string
         Name of shellcode variable (default "shellcode")
 ```
+
+## About Guide
