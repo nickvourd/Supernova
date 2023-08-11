@@ -1,2 +1,2 @@
 # Supernova
-A real fucking shellcode encryption.
+A real fucking shellcode encryption tool.
