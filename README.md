@@ -9,6 +9,8 @@ Supernova is an open-source Golang tool that empowers users to securely encrypt 
 - Rust
 - Nim
 
+Special thanks to my brother [S1ckB0y1337](https://twitter.com/S1ckB0y1337), who provided invaluable assistance during the beta testing phase of the tool.
+
 ## Available Ciphers
 
 - XOR
