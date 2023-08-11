@@ -50,13 +50,13 @@ Please visit %s for more...
 
 // Options function
 func Options() *FlagOptions {
-	inputFile := flag.String("i", "", "Path to the raw 64-bit shellcode.")
+	inputFile := flag.String("i", "", "Path to the raw 64-bit shellcode")
 	encryption := flag.String("enc", "", "Shellcode encryption (i.e., XOR, RC4, AES)")
 	language := flag.String("lang", "", "Programming language to translate the shellcode (i.e., Nim, Rust, C, CSharp)")
 	outFile := flag.String("o", "", "Name of output file")
 	variable := flag.String("v", "shellcode", "Name of shellcode variable")
 	debug := flag.Bool("d", false, "Enable Debug mode")
-	key := flag.Int("k", 1, "Key lenght size for encryption.")
+	key := flag.Int("k", 1, "Key lenght size for encryption")
 	guide := flag.Bool("guide", false, "Enable guide mode")
 	flag.Parse()
 

@@ -63,9 +63,9 @@ Usage of Supernova.exe:
   -guide
         Enable guide mode
   -i string
-        Path to the raw 64-bit shellcode.
+        Path to the raw 64-bit shellcode
   -k int
-        Key lenght size for encryption. (default 1)
+        Key lenght size for encryption (default 1)
   -lang string
         Programming language to translate the shellcode (i.e., Nim, Rust, C, CSharp)
   -o string
