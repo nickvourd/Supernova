@@ -26,7 +26,14 @@ Supernova is licensed under the [![License: MIT](https://img.shields.io/badge/MI
 - [Supernova](#supernova)
   - [Description](#description)
   - [Table of Contents](#table-of-contents)
+  - [Install](#install)
   - [Command Line Usage](#command-line-usage)
+
+## Install
+
+```
+go build Supernova.go
+```
 
 ## Command Line Usage
 
