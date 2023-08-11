@@ -14,3 +14,7 @@ Supernova is an open-source Golang tool that empowers users to securely encrypt 
 - XOR
 - RC4
 - AES
+
+### Version
+
+##### 1.0.0
