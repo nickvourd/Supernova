@@ -104,6 +104,7 @@ func DetectEncryption(cipher string, shellcode string, key int) (string, []byte)
 		fmt.Println("Hello2")
 		return "", nil
 	case "rc4":
+		// Call function named GenerateRandomPassphrase
 		randomPassphrase := GenerateRandomPassphrase(key)
 		fmt.Printf("[+] Random passphrase: %s\n\n", randomPassphrase)
 		return "", nil
