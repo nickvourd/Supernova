@@ -126,6 +126,10 @@ func OutputDecryption(language string, variable string, encryption string, key [
 			fmt.Printf("[+] Call function in main:\n\n"+"%s = RC4Decryption(%s, rc4Key);\n\n", variable, variable)
 		}
 	case "c":
-		fmt.Println("Hello Wold")
+		fmt.Println("Hello World")
+	case "rust":
+		fmt.Println("Hello World 2")
+	case "nim":
+		fmt.Println("Hello World 3")
 	}
 }
