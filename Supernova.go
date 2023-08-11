@@ -108,6 +108,7 @@ func main() {
 	if options.debug != false {
 		// Call function named ConvertShellcode2Template
 		template := Converters.ConvertShellcode2Template(convertedShellcode, foundLanguage, payloadLength, options.variable)
+
 		// Print original template
 		fmt.Printf("[+] The original payload:\n\n%s\n\n", template)
 	}
@@ -115,16 +116,19 @@ func main() {
 	if options.encryption != "" {
 		// Call function named ValidateArgument
 		Arguments.ValidateArgument("enc", options.encryption, []string{"XOR", "RC4", "AES"})
+
 		// Call function named DetectEncryption
-		encryptedShellcode, foundKey := Encryptors.DetectEncryption(options.encryption, rawShellcode, options.key)
+		encryptedShellcode, foundKey, passphrase := Encryptors.DetectEncryption(options.encryption, rawShellcode, options.key)
+
 		// Call function named ConvertShellcode2Template
 		template := Converters.ConvertShellcode2Template(encryptedShellcode, foundLanguage, payloadLength, options.variable)
+
 		// Print encrypted template
 		fmt.Printf("[+] The encrypted payload with %s:\n\n%s\n\n", strings.ToLower(options.encryption), template)
 
 		if options.guide != false {
 			// Call function OutputDecryption
-			Output.OutputDecryption(foundLanguage, options.variable, options.encryption, foundKey)
+			Output.OutputDecryption(foundLanguage, options.variable, options.encryption, foundKey, passphrase)
 		}
 	}
 }

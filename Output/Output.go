@@ -54,7 +54,7 @@ var __nim_xor__ = `proc XORDecryption(%s: array[byte], key: array[byte]): array[
   hexKey = decrypted`
 
 // OutputDecryption function
-func OutputDecryption(language string, variable string, encryption string, key []byte) {
+func OutputDecryption(language string, variable string, encryption string, key []byte, passphrase string) {
 	switch strings.ToLower(encryption) {
 	case "xor":
 		// Call function named FormatKeysToHex
@@ -81,7 +81,7 @@ func OutputDecryption(language string, variable string, encryption string, key [
 	case "rc4":
 		switch language {
 		case "csharp":
-			fmt.Println("Hello World")
+			fmt.Println(passphrase)
 		}
 	}
 }

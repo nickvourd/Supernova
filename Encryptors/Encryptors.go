@@ -91,7 +91,7 @@ func RC4Encryption(data []byte, key []byte) []byte {
 }
 
 // DetectEncryption function
-func DetectEncryption(cipher string, shellcode string, key int) (string, []byte) {
+func DetectEncryption(cipher string, shellcode string, key int) (string, []byte, string) {
 	// Set logger for errors
 	logger := log.New(os.Stderr, "[!] ", 0)
 
@@ -128,10 +128,10 @@ func DetectEncryption(cipher string, shellcode string, key int) (string, []byte)
 		// Call function named FormatShellcode
 		shellcodeFormatted := Converters.FormatShellcode(encryptedShellcode)
 
-		return shellcodeFormatted, xorKey
+		return shellcodeFormatted, xorKey, ""
 	case "aes":
 		fmt.Println("Hello2")
-		return "", nil
+		return "", nil, ""
 	case "rc4":
 		// Call function named GenerateRandomPassphrase
 		randomPassphrase := GenerateRandomPassphrase(key)
@@ -151,9 +151,9 @@ func DetectEncryption(cipher string, shellcode string, key int) (string, []byte)
 		// Call function named FormatShellcode
 		shellcodeFormatted := Converters.FormatShellcode(encryptedShellcode)
 
-		return shellcodeFormatted, nil
+		return shellcodeFormatted, nil, randomPassphrase
 	default:
 		logger.Fatal("Unsupported encryption cipher")
-		return "", nil
+		return "", nil, ""
 	}
 }
