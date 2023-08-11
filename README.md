@@ -21,3 +21,4 @@ Supernova was created with :heart: by [@nickvourd](https://twitter.com/nickvourd
 
 Supernova is licensed under the [![License: MIT](https://img.shields.io/badge/MIT-License-yellow.svg)](LICENSE).
 
+## Table of Contents
