@@ -28,3 +28,33 @@ Supernova is licensed under the [![License: MIT](https://img.shields.io/badge/MI
   - [Command Line Usage](#command-line-usage)
 
 ## Command Line Usage
+
+```
+███████╗██╗   ██╗██████╗ ███████╗██████╗ ███╗   ██╗ ██████╗ ██╗   ██╗ █████╗
+██╔════╝██║   ██║██╔══██╗██╔════╝██╔══██╗████╗  ██║██╔═══██╗██║   ██║██╔══██╗
+███████╗██║   ██║██████╔╝█████╗  ██████╔╝██╔██╗ ██║██║   ██║██║   ██║███████║
+╚════██║██║   ██║██╔═══╝ ██╔══╝  ██╔══██╗██║╚██╗██║██║   ██║╚██╗ ██╔╝██╔══██║
+███████║╚██████╔╝██║     ███████╗██║  ██║██║ ╚████║╚██████╔╝ ╚████╔╝ ██║  ██║
+╚══════╝ ╚═════╝ ╚═╝     ╚══════╝╚═╝  ╚═╝╚═╝  ╚═══╝ ╚═════╝   ╚═══╝  ╚═╝  ╚═╝
+
+Supernova v1.0.0 - A real fucking shellcode encryptor.
+Supernova is an open source tool licensed under MIT.
+Written with <3 by @nickvourd and @IAMCOMPROMISED...
+Please visit https://github.com/nickvourd/Supernova for more...
+
+Usage of Supernova.exe:
+  -d    Enable Debug mode
+  -enc string
+        Shellcode encryption (i.e., XOR, RC4, AES)
+  -g    Enable guide mode
+  -i string
+        Path to the raw 64-bit shellcode.
+  -k int
+        Key lenght size for encryption. (default 1)
+  -lang string
+        Programming language to translate the shellcode (i.e., Nim, Rust, C, CSharp)
+  -o string
+        Name of output file
+  -v string
+        Name of shellcode variable (default "shellcode")
+```
