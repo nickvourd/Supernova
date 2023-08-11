@@ -1,6 +1,7 @@
 package Output
 
 import (
+	"Supernova/Converters"
 	"fmt"
 	"strings"
 )
@@ -46,29 +47,31 @@ var __nim_xor__ = `proc XORDecryption(%s: array[byte], key: array[byte]): array[
   for i in 0..<%s.len:
     decrypted[i] = %s[i] xor key[i mod keyLen]
 
-  result = decrypted`
+  hexKey = decrypted`
 
 // OutputDecryption function
 func OutputDecryption(language string, variable string, encryption string, key []byte) {
+	// Call function named FormatKeysToHex
+	hexKey := Converters.FormatKeysToHex(key)
 	switch strings.ToLower(encryption) {
 	case "xor":
 		switch language {
 		case "csharp":
 			fmt.Printf("[+] %s function for decryption (%s):\n\n"+__csharp_xor__+"\n\n", strings.ToUpper(language), strings.ToLower(encryption), variable, variable, variable, variable)
-			fmt.Printf("[+] Set key in main:\n\nbyte[] key = new byte[] { /* XOR key bytes here like 0xfc, 0x55 ...*/ };\n\n")
+			fmt.Printf("[+] Set key in main:\n\nbyte[] key = new byte[] { " + hexKey + " };\n\n")
 			fmt.Printf("[+] Call function in main:\n\n"+"%s = XORDecryption(%s, key);\n\n", variable, variable)
 		case "c":
 			fmt.Printf("[+] %s function for decryption (%s):\n\n"+__c_xor__+"\n\n", strings.ToUpper(language), strings.ToLower(encryption), variable, variable, variable, variable, variable)
-			fmt.Printf("[+] Set key in main:\n\nunsigned char key[] = {/* XOR key bytes here like 0xfc, 0x55 ...*/};\n\n")
+			fmt.Printf("[+] Set key in main:\n\nunsigned char key[] = { " + hexKey + " };\n\n")
 			fmt.Printf("[+] Store key & shellcode size (in bytes) in main:\n\nsize_t %sLength = sizeof(%s);\n\nsize_t keyLength = sizeof(key);\n\n", variable, variable)
 			fmt.Printf("[+] Call function in main:\n\n"+"%s = XORDecryption(%s, key, %sLength, keyLength);\n\n", variable, variable, variable)
 		case "rust":
 			fmt.Printf("[+] %s function for decryption (%s):\n\n"+__rust_xor__+"\n\n", strings.ToUpper(language), strings.ToLower(encryption), variable, variable, variable, variable)
-			fmt.Printf("[+] Set key in main:\n\nlet key: Vec<u8> = vec![/* XOR key bytes here like 0xfc, 0x55 ...*/];\n\n")
+			fmt.Printf("[+] Set key in main:\n\nlet key: Vec<u8> = vec![ " + hexKey + " ];\n\n")
 			fmt.Printf("[+] Call function in main:\n\n"+"%s = XORDecryption(&%s, &key);\n\n", variable, variable)
 		case "nim":
 			fmt.Printf("[+] %s function for decryption (%s):\n\n"+__nim_xor__+"\n\n", strings.ToUpper(language), strings.ToLower(encryption), variable, variable, variable, variable)
-			fmt.Printf("[+] Set key in main:\n\nvar key: array[byte] = @[/* XOR key bytes here like 0xfc, 0x55 ...*/]\n\n")
+			fmt.Printf("[+] Set key in main:\n\nvar key: array[byte] = @[ " + hexKey + " ]\n\n")
 			fmt.Printf("[+] Call function in main:\n\n"+"%s = XORDecryption(%s, key)\n\n", variable, variable)
 		}
 	case "rc4":

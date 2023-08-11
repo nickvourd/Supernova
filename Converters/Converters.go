@@ -75,3 +75,14 @@ func ConvertShellcode2String(shellcodePath string) (string, error) {
 
 	return rawShellcode, nil
 }
+
+// FormatKeysToHex function
+func FormatKeysToHex(byteArray []byte) string {
+	var hexBytes []string
+	for _, byteVal := range byteArray[:len(byteArray)-1] {
+		hexBytes = append(hexBytes, fmt.Sprintf("0x%02x", byteVal))
+	}
+	hexBytes = append(hexBytes, fmt.Sprintf("0x%02x", byteArray[len(byteArray)-1]))
+
+	return strings.Join(hexBytes, ", ")
+}
