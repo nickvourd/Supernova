@@ -19,5 +19,3 @@ Special thanks to my brother [@S1ckB0y1337](https://twitter.com/S1ckB0y1337), wh
 
 Supernova was created with :heart: by [@nickvourd](https://twitter.com/nickvourd) and [@IAMCOMPROMISED](https://twitter.com/IAMCOMPROMISED) under [![License: MIT](https://img.shields.io/badge/MIT-License-yellow.svg)](LICENSE).
 
-## Version
-### 1.0.0
