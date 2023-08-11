@@ -30,6 +30,7 @@ Supernova is licensed under the [![License: MIT](https://img.shields.io/badge/MI
   - [Background](#background)
       - [Command Line Usage](#command-line-usage)
       - [About Guide](#about-guide)
+  - [References](#references)
 
 ## Installation
 
@@ -74,3 +75,8 @@ Usage of Supernova.exe:
 ```
 
 ### About Guide
+
+## References
+
+- [Sector7 Institute](https://institute.sektor7.net/)
+- [MalDev Academy](https://maldevacademy.com/)
