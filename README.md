@@ -38,9 +38,9 @@ To install Supernova, run the following command, or use the compiled binary:
 go build Supernova.go
 ```
 
-### Background
+## Background
 
-## Command Line Usage
+### Command Line Usage
 
 ```
 ███████╗██╗   ██╗██████╗ ███████╗██████╗ ███╗   ██╗ ██████╗ ██╗   ██╗ █████╗
@@ -73,4 +73,4 @@ Usage of Supernova.exe:
         Name of shellcode variable (default "shellcode")
 ```
 
-## About Guide
+### About Guide
