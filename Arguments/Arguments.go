@@ -49,8 +49,8 @@ func ValidateArgument(argName string, argValue string, validValues []string) str
 
 // ValidateKeySize function
 func ValidateKeySize(key int) {
-	if key <= 0 || key > 6 {
+	if key <= 0 || key > 5 {
 		logger := log.New(os.Stderr, "[!] ", 0)
-		logger.Fatal("Please provide a valid key value for the size ranging 1-6.")
+		logger.Fatal("Please provide a valid key value for the size ranging 1-5.")
 	}
 }
