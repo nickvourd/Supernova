@@ -53,6 +53,46 @@ var __nim_xor__ = `proc XORDecryption(%s: array[byte], key: array[byte]): array[
 
   hexKey = decrypted`
 
+// Tempalte RC4 with CSharp
+var __csharp_rc4__ = `public static byte[] RC4Decryption(byte[] %s, byte[] key)
+{
+    byte[] s = new byte[256];
+
+    // Initialize the S array with values from 0 to 255
+    for (int i = 0; i < 256; i++)
+    {
+        s[i] = (byte)i;
+    }
+
+    int j = 0;
+    // KSA (Key Scheduling Algorithm) - Initial permutation of S array based on the key
+    for (int i = 0; i < 256; i++)
+    {
+        j = (j + s[i] + key[i %% key.Length]) %% 256;
+        byte temp = s[i];
+        s[i] = s[j];
+        s[j] = temp;
+    }
+
+    byte[] decrypted = new byte[%s.Length];
+    int i = 0, k = 0;
+    // PRGA (Pseudo-Random Generation Algorithm) - Generate decrypted output
+    for (int m = 0; m < %s.Length; m++)
+    {
+        i = (i + 1) %% 256;
+        int jVal = s[i];
+        j = (j + jVal) %% 256;
+        byte temp = s[i];
+        s[i] = s[j];
+        s[j] = temp;
+        // XOR shellcode byte with generated pseudo-random byte from S array
+        decrypted[m] = (byte)(%s[m] ^ s[(s[i] + s[j]) %% 256]);
+    }
+
+    return decrypted;
+}
+`
+
 // OutputDecryption function
 func OutputDecryption(language string, variable string, encryption string, key []byte, passphrase string) {
 	switch strings.ToLower(encryption) {
@@ -81,7 +121,9 @@ func OutputDecryption(language string, variable string, encryption string, key [
 	case "rc4":
 		switch language {
 		case "csharp":
-			fmt.Println(passphrase)
+			fmt.Printf("[+] %s function for decryption (%s):\n\n"+__csharp_rc4__+"\n\n", strings.ToUpper(language), strings.ToLower(encryption), variable, variable, variable, variable)
+			fmt.Printf("[+] Set key in main:\n\nstring rc4Passphrase = '" + passphrase + "';\n\nbyte[] rc4Key = System.Text.Encoding.UTF8.GetBytes(rc4Passphrase);\n\n")
+			fmt.Printf("[+] Call function in main:\n\n"+"%s = RC4Decryption(%s, rc4Key);\n\n", variable, variable)
 		}
 	}
 }
