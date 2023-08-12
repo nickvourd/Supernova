@@ -87,6 +87,8 @@ Additionally, when used in conjunction with the `-v` flag and a value (default `
 
 #### Guide Example
 
+Here is a simple example demonstrating how the guide mode operates.
+
 ## References
 
 - [Sector7 Institute](https://institute.sektor7.net/)
