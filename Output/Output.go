@@ -213,6 +213,34 @@ void rc4Cipher(Rc4Context* context, const unsigned char* input, unsigned char* o
 }
 `
 
+var __nim_rc4__ = `proc rc4Decryption(%s: seq[byte], key: seq[byte]): seq[byte] =
+var s: array[256, byte]
+for i in 0..255:
+	s[i] = cast[byte](i)
+
+var j = 0
+for i in 0..255:
+	j = (j + s[i] + key[i mod len(key)]) mod 256
+	let temp = s[i]
+	s[i] = s[j]
+	s[j] = temp
+
+var decrypted: seq[byte] = newSeq[byte](len(%s))
+var i = 0
+var k = 0
+for m in 0..<len(%s):
+	i = (i + 1) mod 256
+	let jVal = s[i]
+	j = (j + jVal) mod 256
+	let temp = s[i]
+	s[i] = s[j]
+	s[j] = temp
+	decrypted[m] = cast[byte](ord(%s[m]) xor s[(s[i] + s[j]) mod 256])
+
+return decrypted
+
+`
+
 // OutputDecryption function
 func OutputDecryption(language string, variable string, encryption string, key []byte, passphrase string) {
 	switch strings.ToLower(encryption) {
@@ -256,8 +284,9 @@ func OutputDecryption(language string, variable string, encryption string, key [
 			fmt.Printf("[+] Set key for decryption in main:\n\nlet key: Vec<u8> = vec![" + formatedPassphrase + "];\n\n")
 			fmt.Printf("[+] Call function in main:\n\n"+"%s = RC4Decryption(&%s, &key);\n\n", variable, variable)
 		case "nim":
-			fmt.Println("Hello World 3")
+			fmt.Printf("[+] %s functions for decryption (%s):\n\n"+__nim_rc4__+"\n\n", strings.ToUpper(language), strings.ToLower(encryption), variable, variable, variable, variable)
+			fmt.Printf("[+] Set key for decryption in main:\n\nvar key: seq[byte] = " + formatedPassphrase + "\n\n")
+			fmt.Printf("[+] Call function in main:\n\n"+"%s = rc4Decryption(%s, key)\n\n", variable, variable)
 		}
-
 	}
 }
