@@ -76,7 +76,11 @@ Usage of Supernova.exe:
 
 ### About Guide
 
-This section provides information about the `-guide` option, which is designed to work in conjunction with the `-lang` and `-enc` options. It proves to be particularly valuable when users are unfamiliar with the decryption functionality or wish to experiment with different languages.
+This section provides information about the `-guide` option, which is designed to work in conjunction with the `-lang` and `-enc` options. It proves to be particularly valuable when users are unfamiliar with the decryption functionality or wish to experiment with different languages. The three primary actions encompass:
+
+- Decryption functionality
+- Set key/passphrase in main
+- Call function in main
 
 ## References
 
