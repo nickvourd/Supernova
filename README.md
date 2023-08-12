@@ -76,7 +76,7 @@ Usage of Supernova.exe:
 
 ### About Guide
 
-This section covers some notes about `-guide` option. The guide mode works relative with the `-lang` and `-enc` option.
+This section provides information about the `-guide` option, which is designed to work in conjunction with the `-lang` and `-enc` options. It proves to be particularly valuable when users are unfamiliar with the decryption functionality or wish to experiment with different languages.
 
 ## References
 
