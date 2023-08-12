@@ -76,6 +76,8 @@ Usage of Supernova.exe:
 
 ### About Guide
 
+This section covers some notes about `-guide` option.
+
 ## References
 
 - [Sector7 Institute](https://institute.sektor7.net/)
