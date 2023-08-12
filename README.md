@@ -89,6 +89,13 @@ Additionally, when used in conjunction with the `-v` flag and a value (default `
 
 Here is a simple example demonstrating how the guide mode operates.
 
+An attacker uses XOR encryption and utilizes the C# language option in conjunction with the guide mode and variable setting:
+
+```
+.\Supernova.exe -i C:\Users\User\Desktop\shellcode.bin -enc xor -lang csharp -k 2 -guide -v buffer
+```
+[Guide Example 1](/Pictures/)
+
 ## References
 
 - [Sector7 Institute](https://institute.sektor7.net/)
