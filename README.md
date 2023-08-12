@@ -100,6 +100,8 @@ The most significant aspect you may have overlooked in the aforementioned image 
 
 ![Guide_Example_2](/Pictures/XOR-Output-Guide-Csharp2.png)
 
+At times, the output decryption function might become quite extensive, and in my view, it could be slightly bothersome within the terminal. However, rest assured, we have plans to address this in future updates.
+
 ## References
 
 - [Sector7 Institute](https://institute.sektor7.net/)
