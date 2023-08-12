@@ -213,6 +213,7 @@ void rc4Cipher(Rc4Context* context, const unsigned char* input, unsigned char* o
 }
 `
 
+// Template RC4 with Nim
 var __nim_rc4__ = `proc rc4Decryption(%s: seq[byte], key: seq[byte]): seq[byte] =
 var s: array[256, byte]
 for i in 0..255:
