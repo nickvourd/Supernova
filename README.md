@@ -96,6 +96,10 @@ An attacker uses XOR encryption and utilizes the C# language option in conjuncti
 ```
 ![Guide Example 1](/Pictures/XOR-Output-Guide-Csharp.png)
 
+The most significant aspect you may have overlooked in the aforementioned image is the precise parsing of the generated key within the "set key" main section:
+
+![Guide_Example_2](/Pictures/XOR-Output-Guide-Csharp2.png)
+
 ## References
 
 - [Sector7 Institute](https://institute.sektor7.net/)
