@@ -82,6 +82,8 @@ This section provides information about the `-guide` option, which is designed t
 - Set key/passphrase in main
 - Call function in main
 
+Additionally, when used in conjunction with the `-v` flag and a value (default is `shellcode`), it can render the output dynamic by incorporating variables, thereby enhancing the code's copy-and-paste utility.
+
 ## References
 
 - [Sector7 Institute](https://institute.sektor7.net/)
