@@ -76,7 +76,7 @@ Usage of Supernova.exe:
 
 ### About Guide
 
-This section covers some notes about `-guide` option.
+This section covers some notes about `-guide` option. The guide mode works relative with the `-lang` and `-enc` option.
 
 ## References
 
