@@ -93,6 +93,39 @@ var __csharp_rc4__ = `public static byte[] RC4Decryption(byte[] %s, byte[] key)
 }
 `
 
+// Template RC4 in Rust
+var __rust_rc4__ = `fn RC4Decryption(%s: &[u8], key: &[u8]) -> Vec<u8> {
+    let mut s: [u8; 256] = [0; 256];
+
+    // Initialize the S array with values from 0 to 255
+    for i in 0..256 {
+        s[i] = i as u8;
+    }
+
+    let mut j: u8 = 0;
+    // KSA (Key Scheduling Algorithm) - Initial permutation of S array based on the key
+    for i in 0..256 {
+        j = (j.wrapping_add(s[i]).wrapping_add(key[i %% key.len()])) %% 256;
+        s.swap(i, j as usize);
+    }
+
+    let mut decrypted = Vec::with_capacity(%s.len());
+    let mut i: u8 = 0;
+    let mut j: u8 = 0;
+    // PRGA (Pseudo-Random Generation Algorithm) - Generate decrypted output
+    for m in 0..%s.len() {
+        i = i.wrapping_add(1);
+        let j_val = s[i as usize];
+        j = j.wrapping_add(j_val) %% 256;
+        s.swap(i as usize, j as usize);
+        // XOR shellcode byte with generated pseudo-random byte from S array
+        decrypted.push(%s[m] ^ s[(s[i as usize].wrapping_add(s[j as usize])) as usize %% 256]);
+    }
+
+    decrypted
+}
+`
+
 // Tempalte RC4 with C
 var __c_rc4__ = `// https://maldevacademy.com/ code
 typedef struct
@@ -219,7 +252,9 @@ func OutputDecryption(language string, variable string, encryption string, key [
 			fmt.Printf("[+] Set key for decryption in main:\n\nunsigned char key[] = '" + formatedPassphrase + "';\n\nrc4Init(&ctx, key, sizeof(key));\n\n")
 			fmt.Printf("[+] Call function in main:\n\n"+"%s = rc4Cipher(&ctx, %s, plaintext, sizeof(%s));\n\n", variable, variable, variable)
 		case "rust":
-			fmt.Println("Hello World 2")
+			fmt.Printf("[+] %s functions for decryption (%s):\n\n"+__rust_rc4__+"\n\n", strings.ToUpper(language), strings.ToLower(encryption), variable, variable, variable, variable)
+			fmt.Printf("[+] Set key for decryption in main:\n\nlet key: Vec<u8> = vec![" + formatedPassphrase + "];\n\n")
+			fmt.Printf("[+] Call function in main:\n\n"+"%s = RC4Decryption(&%s, &key);\n\n", variable, variable)
 		case "nim":
 			fmt.Println("Hello World 3")
 		}
