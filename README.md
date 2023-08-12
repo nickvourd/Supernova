@@ -30,6 +30,7 @@ Supernova is licensed under the [![License: MIT](https://img.shields.io/badge/MI
   - [Background](#background)
       - [Command Line Usage](#command-line-usage)
       - [About Guide](#about-guide)
+        - [Guide Example](#guide-example)   
   - [References](#references)
 
 ## Installation
@@ -83,6 +84,8 @@ This section provides information about the `-guide` option, which is designed t
 - Call function in main
 
 Additionally, when used in conjunction with the `-v` flag and a value (default `shellcode`, it can make the output's code dynamic by incorporating variables, thereby enhancing the code's copy-and-paste utility.
+
+#### Guide Example
 
 ## References
 
