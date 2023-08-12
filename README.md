@@ -35,7 +35,7 @@ Supernova is licensed under the [![License: MIT](https://img.shields.io/badge/MI
 
 ## Installation
 
-To install Supernova, run the following command, or use the compiled binary:
+To install Supernova, run the following command, or use the [compiled binary](https://github.com/nickvourd/Supernova/releases):
 ```
 go build Supernova.go
 ```
