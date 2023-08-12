@@ -94,7 +94,7 @@ An attacker uses XOR encryption and utilizes the C# language option in conjuncti
 ```
 .\Supernova.exe -i C:\Users\User\Desktop\shellcode.bin -enc xor -lang csharp -k 2 -guide -v buffer
 ```
-![Guide Example 1](/Pictures/OR-Output-Guide-Csharp.png)
+![Guide Example 1](/Pictures/XOR-Output-Guide-Csharp.png)
 
 ## References
 
