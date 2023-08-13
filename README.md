@@ -95,13 +95,6 @@ An attacker uses XOR encryption and utilizes the C# language option in conjuncti
 ```
 .\Supernova.exe -i C:\Users\User\Desktop\shellcode.bin -enc xor -lang csharp -k 2 -guide -v buffer
 ```
-![Guide Example 1](/Pictures/XOR-Output-Guide-Csharp.png)
-
-The most significant aspect you may have overlooked in the aforementioned image is the precise parsing of the generated key within the "set key" main section:
-
-![Guide_Example_2](/Pictures/XOR-Output-Guide-Csharp2.png)
-
-At times, the output decryption function might become quite extensive, and in my view, it could be slightly bothersome within the terminal. However, rest assured, we have plans to address this in future updates.
 
 ## References
 
