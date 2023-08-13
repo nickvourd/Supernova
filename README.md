@@ -125,7 +125,7 @@ The ROT cipher, also known as the rotation cipher, is a family of simple substit
 
 Each letter in the plaintext message is replaced with the letter that appears a certain number of positions ahead in the alphabet, based on the key. The shifting is performed circularly, wrapping around from "Z" to "A."
 
-As an example, using a Swift key of 13:
+As an example, using the Swift key 13:
 
 ```
 "A" becomes "N"
