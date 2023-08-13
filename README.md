@@ -34,6 +34,7 @@ Supernova is licensed under the [![License: MIT](https://img.shields.io/badge/MI
         - [Guide Example](#guide-example)
       - [About Debug](#about-debug)
         - [Debug Example](#debug-example)
+  - [ROT Encryption](#rot-encryption)
   - [References](#references)
 
 ## Installation
@@ -117,6 +118,24 @@ An adversary uses ROT encryption and utilizes the C# language option in conjunct
 Outcome:
 
 ![Debug-Example](/Pictures/Caesar-Csharp-Debug-Mode.png)
+
+## ROT Encryption
+
+The ROT cipher, also known as the rotation cipher, is a family of simple substitution ciphers in which the letters of the alphabet are shifted by a fixed number of positions. The term "ROT" is often followed by a number that indicates the amount of rotation applied to the letters. Each variant of the ROT cipher corresponds to a specific shift value.
+
+Each letter in the plaintext message is replaced with the letter that appears a certain number of positions ahead in the alphabet, based on the key. The shifting is performed circularly, wrapping around from "Z" to "A."
+
+As an example, using a Swift key of 13:
+
+```
+"A" becomes "N"
+"B" becomes "O"
+...
+"N" becomes "A"
+"O" becomes "B"
+...
+"Z" becomes "M"
+```
 
 ## References
 
