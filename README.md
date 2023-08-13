@@ -132,6 +132,8 @@ An attacker uses XOR encryption and utilizes the C# language option in conjuncti
 .\Supernova.exe -i C:\Users\User\Desktop\shellcode.bin -enc xor -lang csharp -k 2 -guide -v buffer
 ```
 
+Outcome:
+
 ### About Debug
 
 The debug mode is useful if you want to observe the original payload in a selected programming language. To activate this functionality, you need to include the `-d` option.
