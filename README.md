@@ -35,7 +35,7 @@ Supernova is licensed under the [![License: MIT](https://img.shields.io/badge/MI
       - [About Debug](#about-debug)
         - [Debug Example](#debug-example)
   - [ROT Encryption](#rot-encryption)
-  - [XOT Encryption](#Xot-encryption)
+  - [XOR Encryption](#Xot-encryption)
   - [References](#references)
 
 ## Installation
