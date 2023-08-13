@@ -96,6 +96,8 @@ Dynamic variable name is employed to insert the desired variable name for the sh
 
 Use dynamic variable name with `-v` switch and provide your preferred value.
 
+The default value of dynamic variable name is `shellcode`.
+
 #### Dynamic Variable Name Example
 
 Here is a simple example demonstrating how the dynamic variable name operates.
