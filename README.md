@@ -43,6 +43,7 @@ This tool is licensed under the [![License: MIT](https://img.shields.io/badge/MI
   - [XOR Encryption](#xor-encryption)
   - [RC4 Encryption](#rc4-encryption)
   - [AES Encryption](#aes-encryption)
+      - [AES-256-CBC](#aes-256-cbc)
   - [References](#references)
 
 ## Installation
