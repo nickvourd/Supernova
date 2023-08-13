@@ -1,4 +1,3 @@
-// utils.go
 package Utils
 
 import (
