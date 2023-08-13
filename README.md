@@ -35,6 +35,7 @@ Supernova is licensed under the [![License: MIT](https://img.shields.io/badge/MI
       - [About Debug](#about-debug)
         - [Debug Example](#debug-example)
   - [ROT Encryption](#rot-encryption)
+  - [XOT Encryption](#Xot-encryption)
   - [References](#references)
 
 ## Installation
@@ -148,6 +149,8 @@ In the provided example, the preferred language is Rust, and the chosen Swift ke
 Outcome:
 
 ![ROT-Example](/Pictures/Caesar-Rust.png)
+
+## XOR Encryption
 
 ## References
 
