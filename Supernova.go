@@ -4,6 +4,7 @@ import (
 	"Supernova/Arguments"
 	"Supernova/Converters"
 	"Supernova/Encryptors"
+	"Supernova/Output"
 	"Supernova/Utils"
 	"flag"
 	"fmt"
@@ -126,6 +127,13 @@ func main() {
 		// Print encrypted template
 		fmt.Printf("[+] The encrypted payload with %s:\n\n%s\n\n", strings.ToLower(options.encryption), template)
 
+		if options.outFile != "" {
+			err := Output.SaveOutputToFile(template, options.outFile)
+			if err != nil {
+				fmt.Println("Error:", err)
+				return
+			}
+		}
 		os.Exit(0)
 
 		fmt.Println(foundKey)
