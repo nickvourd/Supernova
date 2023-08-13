@@ -208,5 +208,6 @@ Outcome:
 - [Caesar Cipher Wikipedia](https://en.wikipedia.org/wiki/Caesar_cipher)
 - [XOR Cipher Wikipedia](https://en.wikipedia.org/wiki/XOR_cipher)
 - [RC4 Cipher Wikipedia](https://en.wikipedia.org/wiki/RC4)
+- [AES Cipher Wikipedia](https://en.wikipedia.org/wiki/Advanced_Encryption_Standard)
 - [Sector7 Institute](https://institute.sektor7.net/)
 - [MalDev Academy](https://maldevacademy.com/)
