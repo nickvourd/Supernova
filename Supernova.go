@@ -114,6 +114,7 @@ func main() {
 		fmt.Printf("[+] The original payload:\n\n%s\n\n", template)
 	}
 
+	// Encryption option is enable
 	if options.encryption != "" {
 		// Call function named ValidateArgument
 		Arguments.ValidateArgument("enc", options.encryption, []string{"XOR", "RC4", "AES", "Caesar"})
@@ -127,6 +128,7 @@ func main() {
 		// Print encrypted template
 		fmt.Printf("[+] The encrypted payload with %s:\n\n%s\n\n", strings.ToLower(options.encryption), template)
 
+		// Outfile option is enable
 		if options.outFile != "" {
 			err := Output.SaveOutputToFile(template, options.outFile)
 			if err != nil {
