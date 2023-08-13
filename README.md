@@ -30,6 +30,7 @@ Supernova is licensed under the [![License: MIT](https://img.shields.io/badge/MI
   - [Installation](#installation)
   - [Background](#background)
       - [Command Line Usage](#command-line-usage)
+      - [About Dynamic Variable Name](#about-dynamic-variable-name)
       - [About Guide](#about-guide)
         - [Guide Example](#guide-example)
       - [About Debug](#about-debug)
@@ -86,6 +87,8 @@ Usage of Supernova.exe:
         Show Supernova current version
 ```
 
+### About Dynamic Variable Name
+
 ### About Guide
 
 This section provides information about the `-guide` option, which is designed to work in conjunction with the `-lang` and `-enc` options. It proves to be particularly valuable when users are unfamiliar with the decryption functionality or wish to experiment with different languages. The three primary actions encompass:
@@ -106,7 +109,7 @@ An attacker uses XOR encryption and utilizes the C# language option in conjuncti
 .\Supernova.exe -i C:\Users\User\Desktop\shellcode.bin -enc xor -lang csharp -k 2 -guide -v buffer
 ```
 
-## About Debug
+### About Debug
 
 The debug mode is useful if you want to observe the original payload in a selected programming language. To activate this functionality, you need to include the `-d` option.
 
@@ -124,7 +127,7 @@ Outcome:
 
 ![Debug-Example](/Pictures/Caesar-Csharp-Debug-Mode.png)
 
-## About Output File
+### About Output File
 
 The output option is indicated by the `-o` switch, followed by the desired value, allowing you to save the encrypted payload into a file.
 
