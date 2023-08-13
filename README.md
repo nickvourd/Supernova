@@ -137,6 +137,18 @@ As an example, using the Swift key 13:
 "Z" becomes "M"
 ```
 
+To employ Supernova with the ROT cipher, you must select a key that signifies the shift key, a preferred programming language, and provide a raw shellcode:
+
+In the provided example, the preferred language is Rust, and the chosen Swift key is 7:
+
+```
+.\Supernova.exe -i C:\Users\User\Desktop\shellcode.bin -enc rot -lang rust -k 7
+```
+
+Outcome:
+
+![ROT-Example](/Pictures/Caesar-Rust.png)
+
 ## References
 
 - [Sector7 Institute](https://institute.sektor7.net/)
