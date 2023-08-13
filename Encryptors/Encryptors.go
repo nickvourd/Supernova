@@ -207,6 +207,9 @@ func DetectEncryption(cipher string, shellcode string, key int) (string, []byte,
 			panic(err)
 		}
 
+		// Print length changed notification
+		fmt.Printf("[+] New Payload size: %d bytes\n\n", len(encryptedShellcode))
+
 		// Call function named FormatShellcode
 		shellcodeFormatted := Converters.FormatShellcode(encryptedShellcode)
 
