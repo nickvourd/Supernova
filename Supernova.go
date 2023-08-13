@@ -56,7 +56,7 @@ func Options() *FlagOptions {
 	encryption := flag.String("enc", "", "Shellcode encryption (i.e., ROT, XOR, RC4, AES)")
 	language := flag.String("lang", "", "Programming language to translate the shellcode (i.e., Nim, Rust, C, CSharp)")
 	outFile := flag.String("o", "", "Name of the output file")
-	variable := flag.String("v", "shellcode", "Name of shellcode variable")
+	variable := flag.String("v", "shellcode", "Name of dynamic variable")
 	debug := flag.Bool("d", false, "Enable Debug mode")
 	key := flag.Int("k", 1, "Key lenght size for encryption")
 	version := flag.Bool("version", false, "Show Supernova current version")

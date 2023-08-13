@@ -85,7 +85,7 @@ Usage of Supernova.exe:
   -o string
         Name of the output file
   -v string
-        Name of shellcode variable (default "shellcode")
+        Name of dynamic variable (default "shellcode")
   -version
         Show Supernova current version
 ```
