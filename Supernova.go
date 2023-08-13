@@ -100,7 +100,7 @@ func main() {
 	Arguments.ArgumentEmpty(options.encryption, 3)
 
 	// Call function ValidateKeySize
-	Arguments.ValidateKeySize(options.key)
+	Arguments.ValidateKeySize(options.key, options.encryption)
 
 	// Check for valid values of language argument
 	foundLanguage := Arguments.ValidateArgument("lang", options.language, []string{"Nim", "Rust", "C", "CSharp"})
@@ -125,7 +125,7 @@ func main() {
 		Arguments.ValidateArgument("enc", options.encryption, []string{"XOR", "RC4", "AES", "ROT"})
 
 		// Call function named DetectEncryption
-		encryptedShellcode, foundKey, passphrase := Encryptors.DetectEncryption(options.encryption, rawShellcode, options.key)
+		encryptedShellcode, foundKey, passphrase, iv := Encryptors.DetectEncryption(options.encryption, rawShellcode, options.key)
 
 		// Call function named ConvertShellcode2Template
 		template := Converters.ConvertShellcode2Template(encryptedShellcode, foundLanguage, payloadLength, options.variable)
@@ -145,5 +145,6 @@ func main() {
 
 		fmt.Println(foundKey)
 		fmt.Println(passphrase)
+		fmt.Println(iv)
 	}
 }

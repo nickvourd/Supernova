@@ -2,6 +2,10 @@ package Encryptors
 
 import (
 	"Supernova/Converters"
+	"Supernova/Output"
+	"bytes"
+	"crypto/aes"
+	"crypto/cipher"
 	"crypto/rand"
 	"fmt"
 	"log"
@@ -10,6 +14,7 @@ import (
 	"strings"
 )
 
+// Rc4Context represents the state of the RC4 encryption algorithm.
 type Rc4Context struct {
 	i uint32
 	j uint32
@@ -17,17 +22,49 @@ type Rc4Context struct {
 }
 
 const (
+	// chars defines the set of characters used to generate a random key and IV.
 	chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()_+{}[]"
+
+	// keySize specifies the size (in bytes) of the encryption key.
+	keySize = 32
+
+	// ivSize specifies the size (in bytes) of the initialization vector (IV).
+	ivSize = 16
 )
 
-// GenerateRandomXORKey function
-func GenerateRandomXORKey(length int) []byte {
-	key := make([]byte, length)
-	_, err := rand.Read(key)
+// PKCS7Padding function
+func PKCS7Padding(data []byte, blockSize int) []byte {
+	padding := blockSize - (len(data) % blockSize)
+	padText := bytes.Repeat([]byte{byte(padding)}, padding)
+	return append(data, padText...)
+}
+
+// AESEncryption function
+func AESEncryption(key []byte, iv []byte, plaintext []byte) ([]byte, error) {
+	block, err := aes.NewCipher(key)
 	if err != nil {
-		panic("[!] Failed to generate random key.")
+		return nil, err
 	}
-	return key
+
+	// Apply PKCS7 padding to ensure plaintext length is a multiple of the block size
+	paddedData := PKCS7Padding(plaintext, aes.BlockSize)
+	ciphertext := make([]byte, len(paddedData))
+
+	// Create a new CBC mode encrypter
+	mode := cipher.NewCBCEncrypter(block, iv)
+	mode.CryptBlocks(ciphertext, paddedData)
+
+	return ciphertext, nil
+}
+
+// GenerateRandomBytes function
+func GenerateRandomBytes(length int) []byte {
+	randomBytes := make([]byte, length)
+	_, err := rand.Read(randomBytes)
+	if err != nil {
+		panic("[!] Failed to generate a random key.")
+	}
+	return randomBytes
 }
 
 // GenerateRandomPassphrase function
@@ -102,7 +139,7 @@ func CaesarEncryption(shellcode []byte, shift int) []byte {
 }
 
 // DetectEncryption function
-func DetectEncryption(cipher string, shellcode string, key int) (string, []byte, string) {
+func DetectEncryption(cipher string, shellcode string, key int) (string, []byte, string, []byte) {
 	// Set logger for errors
 	logger := log.New(os.Stderr, "[!] ", 0)
 
@@ -117,21 +154,14 @@ func DetectEncryption(cipher string, shellcode string, key int) (string, []byte,
 
 	switch cipher {
 	case "xor":
-		// Call function named GenerateRandomXORKey
-		xorKey := GenerateRandomXORKey(shift)
+		// Call function named GenerateRandomBytes
+		xorKey := GenerateRandomBytes(shift)
 
 		// Print generated XOR key
 		fmt.Printf("[+] Generated XOR key: ")
-		for i, b := range xorKey {
-			decimalValue := int(b)
-			hexValue := fmt.Sprintf("%02x", b)
-			fmt.Printf("byte(0x%s) => %d", hexValue, decimalValue)
-			if i < len(xorKey)-1 {
-				fmt.Printf(", ")
-			}
-		}
 
-		fmt.Printf("\n\n")
+		// Call function named PrintKeyDetails
+		Output.PrintKeyDetails(xorKey)
 
 		// Call function named XOREncryption
 		encryptedShellcode := XOREncryption(shellcodeInBytes, xorKey)
@@ -139,7 +169,7 @@ func DetectEncryption(cipher string, shellcode string, key int) (string, []byte,
 		// Call function named FormatShellcode
 		shellcodeFormatted := Converters.FormatShellcode(encryptedShellcode)
 
-		return shellcodeFormatted, xorKey, ""
+		return shellcodeFormatted, xorKey, "", nil
 	case "rot":
 		// Print selected shift key
 		fmt.Printf("[+] Selected Shift key: %d\n\n", shift)
@@ -150,10 +180,37 @@ func DetectEncryption(cipher string, shellcode string, key int) (string, []byte,
 		// Call function named FormatShellcode
 		shellcodeFormatted := Converters.FormatShellcode(encryptedShellcode)
 
-		return shellcodeFormatted, nil, ""
+		return shellcodeFormatted, nil, "", nil
 	case "aes":
-		fmt.Println("Hello2")
-		return "", nil, ""
+		// Generate a random 32-byte key and a random 16-byte IV
+		key := GenerateRandomBytes(keySize)
+		iv := GenerateRandomBytes(ivSize)
+
+		// Print generated key
+		fmt.Printf("[+] Generated key (32-byte): ")
+
+		// Call function named PrintKeyDetails
+		Output.PrintKeyDetails(key)
+
+		// Print generated key
+		fmt.Printf("[+] Generated IV (16-byte): ")
+
+		// Call function named PrintKeyDetails
+		Output.PrintKeyDetails(iv)
+
+		// Print AES-256-CBC notification
+		fmt.Printf("[+] Using AES-256-CBC encryption\n\n")
+
+		// Encrypt the shellcode using AES-256-CBC
+		encryptedShellcode, err := AESEncryption(key, iv, shellcodeInBytes)
+		if err != nil {
+			panic(err)
+		}
+
+		// Call function named FormatShellcode
+		shellcodeFormatted := Converters.FormatShellcode(encryptedShellcode)
+
+		return shellcodeFormatted, key, "", iv
 	case "rc4":
 		// Call function named GenerateRandomPassphrase
 		randomPassphrase := GenerateRandomPassphrase(key)
@@ -170,9 +227,9 @@ func DetectEncryption(cipher string, shellcode string, key int) (string, []byte,
 		// Call function named FormatShellcode
 		shellcodeFormatted := Converters.FormatShellcode(encryptedShellcode)
 
-		return shellcodeFormatted, nil, randomPassphrase
+		return shellcodeFormatted, nil, randomPassphrase, nil
 	default:
 		logger.Fatal("Unsupported encryption cipher")
-		return "", nil, ""
+		return "", nil, "", nil
 	}
 }

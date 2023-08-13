@@ -72,9 +72,15 @@ func ValidateArgument(argName string, argValue string, validValues []string) str
 }
 
 // ValidateKeySize function
-func ValidateKeySize(key int) {
+func ValidateKeySize(key int, encryption string) {
 	logger := log.New(os.Stderr, "[!] ", 0)
 	if key <= 0 {
-		logger.Fatal("Please provide a valid key value for the size\n")
+		logger.Fatal("Please provide a valid key value for the size...\n")
+	}
+
+	if encryption == "aes" {
+		if key > 1 {
+			logger.Fatal("The AES cipher does not require a separate 'key' argument. It employs a standard key length of 32-byte. Please remove it...\n")
+		}
 	}
 }

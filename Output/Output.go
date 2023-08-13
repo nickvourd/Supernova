@@ -31,3 +31,17 @@ func SaveOutputToFile(outputData string, filename string) error {
 	fmt.Printf("[+] Save encrypted shellcode to " + absolutePath + "\n\n")
 	return nil
 }
+
+// PrintKeyDetails function
+func PrintKeyDetails(key []byte) {
+	for i, b := range key {
+		decimalValue := int(b)
+		hexValue := fmt.Sprintf("%02x", b)
+		fmt.Printf("byte(0x%s) => %d", hexValue, decimalValue)
+		if i < len(key)-1 {
+			fmt.Printf(", ")
+		}
+	}
+
+	fmt.Printf("\n\n")
+}
