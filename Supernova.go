@@ -125,10 +125,10 @@ func main() {
 		Arguments.ValidateArgument("enc", options.encryption, []string{"XOR", "RC4", "AES", "ROT"})
 
 		// Call function named DetectEncryption
-		encryptedShellcode, foundKey, passphrase, iv := Encryptors.DetectEncryption(options.encryption, rawShellcode, options.key)
+		encryptedShellcode, foundKey, passphrase, iv, encryptedLength := Encryptors.DetectEncryption(options.encryption, rawShellcode, options.key)
 
 		// Call function named ConvertShellcode2Template
-		template := Converters.ConvertShellcode2Template(encryptedShellcode, foundLanguage, payloadLength, options.variable)
+		template := Converters.ConvertShellcode2Template(encryptedShellcode, foundLanguage, encryptedLength, options.variable)
 
 		// Print encrypted template
 		fmt.Printf("[+] The encrypted payload with %s:\n\n%s\n\n", strings.ToLower(options.encryption), template)
