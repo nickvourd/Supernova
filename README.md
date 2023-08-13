@@ -37,6 +37,7 @@ Supernova is licensed under the [![License: MIT](https://img.shields.io/badge/MI
   - [ROT Encryption](#rot-encryption)
   - [XOR Encryption](#xor-encryption)
   - [RC4 Encryption](#rc4-encryption)
+  - [AES Encryption](#aes-encryption)
   - [References](#references)
 
 ## Installation
@@ -199,6 +200,8 @@ In the given illustration, the preferred programming language is CSharp, and the
 Outcome:
 
 ![RC4-Example](/Pictures/RC4-Csharp.png)
+
+## AES Encryption
 
 ## References
 
