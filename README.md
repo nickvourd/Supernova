@@ -176,5 +176,7 @@ Outcome:
 
 ## References
 
+- [Caesar Cipher Wikipedia](https://en.wikipedia.org/wiki/Caesar_cipher)
+- [XOR Cipher Wikipedia](https://en.wikipedia.org/wiki/XOR_cipher)
 - [Sector7 Institute](https://institute.sektor7.net/)
 - [MalDev Academy](https://maldevacademy.com/)
