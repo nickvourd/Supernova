@@ -8,12 +8,36 @@ import (
 	"strings"
 )
 
-func ArgumentLength() {
+// ArgumentLength function
+func ArgumentLength(versionFlag bool) {
+	logger := log.New(os.Stderr, "[!] ", 0)
 	// if no arguments print help menu
 	if len(os.Args) == 1 {
 		fmt.Println("Usage of Suprenova.exe:")
 		flag.PrintDefaults()
 		os.Exit(0)
+		// If arguments are more than 2
+	} else if len(os.Args) > 2 {
+		// if versionFlag is enabled
+		if versionFlag != false {
+			logger.Fatal("You cannot use the -version flag in conjunction with other arguments.")
+		}
+	}
+}
+
+// ShowVersion function
+func ShowVersion(version string, versionFlag bool) {
+	// if arguments are 2
+	if len(os.Args) == 2 {
+		// if versionFlag is enabled
+		if versionFlag != false {
+			fmt.Printf("[+] Current version: " + version + "\n\n")
+			os.Exit(0)
+		} else {
+			fmt.Println("Usage of Suprenova.exe:")
+			flag.PrintDefaults()
+			os.Exit(0)
+		}
 	}
 }
 

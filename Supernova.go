@@ -23,6 +23,7 @@ type FlagOptions struct {
 	key         int
 	debug       bool
 	guide       bool
+	version     bool
 }
 
 // global variables
@@ -58,10 +59,11 @@ func Options() *FlagOptions {
 	variable := flag.String("v", "shellcode", "Name of shellcode variable")
 	debug := flag.Bool("d", false, "Enable Debug mode")
 	key := flag.Int("k", 1, "Key lenght size for encryption")
+	version := flag.Bool("version", false, "Show Supernova current version")
 	//guide := flag.Bool("guide", false, "Enable guide mode")
 	flag.Parse()
 
-	return &FlagOptions{outFile: *outFile, inputFile: *inputFile, language: *language, encryption: *encryption, variable: *variable, debug: *debug, key: *key}
+	return &FlagOptions{outFile: *outFile, inputFile: *inputFile, language: *language, encryption: *encryption, variable: *variable, debug: *debug, key: *key, version: *version}
 }
 
 // main function
@@ -76,7 +78,10 @@ func main() {
 	options := Options()
 
 	// Check Arguments Length
-	Arguments.ArgumentLength()
+	Arguments.ArgumentLength(options.version)
+
+	// Check Version of tool
+	Arguments.ShowVersion(__version__, options.version)
 
 	// Call function named ArgumentEmpty
 	Arguments.ArgumentEmpty(options.inputFile, 1)
