@@ -162,6 +162,18 @@ For example, given a key of "10110":
 Plaintext "01001" XOR Key "10110" = Ciphertext "11111"
 ```
 
+To employ Supernova with the XOR cipher, you must select a key that generates random XOR byte keys, a preferred programming language, and provide a raw shellcode:
+
+In the given illustration, the preferred programming language is Nim, and the selected key is 4. This key will be utilized to generate four-byte sequences for encryption purposes:
+
+```
+.\Supernova.exe -i C:\Users\User\Desktop\shellcode.bin -enc xor -lang nim -k 4
+```
+
+Outcome:
+
+![XOR-Example](/Pictures/XOR-Nim.png)
+
 ## References
 
 - [Sector7 Institute](https://institute.sektor7.net/)
