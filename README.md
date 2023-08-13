@@ -73,7 +73,7 @@ Usage of Supernova.exe:
   -lang string
         Programming language to translate the shellcode (i.e., Nim, Rust, C, CSharp)
   -o string
-        Name of output file
+        Name of the output file
   -v string
         Name of shellcode variable (default "shellcode")
   -version
