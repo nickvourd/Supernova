@@ -61,7 +61,7 @@ Please visit https://github.com/nickvourd/Supernova for more...
 Usage of Supernova.exe:
   -d    Enable Debug mode
   -enc string
-        Shellcode encryption (i.e., XOR, RC4, AES)
+        Shellcode encryption (i.e., Caesar, XOR, RC4, AES)
   -guide
         Enable guide mode
   -i string
