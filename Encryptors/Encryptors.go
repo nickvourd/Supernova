@@ -142,7 +142,7 @@ func DetectEncryption(cipher string, shellcode string, key int) (string, []byte,
 		return shellcodeFormatted, xorKey, ""
 	case "caesar":
 		// Print selected shift key
-		fmt.Printf("[+] Selected Shift Key: %d\n\n", shift)
+		fmt.Printf("[+] Selected Shift key: %d\n\n", shift)
 
 		// Call function named XOREncryption
 		encryptedShellcode := CaesarEncryption(shellcodeInBytes, shift)
