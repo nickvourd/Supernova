@@ -53,7 +53,7 @@ Please visit %s for more...
 // Options function
 func Options() *FlagOptions {
 	inputFile := flag.String("i", "", "Path to the raw 64-bit shellcode")
-	encryption := flag.String("enc", "", "Shellcode encryption (i.e., Caesar, XOR, RC4, AES)")
+	encryption := flag.String("enc", "", "Shellcode encryption (i.e., ROT, XOR, RC4, AES)")
 	language := flag.String("lang", "", "Programming language to translate the shellcode (i.e., Nim, Rust, C, CSharp)")
 	outFile := flag.String("o", "", "Name of output file")
 	variable := flag.String("v", "shellcode", "Name of shellcode variable")
@@ -122,7 +122,7 @@ func main() {
 	// Encryption option is enable
 	if options.encryption != "" {
 		// Call function named ValidateArgument
-		Arguments.ValidateArgument("enc", options.encryption, []string{"XOR", "RC4", "AES", "Caesar"})
+		Arguments.ValidateArgument("enc", options.encryption, []string{"XOR", "RC4", "AES", "ROT"})
 
 		// Call function named DetectEncryption
 		encryptedShellcode, foundKey, passphrase := Encryptors.DetectEncryption(options.encryption, rawShellcode, options.key)

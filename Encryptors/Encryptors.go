@@ -140,7 +140,7 @@ func DetectEncryption(cipher string, shellcode string, key int) (string, []byte,
 		shellcodeFormatted := Converters.FormatShellcode(encryptedShellcode)
 
 		return shellcodeFormatted, xorKey, ""
-	case "caesar":
+	case "rot":
 		// Print selected shift key
 		fmt.Printf("[+] Selected Shift key: %d\n\n", shift)
 

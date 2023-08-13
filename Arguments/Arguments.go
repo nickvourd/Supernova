@@ -51,7 +51,7 @@ func ArgumentEmpty(statement string, option int) {
 		case 2:
 			logger.Fatal("Please provide a valid value for the programming language (e.g., C++, CSharp, Rust, Nim).")
 		case 3:
-			logger.Fatal("Please provide a valid value for the encryption (e.g., Caesar, XOR, RC4, AES).")
+			logger.Fatal("Please provide a valid value for the encryption (e.g., ROT, XOR, RC4, AES).")
 		default:
 			logger.Fatal("Invalid option specified for ArgumentEmpty function.")
 		}
