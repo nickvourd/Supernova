@@ -114,6 +114,8 @@ An adversary uses Caesar encryption and utilizes the C# language option in conju
 .\Supernova.exe -i C:\Users\User\Desktop\shellcode.bin -enc caesar -lang csharp -k 2 -d
 ```
 
+![Debug-Example](/Pictures/Caesar-Csharp-Debug-Mode.png)
+
 ## References
 
 - [Sector7 Institute](https://institute.sektor7.net/)
