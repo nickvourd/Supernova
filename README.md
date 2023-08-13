@@ -152,6 +152,16 @@ Outcome:
 
 ## XOR Encryption
 
+The XOR cipher, also known as the exclusive OR cipher, is a basic encryption technique that operates by applying the XOR (exclusive OR) operation between each bit of the plaintext and a corresponding bit of a secret key. This results in ciphertext that appears random and can only be decrypted by performing the XOR operation again with the same secret key.
+
+The XOR operation is performed between each bit of the plaintext message and the corresponding bit of the key. If the bits are the same (both 0 or both 1), the result is 0; if the bits are different, the result is 1.
+
+For example, given a key of "10110":
+
+```
+Plaintext "01001" XOR Key "10110" = Ciphertext "11111"
+```
+
 ## References
 
 - [Sector7 Institute](https://institute.sektor7.net/)
