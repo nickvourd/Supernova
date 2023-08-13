@@ -203,6 +203,8 @@ Outcome:
 
 ## AES Encryption
 
+The Advanced Encryption Standard (AES) is a widely adopted symmetric encryption algorithm that provides strong security for various applications. It was established as a standard encryption algorithm by the U.S. National Institute of Standards and Technology (NIST) in 2001, following a competition to find a replacement for the aging Data Encryption Standard (DES). AES is known for its efficiency and robust security features, making it a cornerstone of modern cryptography.
+
 ## References
 
 - [Caesar Cipher Wikipedia](https://en.wikipedia.org/wiki/Caesar_cipher)
