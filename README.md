@@ -31,7 +31,9 @@ Supernova is licensed under the [![License: MIT](https://img.shields.io/badge/MI
   - [Background](#background)
       - [Command Line Usage](#command-line-usage)
       - [About Guide](#about-guide)
-        - [Guide Example](#guide-example)   
+        - [Guide Example](#guide-example)
+      - [About Debug](#about-debug)
+        - [Debug Example](#debug-example)
   - [References](#references)
 
 ## Installation
@@ -96,6 +98,20 @@ An attacker uses XOR encryption and utilizes the C# language option in conjuncti
 
 ```
 .\Supernova.exe -i C:\Users\User\Desktop\shellcode.bin -enc xor -lang csharp -k 2 -guide -v buffer
+```
+
+## About Debug
+
+The debug mode is useful if you want to observe the original payload in a selected programming language. To activate this functionality, you need to include the `-d` option.
+
+#### Debug Example
+
+Here is a simple example illustrating the functioning of the debug option.
+
+An adversary uses Caesar encryption and utilizes the C# language option in conjunction with the debug option:
+
+```
+.\Supernova.exe -i C:\Users\User\Desktop\shellcode.bin -enc caesar -lang csharp -k 2 -d
 ```
 
 ## References
