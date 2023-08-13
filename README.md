@@ -91,6 +91,24 @@ Usage of Supernova.exe:
 
 ### About Dynamic Variable Name
 
+Dynamic variable name is employed to insert the desired variable name for the shellcode payload and the exported decryption function. This approach imparts dynamism to the output code by incorporating variables, thereby enhancing the code's copy-and-paste utility.
+
+Use dynamic variable name with `-v` switch and provide your preferred value.
+
+#### Dynamic Variable Name Example
+
+Here is a simple example demonstrating how the dynamic variable name operates.
+
+An attacker uses XOR encryption and utilizes the C# language option in conjunction with the variable setting as value `nickvourd`:
+
+```
+.\Supernova.exe -i C:\Users\User\Desktop\shellcode.bin -enc xor -lang csharp -k 2 -v nickvourd
+```
+
+Outcome:
+
+![Variable-Example](/Pictures/XOR-Csharp-Variable.png)
+
 ### About Guide
 
 This section provides information about the `-guide` option, which is designed to work in conjunction with the `-lang` and `-enc` options. It proves to be particularly valuable when users are unfamiliar with the decryption functionality or wish to experiment with different languages. The three primary actions encompass:
@@ -99,7 +117,7 @@ This section provides information about the `-guide` option, which is designed t
 - Set key/passphrase in main
 - Call function in main
 
-Additionally, when used in conjunction with the `-v` flag and a value (default `shellcode`, it can make the output's code dynamic by incorporating variables, thereby enhancing the code's copy-and-paste utility.
+Additionally, when used in conjunction with the `-v` flag and a value (default `shellcode`), it can make the output's code dynamic by incorporating variables, thereby enhancing the code's copy-and-paste utility.
 
 #### Guide Example
 
