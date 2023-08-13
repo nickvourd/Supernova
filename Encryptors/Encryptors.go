@@ -2,11 +2,7 @@ package Encryptors
 
 import (
 	"Supernova/Converters"
-	"bytes"
-	"crypto/aes"
-	"crypto/cipher"
 	"crypto/rand"
-	"crypto/sha256"
 	"fmt"
 	"log"
 	"math/big"
@@ -94,35 +90,15 @@ func RC4Encryption(data []byte, key []byte) []byte {
 	return encrypted
 }
 
-// pad adds PKCS7 padding to the input data to match the AES block size.
-func Pad(s []byte) []byte {
-	blockSize := aes.BlockSize
-	padding := blockSize - len(s)%blockSize
-	padText := bytes.Repeat([]byte{byte(padding)}, padding)
-	return append(s, padText...)
-}
-
-// aesEncrypt performs AES-256-CBC encryption on the input plaintext using the provided key.
-func AESEncrypt(plaintext, key []byte) ([]byte, error) {
-	// Generate a SHA-256 hash of the key as the actual encryption key.
-	k := sha256.Sum256(key)
-	// Initialize IV (Initialization Vector) with zeros.
-	iv := make([]byte, aes.BlockSize)
-	// Pad the plaintext to match the AES block size.
-	plaintext = Pad(plaintext)
-	// Create a new AES cipher using the derived key.
-	cipherBlock, err := aes.NewCipher(k[:])
-	if err != nil {
-		return nil, err
+// CaesarEncryption function implements the Caesar encryption algorithm
+func CaesarEncryption(shellcode []byte, shift int) []byte {
+	encrypted := make([]byte, len(shellcode))
+	for i, char := range shellcode {
+		// Apply Caesar cipher encryption
+		encryptedChar := char + byte(shift)
+		encrypted[i] = encryptedChar
 	}
-
-	// Create a CBC mode encrypter with the IV and cipher block.
-	mode := cipher.NewCBCEncrypter(cipherBlock, iv)
-	ciphertext := make([]byte, len(plaintext))
-	// Encrypt the padded plaintext.
-	mode.CryptBlocks(ciphertext, plaintext)
-
-	return ciphertext, nil
+	return encrypted
 }
 
 // DetectEncryption function
@@ -133,13 +109,16 @@ func DetectEncryption(cipher string, shellcode string, key int) (string, []byte,
 	// Set cipher to lower
 	cipher = strings.ToLower(cipher)
 
+	// Convert shellcode to bytes
+	shellcodeInBytes := []byte(shellcode)
+
 	// Set key size
-	keyLength := key
+	shift := key
 
 	switch cipher {
 	case "xor":
 		// Call function named GenerateRandomXORKey
-		xorKey := GenerateRandomXORKey(keyLength)
+		xorKey := GenerateRandomXORKey(shift)
 
 		// Print generated XOR key
 		fmt.Printf("[+] Generated XOR key: ")
@@ -154,9 +133,6 @@ func DetectEncryption(cipher string, shellcode string, key int) (string, []byte,
 
 		fmt.Printf("\n\n")
 
-		// Convert shellcode to bytes
-		shellcodeInBytes := []byte(shellcode)
-
 		// Call function named XOREncryption
 		encryptedShellcode := XOREncryption(shellcodeInBytes, xorKey)
 
@@ -164,6 +140,17 @@ func DetectEncryption(cipher string, shellcode string, key int) (string, []byte,
 		shellcodeFormatted := Converters.FormatShellcode(encryptedShellcode)
 
 		return shellcodeFormatted, xorKey, ""
+	case "caesar":
+		// Print selected shift key
+		fmt.Printf("[+] Selected Shift Key: %d\n\n", shift)
+
+		// Call function named XOREncryption
+		encryptedShellcode := CaesarEncryption(shellcodeInBytes, shift)
+
+		// Call function named FormatShellcode
+		shellcodeFormatted := Converters.FormatShellcode(encryptedShellcode)
+
+		return shellcodeFormatted, nil, ""
 	case "aes":
 		fmt.Println("Hello2")
 		return "", nil, ""
@@ -176,9 +163,6 @@ func DetectEncryption(cipher string, shellcode string, key int) (string, []byte,
 
 		// Print generated passphrase
 		fmt.Printf("[+] Generated Passphrase: %s\n\n", randomPassphrase)
-
-		// Convert shellcode to bytes
-		shellcodeInBytes := []byte(shellcode)
 
 		// Call function named RC4Encryption
 		encryptedShellcode := RC4Encryption(shellcodeInBytes, rc4Key)

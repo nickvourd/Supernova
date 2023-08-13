@@ -3,6 +3,7 @@ package Output
 import (
 	"Supernova/Converters"
 	"fmt"
+	"os"
 	"strings"
 )
 
@@ -241,6 +242,28 @@ for m in 0..<len(%s):
 return decrypted
 
 `
+
+// SaveDecryptiontToFile function
+func SaveDecryptiontToFile(filename string, content string) error {
+	// Open or create a file for writing
+	file, err := os.Create(filename)
+	if err != nil {
+		return err
+	}
+	defer file.Close() // Close the file when the function returns
+
+	// Redirect standard output to the file
+	originalStdout := os.Stdout
+	os.Stdout = file
+	defer func() {
+		os.Stdout = originalStdout // Restore the original stdout
+	}()
+
+	// Print the content to be saved to the file
+	//fmt.Println(content)
+
+	return nil
+}
 
 // OutputDecryption function
 func OutputDecryption(language string, variable string, encryption string, key []byte, passphrase string) {

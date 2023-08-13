@@ -8,6 +8,7 @@ import (
 	"Supernova/Utils"
 	"flag"
 	"fmt"
+	"os"
 	"strings"
 )
 
@@ -51,7 +52,7 @@ Please visit %s for more...
 // Options function
 func Options() *FlagOptions {
 	inputFile := flag.String("i", "", "Path to the raw 64-bit shellcode")
-	encryption := flag.String("enc", "", "Shellcode encryption (i.e., XOR, RC4, AES)")
+	encryption := flag.String("enc", "", "Shellcode encryption (i.e., Caesar, XOR, RC4, AES)")
 	language := flag.String("lang", "", "Programming language to translate the shellcode (i.e., Nim, Rust, C, CSharp)")
 	outFile := flag.String("o", "", "Name of output file")
 	variable := flag.String("v", "shellcode", "Name of shellcode variable")
@@ -115,7 +116,7 @@ func main() {
 
 	if options.encryption != "" {
 		// Call function named ValidateArgument
-		Arguments.ValidateArgument("enc", options.encryption, []string{"XOR", "RC4", "AES"})
+		Arguments.ValidateArgument("enc", options.encryption, []string{"XOR", "RC4", "AES", "Caesar"})
 
 		// Call function named DetectEncryption
 		encryptedShellcode, foundKey, passphrase := Encryptors.DetectEncryption(options.encryption, rawShellcode, options.key)
@@ -125,6 +126,8 @@ func main() {
 
 		// Print encrypted template
 		fmt.Printf("[+] The encrypted payload with %s:\n\n%s\n\n", strings.ToLower(options.encryption), template)
+
+		os.Exit(0)
 
 		if options.guide != false {
 			// Call function OutputDecryption
