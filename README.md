@@ -34,6 +34,8 @@ Supernova is licensed under the [![License: MIT](https://img.shields.io/badge/MI
         - [Guide Example](#guide-example)
       - [About Debug](#about-debug)
         - [Debug Example](#debug-example)
+      - [About Output File](#about-output-file)
+        - [Output File Example](#output-file-example)
   - [ROT Encryption](#rot-encryption)
   - [XOR Encryption](#xor-encryption)
   - [RC4 Encryption](#rc4-encryption)
@@ -121,6 +123,24 @@ An adversary uses ROT encryption and utilizes the C# language option in conjunct
 Outcome:
 
 ![Debug-Example](/Pictures/Caesar-Csharp-Debug-Mode.png)
+
+## About Output File
+
+The output option is indicated by the `-o` switch, followed by the desired value, allowing you to save the encrypted payload into a file.
+
+#### Output File Example
+
+Here is a simple example illustrating the functioning of the output option.
+
+An atatcker uses RC4 encryption and utilizes the C language option in conjunction with the output option and a desired filename:
+
+```
+.\Supernova.exe -i C:\Users\User\Desktop\shellcode.bin -enc rc4 -lang c -k 3 -o shellcode.bin
+```
+
+Outcome:
+
+![Output-Example](/Pictures/RC4-C-Output-Option.png)
 
 ## ROT Encryption
 
