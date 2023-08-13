@@ -63,7 +63,7 @@ Please visit https://github.com/nickvourd/Supernova for more...
 Usage of Supernova.exe:
   -d    Enable Debug mode
   -enc string
-        Shellcode encryption (i.e., Caesar, XOR, RC4, AES)
+        Shellcode encryption (i.e., ROT, XOR, RC4, AES)
   -guide
         Enable guide mode
   -i string
@@ -108,10 +108,10 @@ The debug mode is useful if you want to observe the original payload in a select
 
 Here is a simple example illustrating the functioning of the debug option.
 
-An adversary uses Caesar encryption and utilizes the C# language option in conjunction with the debug option:
+An adversary uses ROT encryption and utilizes the C# language option in conjunction with the debug option:
 
 ```
-.\Supernova.exe -i C:\Users\User\Desktop\shellcode.bin -enc caesar -lang csharp -k 2 -d
+.\Supernova.exe -i C:\Users\User\Desktop\shellcode.bin -enc rot -lang csharp -k 2 -d
 ```
 
 Outcome:
