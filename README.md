@@ -50,6 +50,8 @@ To install Supernova, run the following command, or use the [compiled binary](ht
 go build Supernova.go
 ```
 
+:information_source: Supernova works without the necessity of installing any additional dependencies.
+
 ## Background
 
 ### Command Line Usage
