@@ -31,6 +31,7 @@ Supernova is licensed under the [![License: MIT](https://img.shields.io/badge/MI
   - [Background](#background)
       - [Command Line Usage](#command-line-usage)
       - [About Dynamic Variable Name](#about-dynamic-variable-name)
+        - [Dynamic Variable Name Example](#dynamic-variable-name-example)
       - [About Guide](#about-guide)
         - [Guide Example](#guide-example)
       - [About Debug](#about-debug)
