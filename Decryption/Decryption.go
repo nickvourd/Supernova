@@ -19,11 +19,11 @@ namespace ROTDecryption
         static void Main(string[] args)
         {
         
-            byte[] encryptedPayload = new byte[] { /* Your encrypted byte array here */ };
+            byte[] %s = new byte[] { /* Your encrypted byte array here */ };
 
-            int encodedKey = 7;
+            int encodedKey = %d;
 
-            byte[] decryptedPayload = DecryptROTPayload(encryptedPayload, encodedKey);
+            byte[] decryptedPayload = DecryptROTPayload(%s, encodedKey);
 
             string payloadText = Encoding.ASCII.GetString(decryptedPayload);
             Console.WriteLine("Decrypted Payload: " + payloadText);
@@ -44,7 +44,7 @@ namespace ROTDecryption
 `
 
 // SaveTemplae2File function
-func SaveTamplate2File(filename string, tamplate string, language string, encryption string) {
+func SaveTamplate2File(filename string, template string, language string, encryption string, key int, variable string) {
 	// Open a file for writing. If the file doesn't exist, it will be created.
 	file, err := os.Create(filename)
 	if err != nil {
@@ -54,7 +54,8 @@ func SaveTamplate2File(filename string, tamplate string, language string, encryp
 	defer file.Close() // Close the file when the function exits
 
 	// Write the variable value to the file
-	_, err = fmt.Fprintln(file, tamplate)
+	filledTemplate := fmt.Sprintf(template, variable, key, variable)
+	_, err = fmt.Fprintln(file, filledTemplate)
 	if err != nil {
 		fmt.Println("Error writing to file:", err)
 		return
@@ -72,7 +73,7 @@ func SetDecryptionFile(extension string) string {
 }
 
 // DecryptorsTemplates function
-func DecryptorsTemplates(language string, cipher string) {
+func DecryptorsTemplates(language string, cipher string, variable string, key int) {
 	// Set logger for errors
 	logger := log.New(os.Stderr, "[!] ", 0)
 
@@ -85,8 +86,9 @@ func DecryptorsTemplates(language string, cipher string) {
 
 		switch strings.ToLower(cipher) {
 		case "rot":
+
 			// Call function named SaveTamplate2File
-			SaveTamplate2File(foundFilename, __csharp_rot__, language, cipher)
+			SaveTamplate2File(foundFilename, __csharp_rot__, language, cipher, key, variable)
 		}
 	case "c":
 		extension := "c"

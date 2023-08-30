@@ -145,7 +145,7 @@ func main() {
 
 		// Guide option is enable
 		if options.guide != false {
-			Decryption.DecryptorsTemplates(foundLanguage, options.encryption)
+			Decryption.DecryptorsTemplates(foundLanguage, options.encryption, options.variable, options.key)
 		}
 
 		os.Exit(0)
