@@ -1,6 +1,9 @@
-![SupernovaLogo](/Pictures/supernova_logo.png)
 # Supernova
 Real fucking shellcode encryptor.
+
+<p align="center">
+  <img width="400" height="400" src="https://github.com/nickvourd/Supernova/blob/main/Pictures/supernova_logo.png">
+</p>
 
 ## Description
 Supernova is an open-source Golang tool that empowers users to securely encrypt their raw shellcodes. Additionally, it offers automatic conversion of the encrypted shellcode into formats compatible with various programming languages, including:
