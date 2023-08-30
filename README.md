@@ -20,7 +20,7 @@ Supernova is written in Golang, a cross-platform language, enabling its use on b
 
 Special thanks to my brother [@S1ckB0y1337](https://twitter.com/S1ckB0y1337), who provided invaluable assistance during the beta testing phase of the tool.
 
-Supernova was created with :heart: by [@nickvourd](https://twitter.com/nickvourd) and [@IAMCOMPROMISED](https://twitter.com/IAMCOMPROMISED).
+Supernova was created with :heart: by [@nickvourd](https://twitter.com/nickvourd), [@IAMCOMPROMISED](https://twitter.com/IAMCOMPROMISED) and [@Papadope9](https://twitter.com/Papadope9).
 
 This tool is licensed under the [![License: MIT](https://img.shields.io/badge/MIT-License-yellow.svg)](LICENSE).
 
@@ -69,7 +69,7 @@ go build Supernova.go
 
 Supernova v1.0.0 - Real fucking shellcode encryptor.
 Supernova is an open source tool licensed under MIT.
-Written with <3 by @nickvourd and @IAMCOMPROMISED...
+Written with <3 by @nickvourd, @IAMCOMPROMISED and @Papadope9...
 Please visit https://github.com/nickvourd/Supernova for more...
 
 Usage of Supernova.exe:
@@ -272,6 +272,16 @@ Here's a breakdown of how AES-256-CBC works:
 - Chaining Blocks: Each plaintext block is XORed with the previous ciphertext block (or the IV for the first block) before encryption. This chaining helps prevent patterns from appearing in the ciphertext.
 
 - Encryption: The XORed block is then encrypted using the AES-256 encryption algorithm with the provided encryption key.
+
+To employ Supernova with the AES-256-CBC cipher, you must select a preferred programming language and provide a raw shellcode. Additionally, the generated key is a random 32-byte value, and the generated IV is a random 16-byte value.
+
+In the given illustration, the preferred programming language is Csharp:
+
+```
+.\Supernova.exe -i C:\Users\User\Desktop\shellcode.bin -enc aes -lang csharp
+```
+
+Outcome:
 
 ## References
 
