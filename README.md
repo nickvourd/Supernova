@@ -22,7 +22,7 @@ Moreover, this tool generates the decrypted function using the chosen cipher and
 
 Supernova is written in Golang, a cross-platform language, enabling its use on both Windows and Linux systems.
 
-Special thanks to my brother [@S1ckB0y1337](https://twitter.com/S1ckB0y1337), who provided invaluable assistance during the beta testing phase of the tool.
+Special thanks to my brothers [@S1ckB0y1337](https://twitter.com/S1ckB0y1337) and [@0xvm](https://twitter.com/0xvm), who provided invaluable assistance during the beta testing phase of the tool.
 
 Supernova was created with :heart: by [@nickvourd](https://twitter.com/nickvourd), [@IAMCOMPROMISED](https://twitter.com/IAMCOMPROMISED) and [@Papadope9](https://twitter.com/Papadope9).
 
