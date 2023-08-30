@@ -1,3 +1,4 @@
+![SupernovaLogo](/Pictures/supernova_logo.png)
 # Supernova
 Real fucking shellcode encryptor.
 
