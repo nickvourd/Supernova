@@ -2,7 +2,7 @@
 Real fucking shellcode encryptor.
 
 <p align="center">
-  <img width="400" height="400" src="https://github.com/nickvourd/Supernova/blob/main/Pictures/supernova_logo.png">
+  <img width="350" height="350" src="https://github.com/nickvourd/Supernova/blob/main/Pictures/supernova_logo.png">
 </p>
 
 ## Description
