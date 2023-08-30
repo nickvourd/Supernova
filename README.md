@@ -283,6 +283,8 @@ In the given illustration, the preferred programming language is Csharp:
 
 Outcome:
 
+![AES-Example](/Pictures/AES-Csharp.png)
+
 ## References
 
 - [Caesar Cipher Wikipedia](https://en.wikipedia.org/wiki/Caesar_cipher)
