@@ -3,13 +3,11 @@ package main
 import (
 	"Supernova/Arguments"
 	"Supernova/Converters"
-	"Supernova/Decryption"
 	"Supernova/Encryptors"
 	"Supernova/Output"
 	"Supernova/Utils"
 	"flag"
 	"fmt"
-	"os"
 	"strings"
 )
 
@@ -61,10 +59,10 @@ func Options() *FlagOptions {
 	debug := flag.Bool("d", false, "Enable Debug mode")
 	key := flag.Int("k", 1, "Key lenght size for encryption")
 	version := flag.Bool("version", false, "Show Supernova current version")
-	guide := flag.Bool("guide", false, "Enable guide mode")
+	//guide := flag.Bool("guide", false, "Enable guide mode")
 	flag.Parse()
 
-	return &FlagOptions{outFile: *outFile, inputFile: *inputFile, language: *language, encryption: *encryption, variable: *variable, debug: *debug, key: *key, version: *version, guide: *guide}
+	return &FlagOptions{outFile: *outFile, inputFile: *inputFile, language: *language, encryption: *encryption, variable: *variable, debug: *debug, key: *key, version: *version}
 }
 
 // main function
@@ -126,7 +124,7 @@ func main() {
 		Arguments.ValidateArgument("enc", options.encryption, []string{"XOR", "RC4", "AES", "ROT"})
 
 		// Call function named DetectEncryption
-		encryptedShellcode, foundKey, passphrase, iv, encryptedLength := Encryptors.DetectEncryption(options.encryption, rawShellcode, options.key)
+		encryptedShellcode, encryptedLength := Encryptors.DetectEncryption(options.encryption, rawShellcode, options.key)
 
 		// Call function named ConvertShellcode2Template
 		template := Converters.ConvertShellcode2Template(encryptedShellcode, foundLanguage, encryptedLength, options.variable)
@@ -142,15 +140,5 @@ func main() {
 				return
 			}
 		}
-
-		// Guide option is enable
-		if options.guide != false {
-			Decryption.DecryptorsTemplates(foundLanguage, options.encryption, options.variable, options.key)
-		}
-
-		os.Exit(0)
-		fmt.Println(foundKey)
-		fmt.Println(passphrase)
-		fmt.Println(iv)
 	}
 }

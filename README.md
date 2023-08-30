@@ -37,8 +37,6 @@ This tool is licensed under the [![License: MIT](https://img.shields.io/badge/MI
       - [Command Line Usage](#command-line-usage)
       - [About Dynamic Variable Name](#about-dynamic-variable-name)
         - [Dynamic Variable Name Example](#dynamic-variable-name-example)
-      - [About Guide](#about-guide)
-        - [Guide Example](#guide-example)
       - [About Debug](#about-debug)
         - [Debug Example](#debug-example)
       - [About Output File](#about-output-file)
@@ -80,8 +78,6 @@ Usage of Supernova.exe:
   -d    Enable Debug mode
   -enc string
         Shellcode encryption (i.e., ROT, XOR, RC4, AES)
-  -guide
-        Enable guide mode
   -i string
         Path to the raw 64-bit shellcode
   -k int
@@ -98,7 +94,7 @@ Usage of Supernova.exe:
 
 ### About Dynamic Variable Name
 
-Dynamic variable name is employed to insert the desired variable name for the shellcode payload and the exported decryption function. This approach imparts dynamism to the output code by incorporating variables, thereby enhancing the code's copy-and-paste utility.
+Dynamic variable name is employed to insert the desired variable name for the shellcode payload. This approach imparts dynamism to the output code by incorporating variables, thereby enhancing the code's copy-and-paste utility.
 
 Use dynamic variable name with `-v` switch and provide your preferred value.
 
@@ -117,28 +113,6 @@ An attacker uses XOR encryption and utilizes the C# language option in conjuncti
 Outcome:
 
 ![Variable-Example](/Pictures/XOR-Csharp-Variable.png)
-
-### About Guide
-
-This section provides information about the `-guide` option, which is designed to work in conjunction with the `-lang` and `-enc` options. It proves to be particularly valuable when users are unfamiliar with the decryption functionality or wish to experiment with different languages. The three primary actions encompass:
-
-- Decryption functionality
-- Set key/passphrase in main
-- Call function in main
-
-Additionally, when used in conjunction with the `-v` flag and a value (default `shellcode`), it can make the output's code dynamic by incorporating variables, thereby enhancing the code's copy-and-paste utility.
-
-#### Guide Example
-
-Here is a simple example demonstrating how the guide mode operates.
-
-An attacker uses XOR encryption and utilizes the C# language option in conjunction with the guide mode and variable setting:
-
-```
-.\Supernova.exe -i C:\Users\User\Desktop\shellcode.bin -enc xor -lang csharp -k 2 -guide -v buffer
-```
-
-Outcome:
 
 ### About Debug
 
