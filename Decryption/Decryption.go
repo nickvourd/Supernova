@@ -54,8 +54,7 @@ func SaveTamplate2File(filename string, template string, language string, encryp
 	defer file.Close() // Close the file when the function exits
 
 	// Write the variable value to the file
-	filledTemplate := fmt.Sprintf(template, variable, key, variable)
-	_, err = fmt.Fprintln(file, filledTemplate)
+	_, err = fmt.Fprintln(file, template)
 	if err != nil {
 		fmt.Println("Error writing to file:", err)
 		return
@@ -87,8 +86,10 @@ func DecryptorsTemplates(language string, cipher string, variable string, key in
 		switch strings.ToLower(cipher) {
 		case "rot":
 
+			filledTemplate := fmt.Sprintf(__csharp_rot__, variable, key, variable)
+
 			// Call function named SaveTamplate2File
-			SaveTamplate2File(foundFilename, __csharp_rot__, language, cipher, key, variable)
+			SaveTamplate2File(foundFilename, filledTemplate, language, cipher, key, variable)
 		}
 	case "c":
 		extension := "c"
