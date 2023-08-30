@@ -44,7 +44,7 @@ namespace ROTDecryption
 `
 
 // SaveTemplae2File function
-func SaveTamplate2File(filename string, tamplate string) {
+func SaveTamplate2File(filename string, tamplate string, language string, encryption string) {
 	// Open a file for writing. If the file doesn't exist, it will be created.
 	file, err := os.Create(filename)
 	if err != nil {
@@ -60,7 +60,7 @@ func SaveTamplate2File(filename string, tamplate string) {
 		return
 	}
 
-	fmt.Printf("[+] Decrytpion function has been saved to %s file\n\n", filename)
+	fmt.Printf("[+] %s Decryption function in %s language has been saved to %s file\n\n", strings.ToUpper(encryption), language, filename)
 }
 
 // SetDecryptionFile function
@@ -86,7 +86,7 @@ func DecryptorsTemplates(language string, cipher string) {
 		switch strings.ToLower(cipher) {
 		case "rot":
 			// Call function named SaveTamplate2File
-			SaveTamplate2File(foundFilename, __csharp_rot__)
+			SaveTamplate2File(foundFilename, __csharp_rot__, language, cipher)
 		}
 	case "c":
 		extension := "c"
