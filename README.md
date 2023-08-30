@@ -18,8 +18,6 @@ It supports a variety of different ciphers, including:
 - RC4
 - AES
 
-Moreover, this tool generates the decrypted function using the chosen cipher and language, while also supplying instructions on how to utilize it effectively. 
-
 Supernova is written in Golang, a cross-platform language, enabling its use on both Windows and Linux systems.
 
 Special thanks to my brothers [@S1ckB0y1337](https://twitter.com/S1ckB0y1337) and [@0xvm](https://twitter.com/0xvm), who provided invaluable assistance during the beta testing phase of the tool.
