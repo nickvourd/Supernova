@@ -3,6 +3,7 @@ package main
 import (
 	"Supernova/Arguments"
 	"Supernova/Converters"
+	"Supernova/Decryption"
 	"Supernova/Encryptors"
 	"Supernova/Output"
 	"Supernova/Utils"
@@ -141,12 +142,13 @@ func main() {
 				return
 			}
 		}
-		os.Exit(0)
 
 		// Guide option is enable
 		if options.guide != false {
-
+			Decryption.DecryptorsTemplates(foundLanguage, options.encryption)
 		}
+
+		os.Exit(0)
 		fmt.Println(foundKey)
 		fmt.Println(passphrase)
 		fmt.Println(iv)
