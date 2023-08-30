@@ -60,10 +60,10 @@ func Options() *FlagOptions {
 	debug := flag.Bool("d", false, "Enable Debug mode")
 	key := flag.Int("k", 1, "Key lenght size for encryption")
 	version := flag.Bool("version", false, "Show Supernova current version")
-	//guide := flag.Bool("guide", false, "Enable guide mode")
+	guide := flag.Bool("guide", false, "Enable guide mode")
 	flag.Parse()
 
-	return &FlagOptions{outFile: *outFile, inputFile: *inputFile, language: *language, encryption: *encryption, variable: *variable, debug: *debug, key: *key, version: *version}
+	return &FlagOptions{outFile: *outFile, inputFile: *inputFile, language: *language, encryption: *encryption, variable: *variable, debug: *debug, key: *key, version: *version, guide: *guide}
 }
 
 // main function
@@ -143,6 +143,10 @@ func main() {
 		}
 		os.Exit(0)
 
+		// Guide option is enable
+		if options.guide != false {
+
+		}
 		fmt.Println(foundKey)
 		fmt.Println(passphrase)
 		fmt.Println(iv)
