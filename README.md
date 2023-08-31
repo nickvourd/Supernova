@@ -138,7 +138,7 @@ The output option is indicated by the `-o` switch, followed by the desired value
 
 Here is a simple example illustrating the functioning of the output option.
 
-An atatcker uses RC4 encryption and utilizes the C language option in conjunction with the output option and a desired filename:
+An attacker uses RC4 encryption and utilizes the C language option in conjunction with the output option and a desired filename:
 
 ```
 .\Supernova.exe -i C:\Users\User\Desktop\shellcode.bin -enc rc4 -lang c -k 3 -o shellcode.bin
