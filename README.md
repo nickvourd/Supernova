@@ -128,7 +128,7 @@ Outcome:
 
  Additionally, when used in conjunction with the `-v` flag and a value (default `shellcode`), it can make the output's code dynamic by incorporating variables, thereby enhancing the code's copy-and-paste utility.
  
- Last but not least, -guide saves the decryption function to a file named Program with the specific file extension of the chosen language.
+ Last but not least, `-guide` saves the decryption function to a file named Program with the specific file extension of the chosen language.
 
  #### Guide Example
 
