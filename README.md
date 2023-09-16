@@ -76,6 +76,8 @@ Usage of Supernova.exe:
   -d    Enable Debug mode
   -enc string
         Shellcode encryption (i.e., ROT, XOR, RC4, AES)
+  -guide
+        Enable guide mode
   -i string
         Path to the raw 64-bit shellcode
   -k int
