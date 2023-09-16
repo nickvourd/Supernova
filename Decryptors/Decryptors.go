@@ -19,7 +19,7 @@ namespace ROTDecryption
 		{
 		
 			byte[] %s = new byte[] { /* Your encrypted byte array here */ };
-			int encryptedKey = 7;
+			int encryptedKey = %d;
 			byte[] decryptedPayload = DecryptROTPayload(%s, encryptedKey);
 			string payloadText = Encoding.ASCII.GetString(decryptedPayload);
 			Console.WriteLine("Decrypted Payload: " + payloadText);
@@ -67,7 +67,7 @@ func SetDecryptionFile(extension string) string {
 }
 
 // DecryptorsTemplates function
-func DecryptorsTemplates(language string, cipher string, variable string) {
+func DecryptorsTemplates(language string, cipher string, variable string, key int) {
 	// Set logger for errors
 	logger := log.New(os.Stderr, "[!] ", 0)
 
@@ -84,7 +84,7 @@ func DecryptorsTemplates(language string, cipher string, variable string) {
 		switch strings.ToLower(cipher) {
 		case "rot":
 			// Config dynamic variable
-			__csharp_rot__ = fmt.Sprintf(__csharp_rot__, variable, variable)
+			__csharp_rot__ = fmt.Sprintf(__csharp_rot__, variable, key, variable)
 
 			// Call function named SaveTamplate2File
 			SaveTamplate2File(foundFilename, __csharp_rot__, cipher)
