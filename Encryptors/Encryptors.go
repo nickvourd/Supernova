@@ -132,8 +132,9 @@ func CaesarEncryption(shellcode []byte, shift int) []byte {
 	encrypted := make([]byte, len(shellcode))
 	for i, char := range shellcode {
 		// Apply Caesar cipher encryption
-		encryptedChar := char + byte(shift)
-		encrypted[i] = encryptedChar
+		encrypted[i] = byte((int(char) + shift) % 256)
+		//encryptedChar := char + byte(shift)
+		//encrypted[i] = encryptedChar
 	}
 	return encrypted
 }
