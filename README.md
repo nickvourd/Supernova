@@ -20,9 +20,9 @@ It supports a variety of different ciphers, including:
 
 Supernova is written in Golang, a cross-platform language, enabling its use on both Windows and Linux systems.
 
-Special thanks to my brothers [@S1ckB0y1337](https://twitter.com/S1ckB0y1337) and [@0xvm](https://twitter.com/0xvm), who provided invaluable assistance during the beta testing phase of the tool.
+Special thanks to my brothers [@S1ckB0y1337](https://twitter.com/S1ckB0y1337) and [@IAMCOMPROMISED](https://twitter.com/IAMCOMPROMISED), who provided invaluable assistance during the beta testing phase of the tool.
 
-Supernova was created with :heart: by [@nickvourd](https://twitter.com/nickvourd), [@IAMCOMPROMISED](https://twitter.com/IAMCOMPROMISED) and [@Papadope9](https://twitter.com/Papadope9).
+Supernova was created with :heart: by [@nickvourd](https://twitter.com/nickvourd), [@0xvm](https://twitter.com/0xvm) and [@Papadope9](https://twitter.com/Papadope9).
 
 This tool is licensed under the [![License: MIT](https://img.shields.io/badge/MIT-License-yellow.svg)](LICENSE).
 
@@ -69,7 +69,7 @@ go build Supernova.go
 
 Supernova v1.0.0 - Real fucking shellcode encryptor.
 Supernova is an open source tool licensed under MIT.
-Written with <3 by @nickvourd, @IAMCOMPROMISED and @Papadope9...
+Written with <3 by @nickvourd, @0xvm and @Papadope9...
 Please visit https://github.com/nickvourd/Supernova for more...
 
 Usage of Supernova.exe:

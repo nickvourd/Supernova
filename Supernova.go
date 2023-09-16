@@ -13,24 +13,25 @@ import (
 
 // Structure
 type FlagOptions struct {
-	outFile     string
-	inputFile   string
-	language    string
-	encryption  string
-	obfuscation string
-	variable    string
-	key         int
-	debug       bool
-	guide       bool
-	version     bool
+	outFile    string
+	inputFile  string
+	language   string
+	encryption string
+	//obfuscation string
+	variable string
+	key      int
+	debug    bool
+	//guide       bool
+	version bool
 }
 
 // global variables
 var (
-	__version__ = "1.0.0"
-	__license__ = "MIT"
-	__author__  = "@nickvourd"
-	__github__  = "https://github.com/nickvourd/Supernova"
+	__version__   = "1.0.0"
+	__license__   = "MIT"
+	__author__    = "@nickvourd"
+	__github__    = "https://github.com/nickvourd/Supernova"
+	__coauthors__ = [2]string{"@Papadope9", "@0xvm"}
 )
 
 var __ascii__ = `
@@ -44,7 +45,7 @@ var __ascii__ = `
 
 Supernova v%s - Real fucking shellcode encryptor.
 Supernova is an open source tool licensed under %s.
-Written with <3 by %s, @IAMCOMPROMISED and @Papadope9...
+Written with <3 by %s, %s and %s...
 Please visit %s for more...
 
 `
@@ -68,7 +69,7 @@ func Options() *FlagOptions {
 // main function
 func main() {
 	// Print ascii
-	fmt.Printf(__ascii__, __version__, __license__, __author__, __github__)
+	fmt.Printf(__ascii__, __version__, __license__, __author__, __coauthors__[1], __coauthors__[0], __github__)
 
 	// Check GO version of the current system
 	Utils.Version()
