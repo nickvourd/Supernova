@@ -118,24 +118,6 @@ Outcome:
 
 ![Variable-Example](/Pictures/XOR-Csharp-Variable.png)
 
-### About Debug
-
-The debug mode is useful if you want to observe the original payload in a selected programming language. To activate this functionality, you need to include the `-d` option.
-
-#### Debug Example
-
-Here is a simple example illustrating the functioning of the debug option.
-
-An adversary uses ROT encryption and utilizes the C# language option in conjunction with the debug option:
-
-```
-.\Supernova.exe -i C:\Users\User\Desktop\shellcode.bin -enc rot -lang csharp -k 2 -d
-```
-
-Outcome:
-
-![Debug-Example](/Pictures/Caesar-Csharp-Debug-Mode.png)
-
 ### About Guide
 
  This section provides information about the `-guide` option, which is designed to work in conjunction with the `-lang` and `-enc` options. It proves to be particularly valuable when users are unfamiliar with the decryption functionality or wish to experiment with different languages. The three primary actions encompass:
@@ -161,6 +143,28 @@ Outcome:
  Outcome:
 
 ![Guide-Example](/Pictures/ROT-Csharp-Guide-Variable.png)
+
+Decryption file preview examle:
+
+![Guide-Preview-File](/Pictures/ROT-Csharp-Guide-Variable-Preview.png)
+
+### About Debug
+
+The debug mode is useful if you want to observe the original payload in a selected programming language. To activate this functionality, you need to include the `-d` option.
+
+#### Debug Example
+
+Here is a simple example illustrating the functioning of the debug option.
+
+An adversary uses ROT encryption and utilizes the C# language option in conjunction with the debug option:
+
+```
+.\Supernova.exe -i C:\Users\User\Desktop\shellcode.bin -enc rot -lang csharp -k 2 -d
+```
+
+Outcome:
+
+![Debug-Example](/Pictures/Caesar-Csharp-Debug-Mode.png)
 
 ### About Output File
 
