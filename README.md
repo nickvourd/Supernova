@@ -144,7 +144,7 @@ Outcome:
 
 ![Guide-Example](/Pictures/ROT-Csharp-Guide-Variable.png)
 
-Decryption file preview examle:
+Decryption file preview example:
 
 ![Guide-Preview-File](/Pictures/ROT-Csharp-Guide-Variable-Preview.png)
 
@@ -309,3 +309,4 @@ Outcome:
 - [C (programming language)](https://en.wikipedia.org/wiki/C_(programming_language))
 - [Sector7 Institute](https://institute.sektor7.net/)
 - [MalDev Academy](https://maldevacademy.com/)
+- [OSEP-Code-Snippets](https://github.com/chvancooten/OSEP-Code-Snippets)
