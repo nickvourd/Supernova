@@ -30,7 +30,7 @@ This tool is licensed under the [![License: MIT](https://img.shields.io/badge/MI
 
 Special thanks to my brothers [@S1ckB0y1337](https://twitter.com/S1ckB0y1337) and [@IAMCOMPROMISED](https://twitter.com/IAMCOMPROMISED), who provided invaluable assistance during the beta testing phase of the tool.
 
-This tool was inspired during the malware development courses of [MalDev Academy](https://maldevacademy.com).
+This tool was inspired during the malware development courses of [MALDEV Academy](https://maldevacademy.com).
 
 Supernova was created with :heart: by [@nickvourd](https://twitter.com/nickvourd), [@0xvm](https://twitter.com/0xvm) and [@Papadope9](https://twitter.com/Papadope9).
 
