@@ -136,7 +136,7 @@ func main() {
 
 		// Guide option is enable
 		if options.guide {
-			Decryptors.DecryptorsTemplates(foundLanguage, options.encryption, options.variable, options.key)
+			Decryptors.DecryptorsTemplates(foundLanguage, options.encryption, options.variable, options.key, encryptedLength)
 		}
 
 		// Outfile option is enable
