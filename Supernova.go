@@ -112,7 +112,7 @@ func main() {
 	// Print payload size and choosen language
 	fmt.Printf("[+] Payload size: %d bytes\n\n[+] Converted payload to %s language\n\n", payloadLength, foundLanguage)
 
-	if options.debug != false {
+	if options.debug {
 		// Call function named ConvertShellcode2Template
 		template := Converters.ConvertShellcode2Template(convertedShellcode, foundLanguage, payloadLength, options.variable)
 
@@ -135,7 +135,7 @@ func main() {
 		fmt.Printf("[+] The encrypted payload with %s:\n\n%s\n\n", strings.ToLower(options.encryption), template)
 
 		// Guide option is enable
-		if options.guide != false {
+		if options.guide {
 			Decryptors.DecryptorsTemplates(foundLanguage, options.encryption, options.variable, options.key)
 		}
 
