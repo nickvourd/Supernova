@@ -48,11 +48,12 @@ Supernova was created with :heart: by [@nickvourd](https://twitter.com/nickvourd
         - [Debug Example](#debug-example)
       - [About Output File](#about-output-file)
         - [Output File Example](#output-file-example)
-  - [ROT Encryption](#rot-encryption)
-  - [XOR Encryption](#xor-encryption)
-  - [RC4 Encryption](#rc4-encryption)
-  - [AES Encryption](#aes-encryption)
-      - [AES-256-CBC](#aes-256-cbc)
+  - [Encryptions](#encryptions)
+      - [ROT Encryption](#rot-encryption)
+      - [XOR Encryption](#xor-encryption)
+      - [RC4 Encryption](#rc4-encryption)
+      - [AES Encryption](#aes-encryption)
+        - [AES-256-CBC](#aes-256-cbc)
   - [References](#references)
 
 ## Installation
@@ -189,7 +190,9 @@ Outcome:
 
 ![Output-Example](/Pictures/RC4-C-Output-Option.png)
 
-## ROT Encryption
+## Encryptions
+
+### ROT Encryption
 
 The ROT cipher, also known as the rotation cipher, is a family of simple substitution ciphers in which the letters of the alphabet are shifted by a fixed number of positions. The term "ROT" is often followed by a number that indicates the amount of rotation applied to the letters. Each variant of the ROT cipher corresponds to a specific shift value.
 
@@ -219,7 +222,7 @@ Outcome:
 
 ![ROT-Example](/Pictures/Caesar-Rust.png)
 
-## XOR Encryption
+### XOR Encryption
 
 The XOR cipher, also known as the exclusive OR cipher, is a basic encryption technique that operates by applying the XOR (exclusive OR) operation between each bit of the plaintext and a corresponding bit of a secret key. This results in ciphertext that appears random and can only be decrypted by performing the XOR operation again with the same secret key.
 
@@ -243,7 +246,7 @@ Outcome:
 
 ![XOR-Example](/Pictures/XOR-Nim.png)
 
-## RC4 Encryption
+### RC4 Encryption
 
 The RC4 cipher, also known as the Rivest Cipher 4 or ARC4, is a symmetric stream cipher that was designed by Ron Rivest in 1987. It gained popularity due to its simplicity and efficiency in generating a pseudorandom stream of bits, which can be used for encryption and decryption. The RC4 cipher was initially a trade secret, but it later became widely known and used in various applications.
 
@@ -268,13 +271,13 @@ Outcome:
 
 ![RC4-Example](/Pictures/RC4-Csharp.png)
 
-## AES Encryption
+### AES Encryption
 
 The Advanced Encryption Standard (AES) is a widely adopted symmetric encryption algorithm that provides strong security for various applications. It was established as a standard encryption algorithm by the U.S. National Institute of Standards and Technology (NIST) in 2001, following a competition to find a replacement for the aging Data Encryption Standard (DES). AES is known for its efficiency and robust security features, making it a cornerstone of modern cryptography.
 
 Supernova uses AES-256-CBC cipher.
 
-### AES-256-CBC
+#### AES-256-CBC
 
 The "AES-256" in the name refers to the key length used in the algorithm. AES-256 employs a 256-bit encryption key, which means there are 2^256 possible key combinations, making it incredibly difficult and time-consuming for attackers to brute-force the key and decrypt the encrypted data without the proper key.
 
