@@ -3,6 +3,7 @@ package main
 import (
 	"Supernova/Arguments"
 	"Supernova/Converters"
+	"Supernova/Decryptors"
 	"Supernova/Encryptors"
 	"Supernova/Output"
 	"Supernova/Utils"
@@ -21,8 +22,8 @@ type FlagOptions struct {
 	variable string
 	key      int
 	debug    bool
-	//guide       bool
-	version bool
+	guide    bool
+	version  bool
 }
 
 // global variables
@@ -60,10 +61,10 @@ func Options() *FlagOptions {
 	debug := flag.Bool("d", false, "Enable Debug mode")
 	key := flag.Int("k", 1, "Key lenght size for encryption")
 	version := flag.Bool("version", false, "Show Supernova current version")
-	//guide := flag.Bool("guide", false, "Enable guide mode")
+	guide := flag.Bool("guide", false, "Enable guide mode")
 	flag.Parse()
 
-	return &FlagOptions{outFile: *outFile, inputFile: *inputFile, language: *language, encryption: *encryption, variable: *variable, debug: *debug, key: *key, version: *version}
+	return &FlagOptions{outFile: *outFile, inputFile: *inputFile, language: *language, encryption: *encryption, variable: *variable, debug: *debug, key: *key, version: *version, guide: *guide}
 }
 
 // main function
@@ -111,7 +112,7 @@ func main() {
 	// Print payload size and choosen language
 	fmt.Printf("[+] Payload size: %d bytes\n\n[+] Converted payload to %s language\n\n", payloadLength, foundLanguage)
 
-	if options.debug != false {
+	if options.debug {
 		// Call function named ConvertShellcode2Template
 		template := Converters.ConvertShellcode2Template(convertedShellcode, foundLanguage, payloadLength, options.variable)
 
@@ -132,6 +133,11 @@ func main() {
 
 		// Print encrypted template
 		fmt.Printf("[+] The encrypted payload with %s:\n\n%s\n\n", strings.ToLower(options.encryption), template)
+
+		// Guide option is enable
+		if options.guide {
+			Decryptors.DecryptorsTemplates(foundLanguage, options.encryption, options.variable, options.key, encryptedLength, encryptedShellcode)
+		}
 
 		// Outfile option is enable
 		if options.outFile != "" {

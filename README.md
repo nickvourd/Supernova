@@ -18,6 +18,8 @@ It supports a variety of different ciphers, including:
 - RC4
 - AES
 
+Moreover, this tool generates the decrypted function using the chosen cipher and language, while also supplying instructions on how to utilize it effectively. 
+
 Supernova is written in Golang, a cross-platform language, enabling its use on both Windows and Linux systems.
 
 Special thanks to my brothers [@S1ckB0y1337](https://twitter.com/S1ckB0y1337) and [@IAMCOMPROMISED](https://twitter.com/IAMCOMPROMISED), who provided invaluable assistance during the beta testing phase of the tool.
@@ -35,6 +37,8 @@ This tool is licensed under the [![License: MIT](https://img.shields.io/badge/MI
       - [Command Line Usage](#command-line-usage)
       - [About Dynamic Variable Name](#about-dynamic-variable-name)
         - [Dynamic Variable Name Example](#dynamic-variable-name-example)
+      - [About Guide](#about-guide)
+         - [Guide Example](#guide-example)
       - [About Debug](#about-debug)
         - [Debug Example](#debug-example)
       - [About Output File](#about-output-file)
@@ -76,6 +80,8 @@ Usage of Supernova.exe:
   -d    Enable Debug mode
   -enc string
         Shellcode encryption (i.e., ROT, XOR, RC4, AES)
+  -guide
+        Enable guide mode
   -i string
         Path to the raw 64-bit shellcode
   -k int
@@ -92,7 +98,7 @@ Usage of Supernova.exe:
 
 ### About Dynamic Variable Name
 
-Dynamic variable name is employed to insert the desired variable name for the shellcode payload. This approach imparts dynamism to the output code by incorporating variables, thereby enhancing the code's copy-and-paste utility.
+Dynamic variable name is employed to insert the desired variable name for the shellcode payload and the exported decryption function. This approach imparts dynamism to the output code by incorporating variables, thereby enhancing the code's copy-and-paste utility.
 
 Use dynamic variable name with `-v` switch and provide your preferred value.
 
@@ -111,6 +117,36 @@ An attacker uses XOR encryption and utilizes the C# language option in conjuncti
 Outcome:
 
 ![Variable-Example](/Pictures/XOR-Csharp-Variable.png)
+
+### About Guide
+
+ This section provides information about the `-guide` option, which is designed to work in conjunction with the `-lang` and `-enc` options. It proves to be particularly valuable when users are unfamiliar with the decryption functionality or wish to experiment with different languages. The three primary actions encompass:
+
+ - Decryption functionality
+ - Set key/passphrase in main
+ - Call function in main
+
+ Additionally, when used in conjunction with the `-v` flag and a value (default `shellcode`), it can make the output's code dynamic by incorporating variables, thereby enhancing the code's copy-and-paste utility.
+ 
+ Last but not least, -guide saves the decryption function to a file named Program with the specific file extension of the chosen language.
+
+ #### Guide Example
+
+ Here is a simple example demonstrating how the guide mode operates.
+
+ An attacker uses ROT encryption and utilizes the C# language option in conjunction with the guide mode and variable setting:
+
+ ```
+ .\Supernova.exe -i C:\Users\User\Desktop\shellcode.bin -enc rot -lang csharp -k 2 -guide -v buffer
+ ```
+
+ Outcome:
+
+![Guide-Example](/Pictures/ROT-Csharp-Guide-Variable.png)
+
+Decryption file preview example:
+
+![Guide-Preview-File](/Pictures/ROT-Csharp-Guide-Variable-Preview.png)
 
 ### About Debug
 
@@ -273,3 +309,4 @@ Outcome:
 - [C (programming language)](https://en.wikipedia.org/wiki/C_(programming_language))
 - [Sector7 Institute](https://institute.sektor7.net/)
 - [MalDev Academy](https://maldevacademy.com/)
+- [OSEP-Code-Snippets](https://github.com/chvancooten/OSEP-Code-Snippets)
