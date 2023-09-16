@@ -111,7 +111,7 @@ func main() {
 	// Print payload size and choosen language
 	fmt.Printf("[+] Payload size: %d bytes\n\n[+] Converted payload to %s language\n\n", payloadLength, foundLanguage)
 
-	if options.debug != false {
+	if options.debug == true {
 		// Call function named ConvertShellcode2Template
 		template := Converters.ConvertShellcode2Template(convertedShellcode, foundLanguage, payloadLength, options.variable)
 
