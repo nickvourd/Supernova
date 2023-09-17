@@ -85,7 +85,7 @@ int main() {
     uint8_t* decryptedPayload = DecryptROTPayload(%s, dataSize, encryptedKey);
 
     if (decryptedPayload != NULL) {
-        printf("ROT Decrypted Payload:\n\n");
+        printf("ROT Decrypted Payload:\n");
         printf("unsigned char %s[] = \"");
 
         for (size_t i = 0; i < dataSize; i++) {
@@ -101,6 +101,41 @@ int main() {
     }
 
     return 0;
+}
+`
+
+// rust rot template
+var __rust_rot__ = `
+fn decrypt_rot_payload(encrypted_data: &[u8], key: i32) -> Vec<u8> {
+    let mut decrypted = Vec::with_capacity(encrypted_data.len());
+
+    for &byte in encrypted_data {
+        let decrypted_byte = (byte as i32 - key) as u8;
+        decrypted.push(decrypted_byte);
+    }
+
+    decrypted
+}
+
+fn main() {
+    let %s: [u8; %d] = [%s];
+
+    let encrypted_key = %d;
+
+    let decrypted_payload = decrypt_rot_payload(&%s, encrypted_key);
+
+    println!("ROT Decrypted Payload:\n");
+    print!("let %s[u8; %d] = [");
+
+    for (i, &byte) in decrypted_payload.iter().enumerate() {
+        print!("0x{:02x}", byte);
+
+        if i < decrypted_payload.len() - 1 {
+            print!(", ");
+        }
+    }
+
+    println!("];");
 }
 `
 
@@ -176,7 +211,14 @@ func DecryptorsTemplates(language string, cipher string, variable string, key in
 		// Call function named SetDecryptionFile
 		foundFilename := SetDecryptionFile(extension)
 
-		fmt.Println(foundFilename)
+		switch strings.ToLower(cipher) {
+		case "rot":
+			// Config dynamic variable
+			__rust_rot__ = fmt.Sprintf(__rust_rot__, variable, payloadSize, encryptedShellcode, key, variable, variable, payloadSize)
+
+			// Call function named SaveTamplate2File
+			SaveTamplate2File(foundFilename, __rust_rot__, cipher)
+		}
 	case "nim":
 		extension := "nim"
 
