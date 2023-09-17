@@ -45,3 +45,16 @@ func PrintKeyDetails(key []byte) {
 
 	fmt.Printf("\n\n")
 }
+
+// KeyDetailsFormatter function
+func KeyDetailsFormatter(key []byte) string {
+	var formattedKey string
+	for i, b := range key {
+		hexValue := fmt.Sprintf("%02x", b)
+		formattedKey += "0x" + hexValue
+		if i < len(key)-1 {
+			formattedKey += ", "
+		}
+	}
+	return formattedKey
+}
