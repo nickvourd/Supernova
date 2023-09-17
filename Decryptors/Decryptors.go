@@ -140,6 +140,7 @@ fn main() {
 }
 `
 
+// csharp xor template
 var __csharp_xor__ = `
 using System;
 using System.Text;
