@@ -102,7 +102,6 @@ int main() {
 
     return 0;
 }
-  
 `
 
 // SaveTemplae2File function
