@@ -1,6 +1,7 @@
 package Decryptors
 
 import (
+	"Supernova/Output"
 	"fmt"
 	"log"
 	"os"
@@ -139,6 +140,56 @@ fn main() {
 }
 `
 
+var __csharp_xor__ = `
+using System;
+using System.Text;
+
+namespace XORDecryption
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            byte[] %s = new byte[%d] {%s};
+
+            byte[] multiXORKey = new byte[] {%s};
+
+            byte[] decryptedPayload = MultiXORDecrypt(%s, multiXORKey);
+
+            // Convert decryptedPayload to a hexadecimal string
+            StringBuilder hex = new StringBuilder(decryptedPayload.Length * 2);
+            int totalCount = decryptedPayload.Length;
+            for (int count = 0; count < totalCount; count++)
+            {
+                byte b = decryptedPayload[count];
+
+                if ((count + 1) == totalCount) // Don't append a comma for the last item
+                {
+                    hex.AppendFormat("0x{0:x2}", b);
+                }
+                else
+                {
+                    hex.AppendFormat("0x{0:x2}, ", b);
+                }
+            }
+
+            Console.WriteLine("Multi-XOR Decrypted Payload:\n");
+            Console.WriteLine($"byte[] %s = new byte[{decryptedPayload.Length}] {{ {hex} }};\n\n");
+        }
+
+        static byte[] MultiXORDecrypt(byte[] encryptedData, byte[] key)
+        {
+            byte[] decrypted = new byte[encryptedData.Length];
+            for (int i = 0; i < encryptedData.Length; i++)
+            {
+                decrypted[i] = (byte)(encryptedData[i] ^ key[i %% key.Length]);
+            }
+            return decrypted;
+        }
+    }
+}
+`
+
 // SaveTemplae2File function
 func SaveTamplate2File(filename string, tamplate string, cipher string) {
 	// Open a file for writing. If the file doesn't exist, it will be created.
@@ -169,7 +220,7 @@ func SetDecryptionFile(extension string) string {
 }
 
 // DecryptorsTemplates function
-func DecryptorsTemplates(language string, cipher string, variable string, key int, payloadSize int, encryptedShellcode string) {
+func DecryptorsTemplates(language string, cipher string, variable string, key int, payloadSize int, encryptedShellcode string, byteKey []byte) {
 	// Set logger for errors
 	logger := log.New(os.Stderr, "[!] ", 0)
 
@@ -190,6 +241,15 @@ func DecryptorsTemplates(language string, cipher string, variable string, key in
 
 			// Call function named SaveTamplate2File
 			SaveTamplate2File(foundFilename, __csharp_rot__, cipher)
+		case "xor":
+			// Call function named KeyDetailsFormatter
+			formattedKey := Output.KeyDetailsFormatter(byteKey)
+
+			// Config dynamic variable
+			__csharp_xor__ = fmt.Sprintf(__csharp_xor__, variable, payloadSize, encryptedShellcode, formattedKey, variable, variable)
+
+			// Call function named SaveTamplate2File
+			SaveTamplate2File(foundFilename, __csharp_xor__, cipher)
 		}
 	case "c":
 		extension := "c"
@@ -200,7 +260,7 @@ func DecryptorsTemplates(language string, cipher string, variable string, key in
 		switch strings.ToLower(cipher) {
 		case "rot":
 			// Config dynamic variable
-			__c_rot__ = fmt.Sprintf(__c_rot__, variable, encryptedShellcode, key, variable, variable, variable)
+			__c_rot__ = fmt.Sprintf(__c_rot__, variable, encryptedShellcode, key, variable, variable)
 
 			// Call function named SaveTamplate2File
 			SaveTamplate2File(foundFilename, __c_rot__, cipher)
