@@ -267,6 +267,91 @@ fn main() {
 }
 `
 
+// csharp rc4 template
+var __csharp_rc4__ = `
+using System;
+using System.Runtime.InteropServices;
+using System.Text;
+
+namespace RC4Dencryption
+{
+    class Program
+    {
+        static byte[] RC4Dencrypt(byte[] data, byte[] key)
+        {
+            byte[] encrypted = new byte[data.Length];
+            byte[] s = new byte[256];
+
+            for (int i = 0; i < 256; i++)
+            {
+                s[i] = (byte)i;
+            }
+
+            int j = 0;
+            for (int i = 0; i < 256; i++)
+            {
+                j = (j + s[i] + key[i %% key.Length]) %% 256;
+                byte temp = s[i];
+                s[i] = s[j];
+                s[j] = temp;
+            }
+
+            int x = 0;
+            int y = 0;
+            for (int idx = 0; idx < data.Length; idx++)
+            {
+                x = (x + 1) %% 256;
+                y = (y + s[x]) %% 256;
+
+                byte temp = s[x];
+                s[x] = s[y];
+                s[y] = temp;
+
+                int t = (s[x] + s[y]) %% 256;
+                encrypted[idx] = (byte)(data[idx] ^ s[t]);
+            }
+
+            return encrypted;
+        }
+
+        static byte[] GetKeyFromPassphrase(string passphrase)
+        {
+            // Convert the passphrase to bytes using UTF-8 encoding
+            return Encoding.UTF8.GetBytes(passphrase);
+        }
+
+        static void Main(string[] args)
+        {
+            byte[] %s = new byte[%d] {%s};
+            string passphrase = "%s";
+
+            byte[] key = GetKeyFromPassphrase(passphrase);
+            byte[] dencryptedPayload = RC4Dencrypt(%s, key);
+
+            // Convert encryptedPayload to a hexadecimal string
+            StringBuilder hex = new StringBuilder(dencryptedPayload.Length * 2);
+            int totalCount = dencryptedPayload.Length;
+            for (int count = 0; count < totalCount; count++)
+            {
+                byte b = dencryptedPayload[count];
+
+                if ((count + 1) == totalCount) // Don't append a comma for the last item
+                {
+                    hex.AppendFormat("0x{0:x2}", b);
+                }
+                else
+                {
+                    hex.AppendFormat("0x{0:x2}, ", b);
+                }
+            }
+
+            Console.WriteLine("RC4 Dencrypted Payload:\n");
+            Console.WriteLine($"byte[] %s = new byte[{dencryptedPayload.Length}] {{ {hex} }};\n\n");
+        }
+    }
+}
+`
+
 // SaveTemplae2File function
 func SaveTamplate2File(filename string, tamplate string, cipher string) {
 	// Open a file for writing. If the file doesn't exist, it will be created.
@@ -297,7 +382,7 @@ func SetDecryptionFile(extension string) string {
 }
 
 // DecryptorsTemplates function
-func DecryptorsTemplates(language string, cipher string, variable string, key int, payloadSize int, encryptedShellcode string, byteKey []byte) {
+func DecryptorsTemplates(language string, cipher string, variable string, key int, payloadSize int, encryptedShellcode string, byteKey []byte, passphrase string) {
 	// Set logger for errors
 	logger := log.New(os.Stderr, "[!] ", 0)
 
@@ -327,6 +412,12 @@ func DecryptorsTemplates(language string, cipher string, variable string, key in
 
 			// Call function named SaveTamplate2File
 			SaveTamplate2File(foundFilename, __csharp_xor__, cipher)
+		case "rc4":
+			// Config dynamic variable
+			__csharp_rc4__ = fmt.Sprintf(__csharp_rc4__, variable, payloadSize, encryptedShellcode, passphrase, variable, variable)
+
+			// Call function named SaveTamplate2File
+			SaveTamplate2File(foundFilename, __csharp_rc4__, cipher)
 		}
 	case "c":
 		extension := "c"

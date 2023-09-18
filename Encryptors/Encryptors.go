@@ -140,7 +140,7 @@ func CaesarEncryption(shellcode []byte, shift int) []byte {
 }
 
 // DetectEncryption function
-func DetectEncryption(cipher string, shellcode string, key int) (string, int, []byte) {
+func DetectEncryption(cipher string, shellcode string, key int) (string, int, []byte, string) {
 	// Set logger for errors
 	logger := log.New(os.Stderr, "[!] ", 0)
 
@@ -170,7 +170,7 @@ func DetectEncryption(cipher string, shellcode string, key int) (string, int, []
 		// Call function named FormatShellcode
 		shellcodeFormatted := Converters.FormatShellcode(encryptedShellcode)
 
-		return shellcodeFormatted, len(encryptedShellcode), xorKey
+		return shellcodeFormatted, len(encryptedShellcode), xorKey, ""
 	case "rot":
 		// Print selected shift key
 		fmt.Printf("[+] Selected Shift key: %d\n\n", shift)
@@ -181,7 +181,7 @@ func DetectEncryption(cipher string, shellcode string, key int) (string, int, []
 		// Call function named FormatShellcode
 		shellcodeFormatted := Converters.FormatShellcode(encryptedShellcode)
 
-		return shellcodeFormatted, len(encryptedShellcode), nil
+		return shellcodeFormatted, len(encryptedShellcode), nil, ""
 	case "aes":
 		// Generate a random 32-byte key and a random 16-byte IV
 		key := GenerateRandomBytes(keySize)
@@ -214,7 +214,7 @@ func DetectEncryption(cipher string, shellcode string, key int) (string, int, []
 		// Call function named FormatShellcode
 		shellcodeFormatted := Converters.FormatShellcode(encryptedShellcode)
 
-		return shellcodeFormatted, len(encryptedShellcode), key
+		return shellcodeFormatted, len(encryptedShellcode), key, ""
 	case "rc4":
 		// Call function named GenerateRandomPassphrase
 		randomPassphrase := GenerateRandomPassphrase(key)
@@ -231,9 +231,9 @@ func DetectEncryption(cipher string, shellcode string, key int) (string, int, []
 		// Call function named FormatShellcode
 		shellcodeFormatted := Converters.FormatShellcode(encryptedShellcode)
 
-		return shellcodeFormatted, len(encryptedShellcode), rc4Key
+		return shellcodeFormatted, len(encryptedShellcode), rc4Key, randomPassphrase
 	default:
 		logger.Fatal("Unsupported encryption cipher")
-		return "", 0, nil
+		return "", 0, nil, ""
 	}
 }
