@@ -9,7 +9,7 @@ import (
 )
 
 // global variables tamplates
-// Csharp rot template
+// csharp rot template
 var __csharp_rot__ = `
 using System;
 using System.Text;
@@ -58,7 +58,7 @@ namespace ROTDecryption
 }
 `
 
-// C rot template
+// c rot template
 var __c_rot__ = `
 #include <stdio.h>
 #include <stdint.h>
@@ -149,6 +149,17 @@ namespace XORDecryption
 {
     class Program
     {
+        static byte[] MultiXORDecrypt(byte[] encryptedData, byte[] key)
+        {
+            byte[] decrypted = new byte[encryptedData.Length];
+            for (int i = 0; i < encryptedData.Length; i++)
+            {
+                decrypted[i] = (byte)(encryptedData[i] ^ key[i %% key.Length]);
+            }
+
+            return decrypted;
+        }
+        
         static void Main(string[] args)
         {
             byte[] %s = new byte[%d] {%s};
@@ -176,17 +187,6 @@ namespace XORDecryption
 
             Console.WriteLine("Multi-XOR Decrypted Payload:\n");
             Console.WriteLine($"byte[] %s = new byte[{decryptedPayload.Length}] {{ {hex} }};\n\n");
-        }
-
-        static byte[] MultiXORDecrypt(byte[] encryptedData, byte[] key)
-        {
-            byte[] decrypted = new byte[encryptedData.Length];
-            for (int i = 0; i < encryptedData.Length; i++)
-            {
-                decrypted[i] = (byte)(encryptedData[i] ^ key[i %% key.Length]);
-            }
-
-            return decrypted;
         }
     }
 }
