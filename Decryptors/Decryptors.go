@@ -443,6 +443,52 @@ int main() {
 }
 `
 
+// rust rc4 template
+var __rust_rc4__ = `
+fn rc4_decrypt(encrypted_data: &[u8], key: &[u8]) -> Vec<u8> {
+    let mut s: Vec<u8> = (0..=255).collect();
+    let mut j: u16 = 0; // Change j to u16
+
+    for i in 0..=255 {
+        j = (j + u16::from(s[i]) + u16::from(key[i %% key.len()])) %% 256; // Use u16 for j and casting
+        s.swap(i as usize, j as usize);
+    }
+
+    let mut i: u8 = 0;
+    j = 0;
+    let mut decrypted_data = Vec::with_capacity(encrypted_data.len());
+
+    for k in encrypted_data {
+        i = i.wrapping_add(1);
+        j = (j + u16::from(s[i as usize])) %% 256; // Use u16 for j and casting
+        s.swap(i as usize, j as usize);
+        let key_stream = s[(s[i as usize].wrapping_add(s[j as usize])) as usize];
+        decrypted_data.push(k ^ key_stream);
+    }
+
+    decrypted_data
+}
+
+fn main() {
+    let passphrase = "%s";
+    let rc4_key: Vec<u8> = passphrase.bytes().collect();
+
+    let %s: [u8; %d] = [%s];
+
+    let decrypted_payload = rc4_decrypt(&%s, &rc4_key);
+
+    println!("RC4 Decrypted Payload:\n\n");
+    print!("let %s: [u8; %d] = [");
+    for (i, byte) in decrypted_payload.iter().enumerate() {
+        print!("0x{:02x}", byte);
+        if i < decrypted_payload.len() - 1 {
+            print!(", ");
+        }
+    }
+    println!("];");
+}
+`
+
 // SaveTemplae2File function
 func SaveTamplate2File(filename string, tamplate string, cipher string) {
 	// Open a file for writing. If the file doesn't exist, it will be created.
@@ -561,6 +607,12 @@ func DecryptorsTemplates(language string, cipher string, variable string, key in
 
 			// Call function named SaveTamplate2File
 			SaveTamplate2File(foundFilename, __rust_xor__, cipher)
+		case "rc4":
+			// Config dynamic variable
+			__rust_rc4__ = fmt.Sprintf(__rust_rc4__, passphrase, variable, payloadSize, encryptedShellcode, variable, variable, payloadSize)
+
+			// Call function named SaveTamplate2File
+			SaveTamplate2File(foundFilename, __rust_rc4__, cipher)
 		}
 	case "nim":
 		extension := "nim"
