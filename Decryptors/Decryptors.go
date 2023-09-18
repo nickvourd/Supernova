@@ -239,6 +239,34 @@ int main() {
 }
 `
 
+// rust xor template
+var __rust_xor__ = `
+fn multi_xor_decrypt(encrypted_data: &[u8], key: &[u8]) -> Vec<u8> {
+    let mut decrypted = vec![0; encrypted_data.len()];
+    for (i, byte) in encrypted_data.iter().enumerate() {
+        decrypted[i] = byte ^ key[i %% key.len()];
+    }
+    decrypted
+}
+
+fn main() {
+    let %s: [u8; %d] = [%s];
+    let xor_key: [u8; %d] = [%s];
+
+    let decrypted_payload = multi_xor_decrypt(&%s, &xor_key);
+
+    println!("Multi-XOR Decrypted Payload:\n");
+    print!("let %s[u8; %d] = [");
+    for (i, byte) in decrypted_payload.iter().enumerate() {
+        print!("0x{:02x}", byte);
+        if i < decrypted_payload.len() - 1 {
+            print!(", ");
+        }
+    }
+    println!("];");
+}
+`
+
 // SaveTemplae2File function
 func SaveTamplate2File(filename string, tamplate string, cipher string) {
 	// Open a file for writing. If the file doesn't exist, it will be created.
@@ -336,6 +364,15 @@ func DecryptorsTemplates(language string, cipher string, variable string, key in
 
 			// Call function named SaveTamplate2File
 			SaveTamplate2File(foundFilename, __rust_rot__, cipher)
+		case "xor":
+			// Call function named KeyDetailsFormatter
+			formattedKey := Output.KeyDetailsFormatter(byteKey)
+
+			// Config dynamic variable
+			__rust_xor__ = fmt.Sprintf(__rust_xor__, variable, payloadSize, encryptedShellcode, key, formattedKey, variable, variable, payloadSize)
+
+			// Call function named SaveTamplate2File
+			SaveTamplate2File(foundFilename, __rust_xor__, cipher)
 		}
 	case "nim":
 		extension := "nim"
