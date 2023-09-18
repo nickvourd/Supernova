@@ -185,9 +185,57 @@ namespace XORDecryption
             {
                 decrypted[i] = (byte)(encryptedData[i] ^ key[i %% key.Length]);
             }
+
             return decrypted;
         }
     }
+}
+`
+
+// c xor template
+var __c_xor__ = `
+#include <stdio.h>
+#include <stdint.h>
+#include <stdlib.h>
+
+uint8_t* MultiXORDecrypt(const uint8_t* encryptedData, size_t dataSize, const uint8_t* key, size_t keySize) {
+    uint8_t* decrypted = (uint8_t*)malloc(dataSize);
+    if (decrypted == NULL) {
+        return NULL;
+    }
+
+    for (size_t i = 0; i < dataSize; i++) {
+        decrypted[i] = encryptedData[i] ^ key[i %% keySize];
+    }
+
+    return decrypted;
+}
+
+int main() {
+    uint8_t %s[] = {%s};
+    size_t dataSize = sizeof(%s);
+
+    uint8_t xorKey[] = {%s};
+
+    uint8_t* decryptedPayload = MultiXORDecrypt(%s, dataSize, xorKey, sizeof(xorKey));
+
+    if (decryptedPayload != NULL) {
+        printf("Multi-XOR Decrypted Payload:\n");
+        printf("unsigned char %s[] = \"");
+
+        for (size_t i = 0; i < dataSize; i++) {
+            printf("0x%%02x", decryptedPayload[i]);
+            if (i < dataSize - 1) {
+                printf(", ");
+            }
+        }
+
+        printf("\";\n");
+
+        free(decryptedPayload);
+    }
+
+    return 0;
 }
 `
 
@@ -265,6 +313,15 @@ func DecryptorsTemplates(language string, cipher string, variable string, key in
 
 			// Call function named SaveTamplate2File
 			SaveTamplate2File(foundFilename, __c_rot__, cipher)
+		case "xor":
+			// Call function named KeyDetailsFormatter
+			formattedKey := Output.KeyDetailsFormatter(byteKey)
+
+			// Config dynamic variable
+			__c_xor__ = fmt.Sprintf(__c_xor__, variable, encryptedShellcode, variable, formattedKey, variable, variable)
+
+			// Call function named SaveTamplate2File
+			SaveTamplate2File(foundFilename, __c_xor__, cipher)
 		}
 	case "rust":
 		extension := "rs"
