@@ -352,6 +352,97 @@ namespace RC4Dencryption
 }
 `
 
+// c rc4 template
+var __c_rc4__ = `
+#include <stdio.h>
+#include <stdint.h>
+#include <stdlib.h>
+#include <string.h>
+
+// RC4 algorithm for decryption
+void RC4Decrypt(const uint8_t* encryptedData, size_t dataSize, const uint8_t* key, size_t keySize, uint8_t* decryptedData) {
+    uint8_t s[256];
+    for (int i = 0; i < 256; i++) {
+        s[i] = i;
+    }
+
+    uint8_t j = 0;
+    for (int i = 0; i < 256; i++) {
+        j = (j + s[i] + key[i %% keySize]) %% 256;
+        // Swap s[i] and s[j]
+        uint8_t temp = s[i];
+        s[i] = s[j];
+        s[j] = temp;
+    }
+
+    int i = 0;
+    j = 0;
+    for (size_t k = 0; k < dataSize; k++) {
+        i = (i + 1) %% 256;
+        j = (j + s[i]) %% 256;
+
+        // Swap s[i] and s[j]
+        uint8_t temp = s[i];
+        s[i] = s[j];
+        s[j] = temp;
+
+        // Calculate the pseudo-random key
+        uint8_t keyStream = s[(s[i] + s[j]) %% 256];
+
+        // Decrypt the data
+        decryptedData[k] = encryptedData[k] ^ keyStream;
+    }
+}
+
+// Function to convert passphrase to bytes
+void PassphraseToBytes(const char* passphrase, uint8_t* key, size_t* keySize) {
+    size_t passphraseLength = strlen(passphrase);
+    *keySize = passphraseLength;
+
+    for (size_t i = 0; i < passphraseLength; i++) {
+        key[i] = (uint8_t)passphrase[i];
+    }
+}
+
+int main() {
+    const char* passphrase = "%s"; // Replace with your passphrase
+    uint8_t rc4Key[256];
+    size_t keySize;
+
+    // Convert passphrase to bytes
+    PassphraseToBytes(passphrase, rc4Key, &keySize);
+
+    uint8_t %s[] = {%s};
+
+    size_t dataSize = sizeof(%s);
+
+    uint8_t* decryptedPayload = (uint8_t*)malloc(dataSize);
+
+    if (decryptedPayload == NULL) {
+        printf("Memory allocation failed.\n");
+        return 1; // Return an error code
+    }
+
+    // Perform RC4 decryption
+    RC4Decrypt(%s, dataSize, rc4Key, keySize, decryptedPayload);
+
+    printf("RC4 Decrypted Payload:\n\n");
+    printf("unsigned char %s[] = \"");
+    for (size_t i = 0; i < dataSize; i++) {
+        printf("0x%%02x", decryptedPayload[i]);
+        if (i < dataSize - 1) {
+            printf(", ");
+        }
+    }
+    printf("\";\n");
+
+    // Free the allocated memory
+    free(decryptedPayload);
+
+    return 0;
+}
+`
+
 // SaveTemplae2File function
 func SaveTamplate2File(filename string, tamplate string, cipher string) {
 	// Open a file for writing. If the file doesn't exist, it will be created.
@@ -441,6 +532,12 @@ func DecryptorsTemplates(language string, cipher string, variable string, key in
 
 			// Call function named SaveTamplate2File
 			SaveTamplate2File(foundFilename, __c_xor__, cipher)
+		case "rc4":
+			// Config dynamic variable
+			__c_rc4__ = fmt.Sprintf(__c_rc4__, passphrase, variable, encryptedShellcode, variable, variable, variable)
+
+			// Call function named SaveTamplate2File
+			SaveTamplate2File(foundFilename, __c_rc4__, cipher)
 		}
 	case "rust":
 		extension := "rs"
