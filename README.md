@@ -52,6 +52,7 @@ Supernova was created with :heart: by [@nickvourd](https://twitter.com/nickvourd
       - [About Output File](#about-output-file)
         - [Output File Example](#output-file-example)
       - [About Host Identifier](#about-host-identifier)
+        - [Host Identifier Example](#host-identifier-example)
   - [Encryptions](#encryptions)
       - [ROT Encryption](#rot-encryption)
       - [XOR Encryption](#xor-encryption)
@@ -212,6 +213,20 @@ func AddValues2Template(operatingSystem string, template string) string {
 	return template
 }
 ```
+
+#### Host Identifier Example
+
+Here is a simple example illustrating the functioning of the host identifier utility.
+
+An attacker uses AES encryption and utilizes the C language option in conjunction with `-guide` mode from Linux host machine:
+
+```
+Supernova -i /root/shellcode.bin -enc aes -lang c -guide
+```
+
+Outcome:
+
+![Host-Identifier-Example](/Pictures/Host-Identifier-Example.png)
 
 ## Encryptions
 
