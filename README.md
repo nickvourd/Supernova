@@ -198,7 +198,7 @@ Outcome:
 
 ### About Host Identifier
 
-Supernova tool utilizes a utility to identify the host machine's operating system. When used in conjunction with the `-guide` option, it checks if the host machine is running Linux and, if so, adds the `<Windows.h>` header in the C language decryption template.
+Supernova tool utilizes a utility to identify the host machine's operating system. When used in conjunction with the `-guide` option, it checks if the host machine is running Linux and, if so, adds the `<Windows.h>` header in the C language decryption templates.
 
 The following code accomplishes this in the background:
 
