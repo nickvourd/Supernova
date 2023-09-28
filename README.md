@@ -51,6 +51,7 @@ Supernova was created with :heart: by [@nickvourd](https://twitter.com/nickvourd
         - [Debug Example](#debug-example)
       - [About Output File](#about-output-file)
         - [Output File Example](#output-file-example)
+      - [About Host Identifier](#about-host-identifier)
   - [Encryptions](#encryptions)
       - [ROT Encryption](#rot-encryption)
       - [XOR Encryption](#xor-encryption)
@@ -194,6 +195,23 @@ An attacker uses RC4 encryption and utilizes the C language option in conjunctio
 Outcome:
 
 ![Output-Example](/Pictures/RC4-C-Output-Option.png)
+
+### About Host Identifier
+
+Supernova utilizes a utility to identify the host machine's operating system. When used in conjunction with the `-guide` option, it checks if the host machine is running Linux and, if so, adds the `<Windows.h>` header in the decryption template.
+
+The following code accomplishes this in the background:
+
+```
+// AddValues2Template function
+func AddValues2Template(operatingSystem string, template string) string {
+	if strings.ToLower(operatingSystem) == "linux" {
+		template = "#include <Windows.h>" + template
+	}
+
+	return template
+}
+```
 
 ## Encryptions
 
