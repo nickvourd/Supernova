@@ -557,6 +557,64 @@ namespace AESDecryption
 }
 `
 
+// c aes template
+var __c_aes__ = `
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <stdint.h>
+#include <openssl/evp.h>
+#include <openssl/err.h>
+
+int AESDecrypt(const uint8_t* encryptedData, size_t encryptedDataLength, const uint8_t* key, const uint8_t* iv, uint8_t* decryptedData) {
+    EVP_CIPHER_CTX* ctx;
+    int len;
+    int decryptedLength = 0;
+
+    ctx = EVP_CIPHER_CTX_new();
+    EVP_DecryptInit_ex(ctx, EVP_aes_256_cbc(), NULL, key, iv);
+    EVP_DecryptUpdate(ctx, decryptedData, &len, encryptedData, encryptedDataLength);
+    decryptedLength += len;
+    EVP_DecryptFinal_ex(ctx, decryptedData + len, &len);
+    decryptedLength += len;
+
+    EVP_CIPHER_CTX_free(ctx);
+
+    return decryptedLength;
+}
+
+int main() {
+    uint8_t %s[] = {%s};
+    size_t shellcodeLength = sizeof(%s);
+
+    uint8_t aesKey[] = {%s};
+
+    uint8_t aesIV[] = {%s};
+
+    uint8_t* decryptedPayload = (uint8_t*)malloc(shellcodeLength);
+    if (decryptedPayload == NULL) {
+        perror("Memory allocation failed");
+        return 1;
+    }
+
+    int decryptedLength = AESDecrypt(%s, shellcodeLength, aesKey, aesIV, decryptedPayload);
+
+    printf("AES Decrypted Payload:\n\n");
+    printf("unsigned char %s[] = \"");
+    for (size_t i = 0; i < decryptedLength; i++) {
+        printf("0x%%02x", decryptedPayload[i]);
+        if (i < decryptedLength - 1) {
+            printf(", ");
+        }
+    }
+    printf("\";\n");
+
+    free(decryptedPayload);
+
+    return 0;
+}
+`
+
 // SaveTemplae2File function
 func SaveTamplate2File(filename string, tamplate string, cipher string) {
 	// Open a file for writing. If the file doesn't exist, it will be created.
@@ -664,6 +722,18 @@ func DecryptorsTemplates(language string, cipher string, variable string, key in
 
 			// Call function named SaveTamplate2File
 			SaveTamplate2File(foundFilename, __c_rc4__, cipher)
+		case "aes":
+			// Call function named KeyDetailsFormatter
+			formattedKey := Output.KeyDetailsFormatter(byteKey)
+
+			// Call function named KeyDetailsFormatter
+			formattedIv := Output.KeyDetailsFormatter(iv)
+
+			// Config dynamic variable
+			__c_aes__ = fmt.Sprintf(__c_aes__, variable, encryptedShellcode, variable, formattedKey, formattedIv, variable, variable)
+
+			// Call function named SaveTamplate2File
+			SaveTamplate2File(foundFilename, __c_aes__, cipher)
 		}
 	case "rust":
 		extension := "rs"
