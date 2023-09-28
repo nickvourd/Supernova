@@ -1,7 +1,9 @@
 package Decryptors
 
 import (
+	"Supernova/Converters"
 	"Supernova/Output"
+	"Supernova/Utils"
 	"fmt"
 	"log"
 	"os"
@@ -646,6 +648,9 @@ func SetDecryptionFile(extension string) string {
 
 // DecryptorsTemplates function
 func DecryptorsTemplates(language string, cipher string, variable string, key int, payloadSize int, encryptedShellcode string, byteKey []byte, passphrase string, iv []byte) {
+	// Call function named HostIdentifier
+	operatingSystem := Utils.HostIdentifier()
+
 	// Set logger for errors
 	logger := log.New(os.Stderr, "[!] ", 0)
 
@@ -702,6 +707,9 @@ func DecryptorsTemplates(language string, cipher string, variable string, key in
 
 		switch strings.ToLower(cipher) {
 		case "rot":
+			// Call function named AddValues2Template
+			__c_rot__ = Converters.AddValues2Template(operatingSystem, __c_rot__)
+
 			// Config dynamic variable
 			__c_rot__ = fmt.Sprintf(__c_rot__, variable, encryptedShellcode, key, variable, variable)
 
@@ -711,12 +719,18 @@ func DecryptorsTemplates(language string, cipher string, variable string, key in
 			// Call function named KeyDetailsFormatter
 			formattedKey := Output.KeyDetailsFormatter(byteKey)
 
+			// Call function named AddValues2Template
+			__c_xor__ = Converters.AddValues2Template(operatingSystem, __c_xor__)
+
 			// Config dynamic variable
 			__c_xor__ = fmt.Sprintf(__c_xor__, variable, encryptedShellcode, variable, formattedKey, variable, variable)
 
 			// Call function named SaveTamplate2File
 			SaveTamplate2File(foundFilename, __c_xor__, cipher)
 		case "rc4":
+			// Call function named AddValues2Template
+			__c_rc4__ = Converters.AddValues2Template(operatingSystem, __c_rc4__)
+
 			// Config dynamic variable
 			__c_rc4__ = fmt.Sprintf(__c_rc4__, passphrase, variable, encryptedShellcode, variable, variable, variable)
 
@@ -728,6 +742,9 @@ func DecryptorsTemplates(language string, cipher string, variable string, key in
 
 			// Call function named KeyDetailsFormatter
 			formattedIv := Output.KeyDetailsFormatter(iv)
+
+			// Call function named AddValues2Template
+			__c_aes__ = Converters.AddValues2Template(operatingSystem, __c_aes__)
 
 			// Config dynamic variable
 			__c_aes__ = fmt.Sprintf(__c_aes__, variable, encryptedShellcode, variable, formattedKey, formattedIv, variable, variable)

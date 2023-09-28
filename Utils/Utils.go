@@ -17,7 +17,7 @@ func Version() {
 	if VerNumb >= 19.1 {
 	} else {
 		logger := log.New(os.Stderr, "[!] ", 0)
-		logger.Fatal("The version of Go is to old, please update to version 1.19.1 or later...")
+		logger.Fatal("The version of Go is to old, please update to version 1.19.1 or later...\n")
 	}
 }
 
@@ -29,4 +29,23 @@ func GetAbsolutePath(filename string) (string, error) {
 		return "", err
 	}
 	return absolutePath, nil
+}
+
+// HostIdentifier function
+func HostIdentifier() string {
+	// Get OS of host machine
+	osName := runtime.GOOS
+	var operatingSystem string
+
+	switch osName {
+	case "windows":
+		operatingSystem = "Windows"
+	case "linux":
+		operatingSystem = "Linux"
+	default:
+		logger := log.New(os.Stderr, "[!] ", 0)
+		logger.Fatal("Unsupported Operating System...\n")
+	}
+
+	return operatingSystem
 }
