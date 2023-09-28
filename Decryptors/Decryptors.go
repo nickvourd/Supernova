@@ -617,6 +617,58 @@ int main() {
 }
 `
 
+// rust aes template
+var __rust_aes__ = `
+extern crate openssl;
+
+use openssl::symm::{Cipher, Crypter, Mode};
+use openssl::error::ErrorStack;
+use std::io::Write;
+
+fn aes_decrypt(encrypted_data: &[u8], key: &[u8], iv: &[u8]) -> Result<Vec<u8>, ErrorStack> {
+    let cipher = Cipher::aes_256_cbc();
+    let mut decrypter = Crypter::new(cipher, Mode::Decrypt, key, Some(iv))?;
+    decrypter.pad(false);
+
+    let mut decrypted_data = vec![0; encrypted_data.len() + cipher.block_size()];
+    let mut count = decrypter.update(encrypted_data, &mut decrypted_data)?;
+
+    count += decrypter.finalize(&mut decrypted_data[count..])?;
+
+    decrypted_data.truncate(count);
+
+    Ok(decrypted_data)
+}
+
+fn main() -> Result<(), Box<dyn std::error::Error>> {
+    let %s: [u8; %d] = [%s];
+
+    let aes_key: [u8; 32] = [%s];
+
+    let aes_iv: [u8; 16] = [%s];
+
+     match aes_decrypt(&%s, &aes_key, &aes_iv) {
+        Ok(decrypted_payload) => {
+            let payload_len = decrypted_payload.len();
+
+            print!("let %s: [u8; {}] = [", payload_len);
+            for (i, byte) in decrypted_payload.iter().enumerate() {
+                print!("{:#04x}", byte);
+                if i < payload_len - 1 {
+                    print!(", ");
+                }
+            }
+            println!("];");
+        }
+        Err(e) => {
+            eprintln!("Error: {:?}", e);
+        }
+    }
+
+    Ok(())
+}
+`
+
 // SaveTemplae2File function
 func SaveTamplate2File(filename string, tamplate string, cipher string) {
 	// Open a file for writing. If the file doesn't exist, it will be created.
@@ -780,6 +832,21 @@ func DecryptorsTemplates(language string, cipher string, variable string, key in
 
 			// Call function named SaveTamplate2File
 			SaveTamplate2File(foundFilename, __rust_rc4__, cipher)
+		case "aes":
+			// Call function named KeyDetailsFormatter
+			formattedKey := Output.KeyDetailsFormatter(byteKey)
+
+			// Call function named KeyDetailsFormatter
+			formattedIv := Output.KeyDetailsFormatter(iv)
+
+			// Call function named AddValues2Template
+			__rust_aes__ = Converters.AddValues2Template(operatingSystem, __rust_aes__)
+
+			// Config dynamic variable
+			__rust_aes__ = fmt.Sprintf(__rust_aes__, variable, payloadSize, encryptedShellcode, formattedKey, formattedIv, variable, variable)
+
+			// Call function named SaveTamplate2File
+			SaveTamplate2File(foundFilename, __rust_aes__, cipher)
 		}
 	case "nim":
 		fmt.Printf("[!] Guide mode does not support Nim language, yet!\n\n")
