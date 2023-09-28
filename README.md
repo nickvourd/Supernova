@@ -139,6 +139,8 @@ Outcome:
  
  Last but not least, `-guide` saves the decryption function to a file named Program with the specific file extension of the chosen language.
 
+⚠️ Guide mode does not support the Nim language at this stage of the release.
+
  #### Guide Example
 
  Here is a simple example demonstrating how the guide mode operates.
