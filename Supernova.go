@@ -126,7 +126,7 @@ func main() {
 		Arguments.ValidateArgument("enc", options.encryption, []string{"XOR", "RC4", "AES", "ROT"})
 
 		// Call function named DetectEncryption
-		encryptedShellcode, encryptedLength, key, passphrase := Encryptors.DetectEncryption(options.encryption, rawShellcode, options.key)
+		encryptedShellcode, encryptedLength, key, passphrase, iv := Encryptors.DetectEncryption(options.encryption, rawShellcode, options.key)
 
 		// Call function named ConvertShellcode2Template
 		template := Converters.ConvertShellcode2Template(encryptedShellcode, foundLanguage, encryptedLength, options.variable)
@@ -136,7 +136,7 @@ func main() {
 
 		// Guide option is enable
 		if options.guide {
-			Decryptors.DecryptorsTemplates(foundLanguage, options.encryption, options.variable, options.key, encryptedLength, encryptedShellcode, key, passphrase)
+			Decryptors.DecryptorsTemplates(foundLanguage, options.encryption, options.variable, options.key, encryptedLength, encryptedShellcode, key, passphrase, iv)
 		}
 
 		// Outfile option is enable

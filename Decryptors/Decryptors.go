@@ -489,6 +489,74 @@ fn main() {
 }
 `
 
+// csharp aes template
+var __csharp_aes__ = `
+using System;
+using System.Security.Cryptography;
+using System.Text;
+
+namespace AESDecryption
+{
+    class Program
+    {
+        static byte[] AESDecrypt(byte[] encryptedData, byte[] key, byte[] iv)
+        {
+            using (Aes aesAlg = Aes.Create())
+            {
+                aesAlg.Key = key;
+                aesAlg.IV = iv;
+
+                // Create a decryptor to perform the stream transform.
+                ICryptoTransform decryptor = aesAlg.CreateDecryptor(aesAlg.Key, aesAlg.IV);
+
+                // Create the streams used for decryption.
+                using (MemoryStream msDecrypt = new MemoryStream(encryptedData))
+                {
+                    using (CryptoStream csDecrypt = new CryptoStream(msDecrypt, decryptor, CryptoStreamMode.Read))
+                    {
+                        using (MemoryStream msOutput = new MemoryStream())
+                        {
+                            // Decrypt the data and write it to the output stream.
+                            csDecrypt.CopyTo(msOutput);
+                            return msOutput.ToArray();
+                        }
+                    }
+                }
+            }
+        }
+
+        static void Main(string[] args)
+        {
+            byte[] %s = new byte[%d] {%s};
+            byte[] aesKey = new byte[32] {%s};
+            byte[] aesIV = new byte[16] {%s};
+
+            byte[] decryptedPayload = AESDecrypt(%s, aesKey, aesIV);
+
+            // Convert decryptedPayload to a hexadecimal string
+            StringBuilder hex = new StringBuilder(decryptedPayload.Length * 2);
+            int totalCount = decryptedPayload.Length;
+            for (int count = 0; count < totalCount; count++)
+            {
+                byte b = decryptedPayload[count];
+
+                if ((count + 1) == totalCount) // Don't append a comma for the last item
+                {
+                    hex.AppendFormat("0x{0:x2}", b);
+                }
+                else
+                {
+                    hex.AppendFormat("0x{0:x2}, ", b);
+                }
+            }
+
+            Console.WriteLine("AES Decrypted Payload:\n\n");
+            Console.WriteLine($"byte[] %s = new byte[{decryptedPayload.Length}] {{ {hex} }};\n\n");
+        }
+    }
+}
+`
+
 // SaveTemplae2File function
 func SaveTamplate2File(filename string, tamplate string, cipher string) {
 	// Open a file for writing. If the file doesn't exist, it will be created.
@@ -519,7 +587,7 @@ func SetDecryptionFile(extension string) string {
 }
 
 // DecryptorsTemplates function
-func DecryptorsTemplates(language string, cipher string, variable string, key int, payloadSize int, encryptedShellcode string, byteKey []byte, passphrase string) {
+func DecryptorsTemplates(language string, cipher string, variable string, key int, payloadSize int, encryptedShellcode string, byteKey []byte, passphrase string, iv []byte) {
 	// Set logger for errors
 	logger := log.New(os.Stderr, "[!] ", 0)
 
@@ -555,6 +623,18 @@ func DecryptorsTemplates(language string, cipher string, variable string, key in
 
 			// Call function named SaveTamplate2File
 			SaveTamplate2File(foundFilename, __csharp_rc4__, cipher)
+		case "aes":
+			// Call function named KeyDetailsFormatter
+			formattedKey := Output.KeyDetailsFormatter(byteKey)
+
+			// Call function named KeyDetailsFormatter
+			formattedIv := Output.KeyDetailsFormatter(iv)
+
+			// Config dynamic variable
+			__csharp_aes__ = fmt.Sprintf(__csharp_aes__, variable, payloadSize, encryptedShellcode, formattedKey, formattedIv, variable, variable)
+
+			// Call function named SaveTamplate2File
+			SaveTamplate2File(foundFilename, __csharp_aes__, cipher)
 		}
 	case "c":
 		extension := "c"
