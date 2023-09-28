@@ -615,12 +615,7 @@ func DecryptorsTemplates(language string, cipher string, variable string, key in
 			SaveTamplate2File(foundFilename, __rust_rc4__, cipher)
 		}
 	case "nim":
-		extension := "nim"
-
-		// Call function named SetDecryptionFile
-		foundFilename := SetDecryptionFile(extension)
-
-		fmt.Println(foundFilename)
+		fmt.Printf("[!] Guide mode does not support Nim language, yet!\n\n")
 	default:
 		logger.Fatal("Unsupported programming language")
 	}
