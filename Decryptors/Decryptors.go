@@ -628,7 +628,6 @@ use std::io::Write;
 fn aes_decrypt(encrypted_data: &[u8], key: &[u8], iv: &[u8]) -> Result<Vec<u8>, ErrorStack> {
     let cipher = Cipher::aes_256_cbc();
     let mut decrypter = Crypter::new(cipher, Mode::Decrypt, key, Some(iv))?;
-    decrypter.pad(false);
 
     let mut decrypted_data = vec![0; encrypted_data.len() + cipher.block_size()];
     let mut count = decrypter.update(encrypted_data, &mut decrypted_data)?;
@@ -651,6 +650,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
         Ok(decrypted_payload) => {
             let payload_len = decrypted_payload.len();
 
+            println!("AES Decrypted Payload:\n");
             print!("let %s: [u8; {}] = [", payload_len);
             for (i, byte) in decrypted_payload.iter().enumerate() {
                 print!("{:#04x}", byte);
@@ -658,13 +658,12 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
                     print!(", ");
                 }
             }
-            println!("];");
+            println!("];\n");
         }
         Err(e) => {
             eprintln!("Error: {:?}", e);
         }
     }
-
     Ok(())
 }
 `
