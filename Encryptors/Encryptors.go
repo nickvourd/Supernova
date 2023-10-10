@@ -137,7 +137,7 @@ func CaesarEncryption(shellcode []byte, shift int) []byte {
 }
 
 // DetectEncryption function
-func DetectEncryption(cipher string, shellcode string, key int) (string, int, []byte, string, []byte) {
+func DetectEncryption(cipher string, shellcode string, key int, language string) (string, int, []byte, string, []byte) {
 	// Set logger for errors
 	logger := log.New(os.Stderr, "[!] ", 0)
 
@@ -165,7 +165,7 @@ func DetectEncryption(cipher string, shellcode string, key int) (string, int, []
 		encryptedShellcode := XOREncryption(shellcodeInBytes, xorKey)
 
 		// Call function named FormatShellcode
-		shellcodeFormatted := Converters.FormatShellcode(encryptedShellcode)
+		shellcodeFormatted := Converters.FormatShellcode(encryptedShellcode, language)
 
 		return shellcodeFormatted, len(encryptedShellcode), xorKey, "", nil
 	case "rot":
@@ -176,7 +176,7 @@ func DetectEncryption(cipher string, shellcode string, key int) (string, int, []
 		encryptedShellcode := CaesarEncryption(shellcodeInBytes, shift)
 
 		// Call function named FormatShellcode
-		shellcodeFormatted := Converters.FormatShellcode(encryptedShellcode)
+		shellcodeFormatted := Converters.FormatShellcode(encryptedShellcode, language)
 
 		return shellcodeFormatted, len(encryptedShellcode), nil, "", nil
 	case "aes":
@@ -215,7 +215,7 @@ func DetectEncryption(cipher string, shellcode string, key int) (string, int, []
 		fmt.Printf("[+] New Payload size: %d bytes\n\n", len(encryptedShellcode))
 
 		// Call function named FormatShellcode
-		shellcodeFormatted := Converters.FormatShellcode(encryptedShellcode)
+		shellcodeFormatted := Converters.FormatShellcode(encryptedShellcode, language)
 
 		return shellcodeFormatted, len(encryptedShellcode), key, "", iv
 	case "rc4":
@@ -232,7 +232,7 @@ func DetectEncryption(cipher string, shellcode string, key int) (string, int, []
 		encryptedShellcode := RC4Encryption(shellcodeInBytes, rc4Key)
 
 		// Call function named FormatShellcode
-		shellcodeFormatted := Converters.FormatShellcode(encryptedShellcode)
+		shellcodeFormatted := Converters.FormatShellcode(encryptedShellcode, language)
 
 		return shellcodeFormatted, len(encryptedShellcode), rc4Key, randomPassphrase, nil
 	default:

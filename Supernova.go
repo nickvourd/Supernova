@@ -55,7 +55,7 @@ Please visit %s for more...
 func Options() *FlagOptions {
 	inputFile := flag.String("i", "", "Path to the raw 64-bit shellcode")
 	encryption := flag.String("enc", "", "Shellcode encoding/encryption (i.e., ROT, XOR, RC4, AES)")
-	language := flag.String("lang", "", "Programming language to translate the shellcode (i.e., Nim, Rust, C, CSharp, Go)")
+	language := flag.String("lang", "", "Programming language to translate the shellcode (i.e., Nim, Rust, C, CSharp, Go, python)")
 	outFile := flag.String("o", "", "Name of the output file")
 	variable := flag.String("v", "shellcode", "Name of dynamic variable")
 	debug := flag.Bool("d", false, "Enable Debug mode")
@@ -105,7 +105,7 @@ func main() {
 	options.key = Arguments.ValidateKeySize(options.key, options.encryption)
 
 	// Check for valid values of language argument
-	foundLanguage := Arguments.ValidateArgument("lang", options.language, []string{"Nim", "Rust", "C", "CSharp", "Go"})
+	foundLanguage := Arguments.ValidateArgument("lang", options.language, []string{"Nim", "Rust", "C", "CSharp", "Go", "Python"})
 
 	// Call function named ConvertShellcode2Hex
 	convertedShellcode, payloadLength := Converters.ConvertShellcode2Hex(rawShellcode, foundLanguage)
@@ -127,7 +127,7 @@ func main() {
 		Arguments.ValidateArgument("enc", options.encryption, []string{"XOR", "RC4", "AES", "ROT"})
 
 		// Call function named DetectEncryption
-		encryptedShellcode, encryptedLength, key, passphrase, iv := Encryptors.DetectEncryption(options.encryption, rawShellcode, options.key)
+		encryptedShellcode, encryptedLength, key, passphrase, iv := Encryptors.DetectEncryption(options.encryption, rawShellcode, options.key, foundLanguage)
 
 		// Call function named ConvertShellcode2Template
 		template := Converters.ConvertShellcode2Template(encryptedShellcode, foundLanguage, encryptedLength, options.variable)
