@@ -140,6 +140,33 @@ fn main() {
 }
 `
 
+// golang rot template
+var __go_rot__ = `
+package main
+
+import (
+	"fmt"
+)
+
+func caesarDecrypt(shellcode []byte, key byte) []byte {
+	decrypted := make([]byte, len(shellcode))
+
+	for i, char := range shellcode {
+		decrypted[i] = char - key
+	}
+
+	return decrypted
+}
+
+func main() {
+	%s := []byte{%s}
+	key := byte(%d)
+	decryptedShellcode := caesarDecrypt(%s, key)
+
+	fmt.Printf("ROT Decrypted Payload:\n\n%s := %%#v\n", decryptedShellcode)
+}
+`
+
 // csharp xor template
 var __csharp_xor__ = `
 using System;
@@ -836,6 +863,20 @@ func DecryptorsTemplates(language string, cipher string, variable string, key in
 		}
 	case "nim":
 		fmt.Printf("[!] Guide mode does not support Nim language, yet!\n\n")
+	case "go":
+		extension := "go"
+
+		// Call function named SetDecryptionFile
+		foundFilename := SetDecryptionFile(extension)
+
+		switch strings.ToLower(cipher) {
+		case "rot":
+			// Config dynamic variable
+			__go_rot__ = fmt.Sprintf(__go_rot__, variable, encryptedShellcode, key, variable, variable)
+
+			// Call function named SaveTamplate2File
+			SaveTamplate2File(foundFilename, __go_rot__, cipher)
+		}
 	default:
 		logger.Fatal("Unsupported programming language")
 	}
