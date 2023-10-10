@@ -356,6 +356,33 @@ func main() {
 }
 `
 
+// python xor template
+var __python_xor__ = `
+def multi_xor_decrypt(encrypted_data, key):
+    decrypted = bytearray(len(encrypted_data))
+    for i in range(len(encrypted_data)):
+        decrypted[i] = encrypted_data[i] ^ key[i %% len(key)]
+    return decrypted
+
+def format_shellcode(shellcode):
+    formatted = "\\x" + "\\x".join([format(byte, '02x') for byte in shellcode])
+    return formatted
+
+def main():
+    %s = bytearray(b"%s")
+    multi_xor_key = bytearray(b"%s")
+
+    decrypted_payload = multi_xor_decrypt(%s, multi_xor_key)
+
+    formatted_shellcode = format_shellcode(decrypted_payload)
+
+    print("Multi-XOR Decrypted Payload:\n\n")
+    print(f"%s = b\"{formatted_shellcode}\"")
+
+if __name__ == "__main__":
+    main()
+`
+
 // csharp rc4 template
 var __csharp_rc4__ = `
 using System;
@@ -904,7 +931,7 @@ func DecryptorsTemplates(language string, cipher string, variable string, key in
 			SaveTamplate2File(foundFilename, __csharp_rot__, cipher)
 		case "xor":
 			// Call function named KeyDetailsFormatter
-			formattedKey := Output.KeyDetailsFormatter(byteKey)
+			formattedKey := Output.KeyDetailsFormatter(byteKey, language)
 
 			// Config dynamic variable
 			__csharp_xor__ = fmt.Sprintf(__csharp_xor__, variable, payloadSize, encryptedShellcode, formattedKey, variable, variable)
@@ -919,10 +946,10 @@ func DecryptorsTemplates(language string, cipher string, variable string, key in
 			SaveTamplate2File(foundFilename, __csharp_rc4__, cipher)
 		case "aes":
 			// Call function named KeyDetailsFormatter
-			formattedKey := Output.KeyDetailsFormatter(byteKey)
+			formattedKey := Output.KeyDetailsFormatter(byteKey, language)
 
 			// Call function named KeyDetailsFormatter
-			formattedIv := Output.KeyDetailsFormatter(iv)
+			formattedIv := Output.KeyDetailsFormatter(iv, language)
 
 			// Config dynamic variable
 			__csharp_aes__ = fmt.Sprintf(__csharp_aes__, variable, payloadSize, encryptedShellcode, key, formattedKey, formattedIv, variable, variable)
@@ -945,7 +972,7 @@ func DecryptorsTemplates(language string, cipher string, variable string, key in
 			SaveTamplate2File(foundFilename, __c_rot__, cipher)
 		case "xor":
 			// Call function named KeyDetailsFormatter
-			formattedKey := Output.KeyDetailsFormatter(byteKey)
+			formattedKey := Output.KeyDetailsFormatter(byteKey, language)
 
 			// Config dynamic variable
 			__c_xor__ = fmt.Sprintf(__c_xor__, variable, encryptedShellcode, variable, formattedKey, variable, variable)
@@ -960,10 +987,10 @@ func DecryptorsTemplates(language string, cipher string, variable string, key in
 			SaveTamplate2File(foundFilename, __c_rc4__, cipher)
 		case "aes":
 			// Call function named KeyDetailsFormatter
-			formattedKey := Output.KeyDetailsFormatter(byteKey)
+			formattedKey := Output.KeyDetailsFormatter(byteKey, language)
 
 			// Call function named KeyDetailsFormatter
-			formattedIv := Output.KeyDetailsFormatter(iv)
+			formattedIv := Output.KeyDetailsFormatter(iv, language)
 
 			// Call function named DetectNotification
 			keyNotification := Output.DetectNotification(key)
@@ -989,7 +1016,7 @@ func DecryptorsTemplates(language string, cipher string, variable string, key in
 			SaveTamplate2File(foundFilename, __rust_rot__, cipher)
 		case "xor":
 			// Call function named KeyDetailsFormatter
-			formattedKey := Output.KeyDetailsFormatter(byteKey)
+			formattedKey := Output.KeyDetailsFormatter(byteKey, language)
 
 			// Config dynamic variable
 			__rust_xor__ = fmt.Sprintf(__rust_xor__, variable, payloadSize, encryptedShellcode, key, formattedKey, variable, variable, payloadSize)
@@ -1004,10 +1031,10 @@ func DecryptorsTemplates(language string, cipher string, variable string, key in
 			SaveTamplate2File(foundFilename, __rust_rc4__, cipher)
 		case "aes":
 			// Call function named KeyDetailsFormatter
-			formattedKey := Output.KeyDetailsFormatter(byteKey)
+			formattedKey := Output.KeyDetailsFormatter(byteKey, language)
 
 			// Call function named KeyDetailsFormatter
-			formattedIv := Output.KeyDetailsFormatter(iv)
+			formattedIv := Output.KeyDetailsFormatter(iv, language)
 
 			// Call function named DetectNotification
 			keyNotification := Output.DetectNotification(key)
@@ -1035,7 +1062,7 @@ func DecryptorsTemplates(language string, cipher string, variable string, key in
 			SaveTamplate2File(foundFilename, __go_rot__, cipher)
 		case "xor":
 			// Call function named KeyDetailsFormatter
-			formattedKey := Output.KeyDetailsFormatter(byteKey)
+			formattedKey := Output.KeyDetailsFormatter(byteKey, language)
 
 			// Config dynamic variable
 			__go_xor__ = fmt.Sprintf(__go_xor__, variable, encryptedShellcode, formattedKey, variable, variable)
@@ -1050,10 +1077,10 @@ func DecryptorsTemplates(language string, cipher string, variable string, key in
 			SaveTamplate2File(foundFilename, __go_rc4__, cipher)
 		case "aes":
 			// Call function named KeyDetailsFormatter
-			formattedKey := Output.KeyDetailsFormatter(byteKey)
+			formattedKey := Output.KeyDetailsFormatter(byteKey, language)
 
 			// Call function named KeyDetailsFormatter
-			formattedIv := Output.KeyDetailsFormatter(iv)
+			formattedIv := Output.KeyDetailsFormatter(iv, language)
 
 			// Config dynamic variable
 			__go_aes__ = fmt.Sprintf(__go_aes__, variable, encryptedShellcode, formattedKey, formattedIv, variable, variable)
@@ -1074,6 +1101,15 @@ func DecryptorsTemplates(language string, cipher string, variable string, key in
 
 			// Call function named SaveTamplate2File
 			SaveTamplate2File(foundFilename, __python_rot__, cipher)
+		case "xor":
+			// Call function named KeyDetailsFormatter
+			formattedKey := Output.KeyDetailsFormatter(byteKey, language)
+
+			// Config dynamic variable
+			__python_xor__ = fmt.Sprintf(__python_xor__, variable, encryptedShellcode, formattedKey, variable, variable)
+
+			// Call function named SaveTamplate2File
+			SaveTamplate2File(foundFilename, __python_xor__, cipher)
 		}
 	default:
 		logger.Fatal("Unsupported programming language")
