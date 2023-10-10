@@ -307,6 +307,8 @@ In the given illustration, the preferred programming language is C:
 .\Supernova.exe -i C:\Users\nickvourd\Desktop\shellcode.bin -enc aes -k 128 -lang c
 ```
 
+Outcome:
+
 ![AES-128-C](/Pictures/AES-128-C.png)
 
 #### AES-192-CBC
@@ -332,6 +334,8 @@ In the given illustration, the preferred programming language is Rust:
 ```
 .\Supernova.exe -i C:\Users\nickvourd\Desktop\shellcode.bin -enc aes -k 192 -lang rust
 ```
+
+Outcome:
 
 ![AES-192-Rust](/Pictures/AES-192-Rust.png)
 
