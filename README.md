@@ -313,7 +313,7 @@ Outcome:
 
 #### AES-192-CBC
 
-**AES-192** in the name refers to the key length used in the algorithm. AES-192 employs a 192-bit encryption key, making it computationally infeasible for attackers to brute-force the key and decrypt the encrypted data without the proper key.
+**AES-192** in the name refers to the key length used in the algorithm. AES-192 employs a 192-bit encryption key, resulting in 2^192 possible key combinations. This significantly increases the complexity compared to AES-128, making it computationally infeasible for attackers to brute-force the key and decrypt the encrypted data without the proper key.
 
 - **Key Setup**: You need to establish a secret key of 192 bits (24 bytes). This key is known only to the sender and receiver and is used for both encryption and decryption.
 
