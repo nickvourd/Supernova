@@ -3,6 +3,7 @@ package Output
 import (
 	"Supernova/Utils"
 	"fmt"
+	"log"
 	"os"
 )
 
@@ -57,4 +58,22 @@ func KeyDetailsFormatter(key []byte) string {
 		}
 	}
 	return formattedKey
+}
+
+// DetectNotification function
+func DetectNotification(key int) int {
+	logger := log.New(os.Stderr, "[!] ", 0)
+	keyNotification := 0
+	switch key {
+	case 16:
+		keyNotification = 128
+	case 24:
+		keyNotification = 192
+	case 32:
+		keyNotification = 256
+	default:
+		logger.Fatal("Initial Error, valid AES key not found\n")
+	}
+
+	return keyNotification
 }

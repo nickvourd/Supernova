@@ -101,7 +101,7 @@ func main() {
 	Arguments.ArgumentEmpty(options.encryption, 3)
 
 	// Call function ValidateKeySize
-	Arguments.ValidateKeySize(options.key, options.encryption)
+	options.key = Arguments.ValidateKeySize(options.key, options.encryption)
 
 	// Check for valid values of language argument
 	foundLanguage := Arguments.ValidateArgument("lang", options.language, []string{"Nim", "Rust", "C", "CSharp"})
@@ -109,7 +109,7 @@ func main() {
 	// Call function named ConvertShellcode2Hex
 	convertedShellcode, payloadLength := Converters.ConvertShellcode2Hex(rawShellcode, foundLanguage)
 
-	// Print payload size and choosen language
+	// Print payload size and chosen language
 	fmt.Printf("[+] Payload size: %d bytes\n\n[+] Converted payload to %s language\n\n", payloadLength, foundLanguage)
 
 	if options.debug {

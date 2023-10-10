@@ -15,18 +15,15 @@ import (
 )
 
 // Rc4Context represents the state of the RC4 encryption algorithm.
-type Rc4Context struct {
-	i uint32
-	j uint32
-	s [256]uint8
-}
+//type Rc4Context struct {
+//	i uint32
+//	j uint32
+//	s [256]uint8
+//}
 
 const (
 	// chars defines the set of characters used to generate a random key and IV.
 	chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()_+{}[]"
-
-	// keySize specifies the size (in bytes) of the encryption key.
-	keySize = 32
 
 	// ivSize specifies the size (in bytes) of the initialization vector (IV).
 	ivSize = 16
@@ -183,12 +180,15 @@ func DetectEncryption(cipher string, shellcode string, key int) (string, int, []
 
 		return shellcodeFormatted, len(encryptedShellcode), nil, "", nil
 	case "aes":
-		// Generate a random 32-byte key and a random 16-byte IV
+		// Set key from argument key
+		keySize := key
+
+		// Generate a random key-byte key and a random 16-byte IV
 		key := GenerateRandomBytes(keySize)
 		iv := GenerateRandomBytes(ivSize)
 
 		// Print generated key
-		fmt.Printf("[+] Generated key (32-byte): ")
+		fmt.Printf("[+] Generated key (%d-byte): ", keySize)
 
 		// Call function named PrintKeyDetails
 		Output.PrintKeyDetails(key)
@@ -199,8 +199,11 @@ func DetectEncryption(cipher string, shellcode string, key int) (string, int, []
 		// Call function named PrintKeyDetails
 		Output.PrintKeyDetails(iv)
 
-		// Print AES-256-CBC notification
-		fmt.Printf("[+] Using AES-256-CBC encryption\n\n")
+		// Call function named DetectNotification
+		keyNotification := Output.DetectNotification(keySize)
+
+		// Print AES-<keyNotification>-CBC notification
+		fmt.Printf("[+] Using AES-%d-CBC encryption\n\n", keyNotification)
 
 		// Encrypt the shellcode using AES-256-CBC
 		encryptedShellcode, err := AESEncryption(key, iv, shellcodeInBytes)

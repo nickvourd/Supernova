@@ -72,15 +72,23 @@ func ValidateArgument(argName string, argValue string, validValues []string) str
 }
 
 // ValidateKeySize function
-func ValidateKeySize(key int, encryption string) {
+func ValidateKeySize(key int, encryption string) int {
 	logger := log.New(os.Stderr, "[!] ", 0)
 	if key <= 0 {
 		logger.Fatal("Please provide a valid key value for the size...\n")
 	}
 
-	if encryption == "aes" {
-		if key > 1 {
-			logger.Fatal("The AES cipher does not require a separate 'key' argument. It employs a standard key length of 32-byte. Please remove it...\n")
+	if strings.ToLower(encryption) == "aes" {
+		switch key {
+		case 128, 16:
+			key = 16
+		case 192, 24:
+			key = 24
+		case 256, 32:
+			key = 32
+		default:
+			logger.Fatal("Provide a valid AES key:\n\nFor AES-128-CBC:\n\n-k 128 or -k 16\n\nFor AES-192-CBC:\n\n-k 192 or -k 24\n\nFor AES-256-CBC:\n\n-k 256 or -k 32\n\n")
 		}
 	}
+	return key
 }
