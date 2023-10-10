@@ -23,6 +23,10 @@ Moreover, this tool generates the decrypted function using the chosen cipher and
 
 Supernova is written in Golang, a cross-platform language, enabling its use on both Windows and Linux systems.
 
+## Version
+
+### 2.0.0
+
 ## License
 
 This tool is licensed under the [![License: MIT](https://img.shields.io/badge/MIT-License-yellow.svg)](LICENSE).
@@ -38,6 +42,7 @@ Supernova was created with :heart: by [@nickvourd](https://twitter.com/nickvourd
 ## Table of Contents
 - [Supernova](#supernova)
   - [Description](#description)
+  - [Version](#version)
   - [License](#license)
   - [Acknowledgement](#acknowledgement)
   - [Table of Contents](#table-of-contents)
