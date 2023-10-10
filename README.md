@@ -11,6 +11,7 @@ Supernova is an open-source Golang tool that empowers users to securely encrypt 
 - C#
 - Rust
 - Nim
+- Golang (Community request by [@_atsika](https://twitter.com/_atsika))
 
 It supports a variety of different ciphers, including:
 - ROT
@@ -98,7 +99,7 @@ Usage of Supernova.exe:
   -k int
         Key lenght size for encryption (default 1)
   -lang string
-        Programming language to translate the shellcode (i.e., Nim, Rust, C, CSharp)
+        Programming language to translate the shellcode (i.e., Nim, Rust, C, CSharp, Go)
   -o string
         Name of the output file
   -obf string

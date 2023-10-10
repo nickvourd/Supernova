@@ -47,6 +47,9 @@ func ConvertShellcode2Template(shellcode string, language string, length int, va
 	case "rust":
 		template := fmt.Sprintf(`let %s: [u8; %d] = [%s];`, variable, length, shellcode)
 		return template
+	case "go":
+		template := fmt.Sprintf(`%s :=  []byte{%s};`, variable, shellcode)
+		return template
 	default:
 		fmt.Println("[!] Unsupported programming language:", language)
 		os.Exit(1)
