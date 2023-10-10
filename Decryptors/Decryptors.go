@@ -319,7 +319,7 @@ func main() {
 
 	// Print the decryptedPayload as a Go byte slice initialization
     fmt.Println("Multi-XOR Decrypted Payload:\n\n")
-	fmt.Print("byte[] %s = []byte{")
+	fmt.Print("%s := []byte{")
 	for i, b := range decryptedPayload {
 		fmt.Printf("0x%%02x", b)
 		if i < len(decryptedPayload)-1 {
@@ -408,7 +408,7 @@ namespace RC4Dencryption
                 }
             }
 
-            Console.WriteLine("RC4 Dencrypted Payload:\n");
+            Console.WriteLine("RC4 Dencrypted Payload:\n\n");
             Console.WriteLine($"byte[] %s = new byte[{dencryptedPayload.Length}] {{ {hex} }};\n\n");
         }
     }
@@ -549,6 +549,50 @@ fn main() {
         }
     }
     println!("];");
+}
+`
+
+// golang rc4 template
+var __go_rc4__ = `
+package main
+
+import (
+    "crypto/rc4"
+    "fmt"
+)
+
+func rc4Decrypt(ciphertext, key []byte) ([]byte, error) {
+    cipher, err := rc4.NewCipher(key)
+    if err != nil {
+        return nil, err
+    }
+    plaintext := make([]byte, len(ciphertext))
+    cipher.XORKeyStream(plaintext, ciphertext)
+    return plaintext, nil
+}
+
+func main() {
+    %s := []byte{%s}
+    passphrase := "%s"
+
+    key := []byte(passphrase)
+
+    decryptedPayload, err := rc4Decrypt(%s, key)
+    if err != nil {
+        fmt.Println("Error:", err)
+        return
+    }
+
+    // Print the decryptedPayload as a Go byte slice initialization
+	fmt.Println("RC4 Dencrypted Payload:\n\n")
+    fmt.Print("%s := []byte{")
+    for i, b := range decryptedPayload {
+        fmt.Printf("0x%%02x", b)
+        if i < len(decryptedPayload)-1 {
+            fmt.Print(", ")
+        }
+    }
+    fmt.Println("}")
 }
 `
 
@@ -921,6 +965,12 @@ func DecryptorsTemplates(language string, cipher string, variable string, key in
 
 			// Call function named SaveTamplate2File
 			SaveTamplate2File(foundFilename, __go_xor__, cipher)
+		case "rc4":
+			// Config dynamic variable
+			__go_rc4__ = fmt.Sprintf(__go_rc4__, variable, encryptedShellcode, passphrase, variable, variable)
+
+			// Call function named SaveTamplate2File
+			SaveTamplate2File(foundFilename, __go_rc4__, cipher)
 		}
 	default:
 		logger.Fatal("Unsupported programming language")
