@@ -58,6 +58,8 @@ Supernova was created with :heart: by [@nickvourd](https://twitter.com/nickvourd
       - [XOR Encryption](#xor-encryption)
       - [RC4 Encryption](#rc4-encryption)
       - [AES Encryption](#aes-encryption)
+        - [AES-128-CBC](#aes-128-cbc)
+        - [AES-192-CBC](#aes-192-cbc)
         - [AES-256-CBC](#aes-256-cbc)
   - [References](#references)
 
@@ -375,6 +377,7 @@ Outcome:
 - [XOR Cipher Wikipedia](https://en.wikipedia.org/wiki/XOR_cipher)
 - [RC4 Cipher Wikipedia](https://en.wikipedia.org/wiki/RC4)
 - [AES Cipher Wikipedia](https://en.wikipedia.org/wiki/Advanced_Encryption_Standard)
+- [Block cipher mode of operation](https://en.wikipedia.org/wiki/Block_cipher_mode_of_operation)
 - [Nim (programming language)](https://en.wikipedia.org/wiki/Nim_(programming_language))
 - [Rust (programming language)](https://en.wikipedia.org/wiki/Rust_(programming_language))
 - [C Sharp (programming language)](https://en.wikipedia.org/wiki/C_Sharp_(programming_language))
