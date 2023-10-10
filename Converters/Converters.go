@@ -93,7 +93,7 @@ func FormatShellcode(encryptedShellcode []byte) string {
 
 // AddValues2Template function
 func AddValues2Template(operatingSystem string, template string) string {
-	if strings.ToLower(operatingSystem) == "linux" {
+	if strings.ToLower(operatingSystem) == "linux" || strings.ToLower(operatingSystem) == "windows" {
 		template = "#include <Windows.h>" + template
 	}
 

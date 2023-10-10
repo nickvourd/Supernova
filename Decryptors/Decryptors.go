@@ -758,9 +758,6 @@ func DecryptorsTemplates(language string, cipher string, variable string, key in
 
 		switch strings.ToLower(cipher) {
 		case "rot":
-			// Call function named AddValues2Template
-			__c_rot__ = Converters.AddValues2Template(operatingSystem, __c_rot__)
-
 			// Config dynamic variable
 			__c_rot__ = fmt.Sprintf(__c_rot__, variable, encryptedShellcode, key, variable, variable)
 
@@ -769,9 +766,6 @@ func DecryptorsTemplates(language string, cipher string, variable string, key in
 		case "xor":
 			// Call function named KeyDetailsFormatter
 			formattedKey := Output.KeyDetailsFormatter(byteKey)
-
-			// Call function named AddValues2Template
-			__c_xor__ = Converters.AddValues2Template(operatingSystem, __c_xor__)
 
 			// Config dynamic variable
 			__c_xor__ = fmt.Sprintf(__c_xor__, variable, encryptedShellcode, variable, formattedKey, variable, variable)
@@ -793,9 +787,6 @@ func DecryptorsTemplates(language string, cipher string, variable string, key in
 
 			// Call function named KeyDetailsFormatter
 			formattedIv := Output.KeyDetailsFormatter(iv)
-
-			// Call function named AddValues2Template
-			__c_aes__ = Converters.AddValues2Template(operatingSystem, __c_aes__)
 
 			// Config dynamic variable
 			__c_aes__ = fmt.Sprintf(__c_aes__, variable, encryptedShellcode, variable, formattedKey, formattedIv, variable, variable)
