@@ -599,6 +599,7 @@ func main() {
 // csharp aes template
 var __csharp_aes__ = `
 using System;
+using System,IO;
 using System.Security.Cryptography;
 using System.Text;
 
@@ -770,6 +771,56 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
         }
     }
     Ok(())
+}
+`
+
+// go aes template
+var __go_aes__ = `
+package main
+
+import (
+    "crypto/aes"
+    "crypto/cipher"
+    "fmt"
+)
+
+func AESDecrypt(encryptedData []byte, key []byte, iv []byte) []byte {
+    block, err := aes.NewCipher(key)
+    if err != nil {
+        fmt.Println("Error creating AES cipher:", err)
+        return nil
+    }
+
+    decrypter := cipher.NewCBCDecrypter(block, iv)
+
+    decrypted := make([]byte, len(encryptedData))
+    decrypter.CryptBlocks(decrypted, encryptedData)
+
+    // Remove PKCS7 padding (assuming it was used)
+    padding := decrypted[len(decrypted)-1]
+    decrypted = decrypted[:len(decrypted)-int(padding)]
+
+    return decrypted
+}
+
+func main() {
+    %s := []byte{%s}
+
+    aesKey := []byte{%s}
+    aesIV := []byte{%s}
+
+    decryptedPayload := AESDecrypt(%s, aesKey, aesIV)
+
+    fmt.Println("AES Decrypted Payload:\n\n")
+    fmt.Print("%s := []byte{")
+	for i, b := range decryptedPayload {
+		if i == len(decryptedPayload)-1 {
+			fmt.Printf("0x%%02x", b)
+		} else {
+			fmt.Printf("0x%%02x, ", b)
+		}
+	}
+	fmt.Println("}")
 }
 `
 
@@ -971,6 +1022,18 @@ func DecryptorsTemplates(language string, cipher string, variable string, key in
 
 			// Call function named SaveTamplate2File
 			SaveTamplate2File(foundFilename, __go_rc4__, cipher)
+		case "aes":
+			// Call function named KeyDetailsFormatter
+			formattedKey := Output.KeyDetailsFormatter(byteKey)
+
+			// Call function named KeyDetailsFormatter
+			formattedIv := Output.KeyDetailsFormatter(iv)
+
+			// Config dynamic variable
+			__go_aes__ = fmt.Sprintf(__go_aes__, variable, encryptedShellcode, formattedKey, formattedIv, variable, variable)
+
+			// Call function named SaveTamplate2File
+			SaveTamplate2File(foundFilename, __go_aes__, cipher)
 		}
 	default:
 		logger.Fatal("Unsupported programming language")
