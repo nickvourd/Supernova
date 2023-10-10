@@ -28,7 +28,7 @@ type FlagOptions struct {
 
 // global variables
 var (
-	__version__   = "1.0.0"
+	__version__   = "2.0.0"
 	__license__   = "MIT"
 	__author__    = "@nickvourd"
 	__github__    = "https://github.com/nickvourd/Supernova"
@@ -54,7 +54,7 @@ Please visit %s for more...
 // Options function
 func Options() *FlagOptions {
 	inputFile := flag.String("i", "", "Path to the raw 64-bit shellcode")
-	encryption := flag.String("enc", "", "Shellcode encryption (i.e., ROT, XOR, RC4, AES)")
+	encryption := flag.String("enc", "", "Shellcode encoding/encryption (i.e., ROT, XOR, RC4, AES)")
 	language := flag.String("lang", "", "Programming language to translate the shellcode (i.e., Nim, Rust, C, CSharp)")
 	outFile := flag.String("o", "", "Name of the output file")
 	variable := flag.String("v", "shellcode", "Name of dynamic variable")
@@ -132,7 +132,7 @@ func main() {
 		template := Converters.ConvertShellcode2Template(encryptedShellcode, foundLanguage, encryptedLength, options.variable)
 
 		// Print encrypted template
-		fmt.Printf("[+] The encrypted payload with %s:\n\n%s\n\n", strings.ToLower(options.encryption), template)
+		fmt.Printf("[+] The encrypted payload with %s:\n\n%s\n\n", strings.ToUpper(options.encryption), template)
 
 		// Guide option is enable
 		if options.guide {

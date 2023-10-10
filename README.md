@@ -16,7 +16,7 @@ It supports a variety of different ciphers, including:
 - ROT
 - XOR
 - RC4
-- AES
+- AES (AES-128-CBC, AES-192-CBC, AES-256-CBC)
 
 Moreover, this tool generates the decrypted function using the chosen cipher and language, while also supplying instructions on how to utilize it effectively. 
 
@@ -82,7 +82,7 @@ go build Supernova.go
 ███████║╚██████╔╝██║     ███████╗██║  ██║██║ ╚████║╚██████╔╝ ╚████╔╝ ██║  ██║
 ╚══════╝ ╚═════╝ ╚═╝     ╚══════╝╚═╝  ╚═╝╚═╝  ╚═══╝ ╚═════╝   ╚═══╝  ╚═╝  ╚═╝
 
-Supernova v1.0.0 - Real fucking shellcode encryptor.
+Supernova v2.0.0 - Real fucking shellcode encryptor.
 Supernova is an open source tool licensed under MIT.
 Written with <3 by @nickvourd, @0xvm and @Papadope9...
 Please visit https://github.com/nickvourd/Supernova for more...
@@ -90,7 +90,7 @@ Please visit https://github.com/nickvourd/Supernova for more...
 Usage of Supernova.exe:
   -d    Enable Debug mode
   -enc string
-        Shellcode encryption (i.e., ROT, XOR, RC4, AES)
+        Shellcode encoding/encryption (i.e., ROT, XOR, RC4, AES)
   -guide
         Enable guide mode
   -i string

@@ -530,7 +530,7 @@ namespace AESDecryption
         static void Main(string[] args)
         {
             byte[] %s = new byte[%d] {%s};
-            byte[] aesKey = new byte[32] {%s};
+            byte[] aesKey = new byte[%d] {%s};
             byte[] aesIV = new byte[16] {%s};
 
             byte[] decryptedPayload = AESDecrypt(%s, aesKey, aesIV);
@@ -574,7 +574,7 @@ int AESDecrypt(const uint8_t* encryptedData, size_t encryptedDataLength, const u
     int decryptedLength = 0;
 
     ctx = EVP_CIPHER_CTX_new();
-    EVP_DecryptInit_ex(ctx, EVP_aes_256_cbc(), NULL, key, iv);
+    EVP_DecryptInit_ex(ctx, EVP_aes_%d_cbc(), NULL, key, iv);
     EVP_DecryptUpdate(ctx, decryptedData, &len, encryptedData, encryptedDataLength);
     decryptedLength += len;
     EVP_DecryptFinal_ex(ctx, decryptedData + len, &len);
@@ -626,7 +626,7 @@ use openssl::error::ErrorStack;
 use std::io::Write;
 
 fn aes_decrypt(encrypted_data: &[u8], key: &[u8], iv: &[u8]) -> Result<Vec<u8>, ErrorStack> {
-    let cipher = Cipher::aes_256_cbc();
+    let cipher = Cipher::aes_%d_cbc();
     let mut decrypter = Crypter::new(cipher, Mode::Decrypt, key, Some(iv))?;
 
     let mut decrypted_data = vec![0; encrypted_data.len() + cipher.block_size()];
@@ -642,7 +642,7 @@ fn aes_decrypt(encrypted_data: &[u8], key: &[u8], iv: &[u8]) -> Result<Vec<u8>, 
 fn main() -> Result<(), Box<dyn std::error::Error>> {
     let %s: [u8; %d] = [%s];
 
-    let aes_key: [u8; 32] = [%s];
+    let aes_key: [u8; %d] = [%s];
 
     let aes_iv: [u8; 16] = [%s];
 
@@ -745,7 +745,7 @@ func DecryptorsTemplates(language string, cipher string, variable string, key in
 			formattedIv := Output.KeyDetailsFormatter(iv)
 
 			// Config dynamic variable
-			__csharp_aes__ = fmt.Sprintf(__csharp_aes__, variable, payloadSize, encryptedShellcode, formattedKey, formattedIv, variable, variable)
+			__csharp_aes__ = fmt.Sprintf(__csharp_aes__, variable, payloadSize, encryptedShellcode, key, formattedKey, formattedIv, variable, variable)
 
 			// Call function named SaveTamplate2File
 			SaveTamplate2File(foundFilename, __csharp_aes__, cipher)
@@ -788,8 +788,11 @@ func DecryptorsTemplates(language string, cipher string, variable string, key in
 			// Call function named KeyDetailsFormatter
 			formattedIv := Output.KeyDetailsFormatter(iv)
 
+			// Call function named DetectNotification
+			keyNotification := Output.DetectNotification(key)
+
 			// Config dynamic variable
-			__c_aes__ = fmt.Sprintf(__c_aes__, variable, encryptedShellcode, variable, formattedKey, formattedIv, variable, variable)
+			__c_aes__ = fmt.Sprintf(__c_aes__, keyNotification, variable, encryptedShellcode, variable, formattedKey, formattedIv, variable, variable)
 
 			// Call function named SaveTamplate2File
 			SaveTamplate2File(foundFilename, __c_aes__, cipher)
@@ -829,11 +832,11 @@ func DecryptorsTemplates(language string, cipher string, variable string, key in
 			// Call function named KeyDetailsFormatter
 			formattedIv := Output.KeyDetailsFormatter(iv)
 
-			// Call function named AddValues2Template
-			__rust_aes__ = Converters.AddValues2Template(operatingSystem, __rust_aes__)
+			// Call function named DetectNotification
+			keyNotification := Output.DetectNotification(key)
 
 			// Config dynamic variable
-			__rust_aes__ = fmt.Sprintf(__rust_aes__, variable, payloadSize, encryptedShellcode, formattedKey, formattedIv, variable, variable)
+			__rust_aes__ = fmt.Sprintf(__rust_aes__, keyNotification, variable, payloadSize, encryptedShellcode, key, formattedKey, formattedIv, variable, variable)
 
 			// Call function named SaveTamplate2File
 			SaveTamplate2File(foundFilename, __rust_aes__, cipher)
