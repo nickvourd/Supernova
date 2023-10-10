@@ -101,7 +101,7 @@ Usage of Supernova.exe:
         Programming language to translate the shellcode (i.e., Nim, Rust, C, CSharp)
   -o string
         Name of the output file
- -obf string
+  -obf string
         Shellcode obfuscation (i.e., IPv4, IPv6, MAC, UUID)
   -v string
         Name of dynamic variable (default "shellcode")
