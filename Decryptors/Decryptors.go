@@ -1,9 +1,7 @@
 package Decryptors
 
 import (
-	"Supernova/Converters"
 	"Supernova/Output"
-	"Supernova/Utils"
 	"fmt"
 	"log"
 	"os"
@@ -699,8 +697,6 @@ func SetDecryptionFile(extension string) string {
 
 // DecryptorsTemplates function
 func DecryptorsTemplates(language string, cipher string, variable string, key int, payloadSize int, encryptedShellcode string, byteKey []byte, passphrase string, iv []byte) {
-	// Call function named HostIdentifier
-	operatingSystem := Utils.HostIdentifier()
 
 	// Set logger for errors
 	logger := log.New(os.Stderr, "[!] ", 0)
@@ -773,9 +769,6 @@ func DecryptorsTemplates(language string, cipher string, variable string, key in
 			// Call function named SaveTamplate2File
 			SaveTamplate2File(foundFilename, __c_xor__, cipher)
 		case "rc4":
-			// Call function named AddValues2Template
-			__c_rc4__ = Converters.AddValues2Template(operatingSystem, __c_rc4__)
-
 			// Config dynamic variable
 			__c_rc4__ = fmt.Sprintf(__c_rc4__, passphrase, variable, encryptedShellcode, variable, variable, variable)
 

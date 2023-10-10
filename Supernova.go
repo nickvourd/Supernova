@@ -14,16 +14,16 @@ import (
 
 // Structure
 type FlagOptions struct {
-	outFile    string
-	inputFile  string
-	language   string
-	encryption string
-	//obfuscation string
-	variable string
-	key      int
-	debug    bool
-	guide    bool
-	version  bool
+	outFile     string
+	inputFile   string
+	language    string
+	encryption  string
+	obfuscation string
+	variable    string
+	key         int
+	debug       bool
+	guide       bool
+	version     bool
 }
 
 // global variables
@@ -44,7 +44,7 @@ var __ascii__ = `
 ███████║╚██████╔╝██║     ███████╗██║  ██║██║ ╚████║╚██████╔╝ ╚████╔╝ ██║  ██║
 ╚══════╝ ╚═════╝ ╚═╝     ╚══════╝╚═╝  ╚═╝╚═╝  ╚═══╝ ╚═════╝   ╚═══╝  ╚═╝  ╚═╝
 
-Supernova v%s - Real fucking shellcode encryptor.
+Supernova v%s - Real fucking shellcode encryptor and Obfuscator.
 Supernova is an open source tool licensed under %s.
 Written with <3 by %s, %s and %s...
 Please visit %s for more...
@@ -62,9 +62,10 @@ func Options() *FlagOptions {
 	key := flag.Int("k", 1, "Key lenght size for encryption")
 	version := flag.Bool("version", false, "Show Supernova current version")
 	guide := flag.Bool("guide", false, "Enable guide mode")
+	obfuscation := flag.String("obf", "", "Shellcode obfuscation (i.e., IPv4, IPv6, MAC, UUID)")
 	flag.Parse()
 
-	return &FlagOptions{outFile: *outFile, inputFile: *inputFile, language: *language, encryption: *encryption, variable: *variable, debug: *debug, key: *key, version: *version, guide: *guide}
+	return &FlagOptions{outFile: *outFile, inputFile: *inputFile, language: *language, encryption: *encryption, variable: *variable, debug: *debug, key: *key, version: *version, guide: *guide, obfuscation: *obfuscation}
 }
 
 // main function
