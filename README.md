@@ -288,57 +288,80 @@ The Advanced Encryption Standard (AES) is a widely adopted symmetric encryption 
 
 **AES-128** in the name refers to the key length used in the algorithm. AES-128 employs a 128-bit encryption key, resulting in 2^128 possible key combinations. This makes it computationally infeasible for attackers to brute-force the key and decrypt the encrypted data without the proper key.
 
-**CBC (Cipher Block Chaining)** is a mode of operation that enhances the security of the encryption process. CBC mode works in the following way:
+- **Key Setup**: Before you can encrypt or decrypt data using AES-128-CBC, you need to establish a secret key of 128 bits (16 bytes). This key is known only to the sender and receiver and is used for both encryption and decryption.
+Padding: If the plaintext data is not a multiple of 128 bits (16 bytes), it needs to be padded to the nearest multiple. 
+Common padding schemes include PKCS7 padding.
 
-- **Initialization Vector (IV)**: An IV is a random value used to initialize the encryption process. It ensures that even if the same plaintext is encrypted multiple times with the same key, the resulting ciphertext will be different due to the randomization introduced by the IV.
+- **Initialization Vector (IV)**: An IV is a random value that is used to initialize the encryption process. The IV should be different for each message encrypted with the same key. It is typically 128 bits (16 bytes) long.
+Dividing Data into Blocks: The plaintext data is divided into blocks, each 128 bits in length.
 
-- **Dividing Data into Blocks**: The plaintext message is divided into fixed-size blocks, typically 128 bits or 16 bytes in size, before encryption.
+- **Cipher Block Chaining (CBC)**: AES-128-CBC uses CBC mode to encrypt each block of data. In CBC mode, the ciphertext of one block is XORed with the plaintext of the next block before encryption. The IV is XORed with the first block of plaintext before encryption. This chaining effect ensures that identical blocks of plaintext do not result in identical blocks of ciphertext.
 
-- **Chaining Blocks**: Each plaintext block (except the first one) is XORed (exclusive OR) with the previous ciphertext block before encryption. For the first block, the IV is used for this XOR operation.
+- **Encryption**: Each block of plaintext is encrypted using the AES encryption algorithm with the 128-bit secret key.
 
-- **Encryption**: The XORed block is then encrypted using the AES-128 encryption algorithm with the provided 128-bit encryption key.
+To employ Supernova with the AES-128-CBC cipher, you must select a preferred programming language, provide a raw shellcode and a key with value `128` or `16`. Additionally, the generated key is a random 16-byte value, and the generated IV is a random 16-byte value.
+
+In the given illustration, the preferred programming language is C:
+
+```
+.\Supernova.exe -i C:\Users\nickvourd\Desktop\shellcode.bin -enc aes -k 128 -lang c
+```
+
+![AES-128-C](/Pictures/AES-128-C.png)
 
 #### AES-192-CBC
 
 **AES-192** in the name refers to the key length used in the algorithm. AES-192 employs a 192-bit encryption key, making it computationally infeasible for attackers to brute-force the key and decrypt the encrypted data without the proper key.
 
-**CBC (Cipher Block Chaining)** is a mode of operation that enhances the security of the encryption process. CBC mode works as follows:
+- **Key Setup**: You need to establish a secret key of 192 bits (24 bytes). This key is known only to the sender and receiver and is used for both encryption and decryption.
 
-- **Initialization Vector (IV)**: An IV is a random value used to initialize the encryption process. It ensures that even if the same plaintext is encrypted multiple times with the same key, the resulting ciphertext will be different due to the randomization introduced by the IV.
+- **Padding**: If the plaintext data is not a multiple of 128 bits (16 bytes), it should be padded to the nearest multiple, typically using a padding scheme like PKCS7.
 
-- **Dividing Data into Blocks**: The plaintext message is divided into fixed-size blocks, typically 128 bits or 16 bytes in size, before encryption.
+- **Initialization Vector (IV)**: An IV is a random value that initializes the encryption process. The IV should be different for each message encrypted with the same key. In AES-192-CBC, it is typically 128 bits (16 bytes) long.
 
-- **Chaining Blocks**: Each plaintext block (except the first one) is XORed (exclusive OR) with the previous ciphertext block before encryption. For the first block, the IV is used for this XOR operation.
+- **Dividing Data into Blocks**: The plaintext data is divided into blocks, each 128 bits in length.
 
-- **Encryption**: The XORed block is then encrypted using the AES-192 encryption algorithm with the provided 192-bit encryption key.
+- **Cipher Block Chaining (CBC)**: AES-192-CBC uses CBC mode. In this mode, the ciphertext of one block is XORed with the plaintext of the next block before encryption. The IV is XORed with the first block of plaintext before encryption, ensuring that identical blocks of plaintext do not result in identical blocks of ciphertext.
+
+- **Encryption**: Each block of plaintext is encrypted using the AES encryption algorithm with the 192-bit secret key.
+
+To employ Supernova with the AES-192-CBC cipher, you must select a preferred programming language, provide a raw shellcode and a key with value `192` or `24`. Additionally, the generated key is a random 24-byte value, and the generated IV is a random 16-byte value.
+
+In the given illustration, the preferred programming language is Rust:
+
+```
+.\Supernova.exe -i C:\Users\nickvourd\Desktop\shellcode.bin -enc aes -k 192 -lang rust
+```
+
+![AES-192-Rust](/Pictures/AES-192-Rust.png)
 
 #### AES-256-CBC
 
 The **AES-256** in the name refers to the key length used in the algorithm. AES-256 employs a 256-bit encryption key, which means there are 2^256 possible key combinations, making it incredibly difficult and time-consuming for attackers to brute-force the key and decrypt the encrypted data without the proper key.
 
-The "CBC" part of the name stands for Cipher Block Chaining. This mode of operation enhances the security of the encryption by chaining together the blocks of plaintext before encryption. Each block of plaintext is XORed (exclusive OR) with the previous ciphertext block before encryption, which introduces an element of randomness and dependency among blocks. This helps to prevent patterns in the plaintext from being apparent in the ciphertext, adding an extra layer of confidentiality.
+- **Key Setup**: To use AES-256-CBC, you need a secret key of 256 bits (32 bytes). This key is kept secret and is used for both encryption and decryption.
 
-Here's a breakdown of how AES-256-CBC works:
+- **Padding**: If the plaintext data is not a multiple of 128 bits (16 bytes), it should be padded to the nearest multiple, typically using a padding scheme like PKCS7.
 
-- **Initialization Vector (IV)**: An IV is a random value used to initialize the encryption process. It ensures that even if the same plaintext is encrypted multiple times with the same key, the resulting ciphertext will be different due to the randomization introduced by the IV.
+- **Initialization Vector (IV)**: An IV is a random value that initializes the encryption process. The IV should be different for each message encrypted with the same key. In AES-256-CBC, it is typically 128 bits (16 bytes) long.
 
-- **Dividing Data into Blocks**: The plaintext message is divided into fixed-size blocks (usually 128 bits or 16 bytes) before encryption.
+- **Dividing Data into Blocks**: The plaintext data is divided into blocks, each 128 bits in length.
 
-- **Chaining Blocks**: Each plaintext block is XORed with the previous ciphertext block (or the IV for the first block) before encryption. This chaining helps prevent patterns from appearing in the ciphertext.
+- **Cipher Block Chaining (CBC)**: AES-256-CBC uses CBC mode, just like the other AES modes. In this mode, the ciphertext of one block is XORed with the plaintext of the next block before encryption. The IV is XORed with the first block of plaintext before encryption, ensuring that identical blocks of plaintext do not result in identical blocks of ciphertext.
 
-- **Encryption**: The XORed block is then encrypted using the AES-256 encryption algorithm with the provided encryption key.
+- **Encryption**: Each block of plaintext is encrypted using the AES encryption algorithm with the 256-bit secret key.
 
-To employ Supernova with the AES-256-CBC cipher, you must select a preferred programming language and provide a raw shellcode. Additionally, the generated key is a random 32-byte value, and the generated IV is a random 16-byte value.
+To employ Supernova with the AES-256-CBC cipher, you must select a preferred programming language, provide a raw shellcode and a key with value `256` or `32`. Additionally, the generated key is a random 32-byte value, and the generated IV is a random 16-byte value.
 
 In the given illustration, the preferred programming language is Csharp:
 
 ```
-.\Supernova.exe -i C:\Users\User\Desktop\shellcode.bin -enc aes -lang csharp
+.\Supernova.exe -i C:\Users\User\Desktop\shellcode.bin -enc aes -k 256 -lang csharp
 ```
 
 Outcome:
 
-![AES-Example](/Pictures/AES-Csharp.png)
+![AES-256-Csharp](/Pictures/AES-256-Csharp.png)
 
 ## References
 
