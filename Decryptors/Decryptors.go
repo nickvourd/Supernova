@@ -212,7 +212,7 @@ namespace XORDecryption
                 }
             }
 
-            Console.WriteLine("Multi-XOR Decrypted Payload:\n");
+            Console.WriteLine("Multi-XOR Decrypted Payload:\n\n");
             Console.WriteLine($"byte[] %s = new byte[{decryptedPayload.Length}] {{ {hex} }};\n\n");
         }
     }
@@ -291,6 +291,42 @@ fn main() {
         }
     }
     println!("];");
+}
+`
+
+// golang xor template
+var __go_xor__ = `
+package main
+
+import (
+	"fmt"
+)
+
+func multiXORDecrypt(encryptedData, key []byte) []byte {
+	decrypted := make([]byte, len(encryptedData))
+	for i := 0; i < len(encryptedData); i++ {
+		decrypted[i] = encryptedData[i] ^ key[i%%len(key)]
+	}
+	return decrypted
+}
+
+func main() {
+	%s := []byte{%s}
+
+	multiXORKey := []byte{%s}
+
+	decryptedPayload := multiXORDecrypt(%s, multiXORKey)
+
+	// Print the decryptedPayload as a Go byte slice initialization
+    fmt.Println("Multi-XOR Decrypted Payload:\n\n")
+	fmt.Print("byte[] %s = []byte{")
+	for i, b := range decryptedPayload {
+		fmt.Printf("0x%%02x", b)
+		if i < len(decryptedPayload)-1 {
+			fmt.Print(", ")
+		}
+	}
+	fmt.Println("};")
 }
 `
 
@@ -876,6 +912,15 @@ func DecryptorsTemplates(language string, cipher string, variable string, key in
 
 			// Call function named SaveTamplate2File
 			SaveTamplate2File(foundFilename, __go_rot__, cipher)
+		case "xor":
+			// Call function named KeyDetailsFormatter
+			formattedKey := Output.KeyDetailsFormatter(byteKey)
+
+			// Config dynamic variable
+			__go_xor__ = fmt.Sprintf(__go_xor__, variable, encryptedShellcode, formattedKey, variable, variable)
+
+			// Call function named SaveTamplate2File
+			SaveTamplate2File(foundFilename, __go_xor__, cipher)
 		}
 	default:
 		logger.Fatal("Unsupported programming language")
