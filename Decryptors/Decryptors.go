@@ -167,6 +167,32 @@ func main() {
 }
 `
 
+// python rot template
+var __python_rot__ = `
+def caesar_decrypt(shellcode, key):
+    decrypted = bytearray(len(shellcode))
+    for i in range(len(shellcode)):
+        decrypted[i] = (shellcode[i] - key) & 0xFF
+    return decrypted
+
+def format_shellcode(shellcode):
+    formatted = "\\x" + "\\x".join([format(byte, '02x') for byte in shellcode])
+    return formatted
+
+def main():
+    %s = bytearray(b"%s")
+    key = %d 
+    decrypted_shellcode = caesar_decrypt(%s, key)
+
+    formatted_shellcode = format_shellcode(decrypted_shellcode)
+
+    print("ROT Decrypted Payload:\n\n")
+    print("%s = b\"" + formatted_shellcode + "\"")
+
+if __name__ == "__main__":
+    main()
+`
+
 // csharp xor template
 var __csharp_xor__ = `
 using System;
@@ -1034,6 +1060,20 @@ func DecryptorsTemplates(language string, cipher string, variable string, key in
 
 			// Call function named SaveTamplate2File
 			SaveTamplate2File(foundFilename, __go_aes__, cipher)
+		}
+	case "python":
+		extension := "py"
+
+		// Call function named SetDecryptionFile
+		foundFilename := SetDecryptionFile(extension)
+
+		switch strings.ToLower(cipher) {
+		case "rot":
+			// Config dynamic variable
+			__python_rot__ = fmt.Sprintf(__python_rot__, variable, encryptedShellcode, key, variable, variable)
+
+			// Call function named SaveTamplate2File
+			SaveTamplate2File(foundFilename, __python_rot__, cipher)
 		}
 	default:
 		logger.Fatal("Unsupported programming language")
