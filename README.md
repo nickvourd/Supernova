@@ -51,8 +51,6 @@ Supernova was created with :heart: by [@nickvourd](https://twitter.com/nickvourd
         - [Debug Example](#debug-example)
       - [About Output File](#about-output-file)
         - [Output File Example](#output-file-example)
-      - [About Host Identifier](#about-host-identifier)
-        - [Host Identifier Example](#host-identifier-example)
   - [Encryptions](#encryptions)
       - [ROT Encryption](#rot-encryption)
       - [XOR Encryption](#xor-encryption)
@@ -84,7 +82,7 @@ go build Supernova.go
 ███████║╚██████╔╝██║     ███████╗██║  ██║██║ ╚████║╚██████╔╝ ╚████╔╝ ██║  ██║
 ╚══════╝ ╚═════╝ ╚═╝     ╚══════╝╚═╝  ╚═╝╚═╝  ╚═══╝ ╚═════╝   ╚═══╝  ╚═╝  ╚═╝
 
-Supernova v2.0.0 - Real fucking shellcode encryptor.
+Supernova v2.0.0 - Real fucking shellcode encryptor and obfuscator .
 Supernova is an open source tool licensed under MIT.
 Written with <3 by @nickvourd, @0xvm and @Papadope9...
 Please visit https://github.com/nickvourd/Supernova for more...
@@ -200,37 +198,6 @@ An attacker uses RC4 encryption and utilizes the C language option in conjunctio
 Outcome:
 
 ![Output-Example](/Pictures/RC4-C-Output-Option.png)
-
-### About Host Identifier
-
-Supernova tool utilizes a utility to identify the host machine's operating system. When used in conjunction with the `-guide` option, it checks if the host machine is running Linux and, if so, adds the `<Windows.h>` header in the C language decryption templates.
-
-The following code accomplishes this in the background:
-
-```
-// AddValues2Template function
-func AddValues2Template(operatingSystem string, template string) string {
-	if strings.ToLower(operatingSystem) == "linux" {
-		template = "#include <Windows.h>" + template
-	}
-
-	return template
-}
-```
-
-#### Host Identifier Example
-
-Here is a simple example illustrating the functioning of the host identifier utility.
-
-An attacker uses AES encryption and utilizes the C language option in conjunction with `-guide` mode from Linux host machine:
-
-```
-Supernova -i /root/shellcode.bin -enc aes -lang c -guide
-```
-
-Outcome:
-
-![Host-Identifier-Example](/Pictures/Host-Identifier-Example.png)
 
 ## Encryptions
 
