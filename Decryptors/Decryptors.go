@@ -649,6 +649,47 @@ func main() {
 }
 `
 
+// python rc4 template
+var __python_rc4__ = `
+import sys
+
+def rc4(key, data):
+    S = list(range(256))
+    j = 0
+    out = []
+
+    # Key-scheduling algorithm
+    for i in range(256):
+        j = (j + S[i] + key[i %% len(key)]) %% 256
+        S[i], S[j] = S[j], S[i]
+
+    # Pseudo-random generation algorithm
+    i = j = 0
+    for byte in data:
+        i = (i + 1) %% 256
+        j = (j + S[i]) %% 256
+        S[i], S[j] = S[j], S[i]
+        out.append(byte ^ S[(S[i] + S[j]) %% 256])
+
+    return bytes(out)
+
+def main():
+    passphrase = b'%s'
+    %s = b"%s"
+
+    try:
+        decrypted_shellcode = rc4(passphrase, %s)
+        shellcode_hex = ''.join([f'\\x{byte:02x}' for byte in decrypted_shellcode])
+        print("RC4 Decrypted Shellcode:\n\n")
+        print(f'%s = b"{shellcode_hex}"')
+    except Exception as e:
+        print(f"Error: {str(e)}")
+        sys.exit(1)
+ 
+if __name__ == "__main__":
+    main()
+`
+
 // csharp aes template
 var __csharp_aes__ = `
 using System;
@@ -1110,6 +1151,12 @@ func DecryptorsTemplates(language string, cipher string, variable string, key in
 
 			// Call function named SaveTamplate2File
 			SaveTamplate2File(foundFilename, __python_xor__, cipher)
+		case "rc4":
+			// Config dynamic variable
+			__python_rc4__ = fmt.Sprintf(__python_rc4__, passphrase, variable, encryptedShellcode, variable, variable)
+
+			// Call function named SaveTamplate2File
+			SaveTamplate2File(foundFilename, __python_rc4__, cipher)
 		}
 	default:
 		logger.Fatal("Unsupported programming language")
