@@ -9,6 +9,8 @@ import (
 	"Supernova/Utils"
 	"flag"
 	"fmt"
+	"log"
+	"os"
 	"strings"
 )
 
@@ -98,14 +100,20 @@ func main() {
 	// Call function named ArgumentEmpty
 	Arguments.ArgumentEmpty(options.language, 2)
 
-	// Call function named ArgumentEmpty
-	Arguments.ArgumentEmpty(options.encryption, 3)
-
-	// Call function ValidateKeySize
-	options.key = Arguments.ValidateKeySize(options.key, options.encryption)
-
 	// Check for valid values of language argument
 	foundLanguage := Arguments.ValidateArgument("lang", options.language, []string{"Nim", "Rust", "C", "CSharp", "Go", "Python"})
+
+	// Check if the encryption or obfuscation option is not used
+	if options.encryption == "" && options.obfuscation == "" {
+		logger := log.New(os.Stderr, "[!] ", 0)
+		logger.Fatal("Please choose either the encryption option or the obfuscation option to proceed!\n")
+	}
+
+	// Check if encryption and obfuscation are used together
+	if options.encryption != "" && options.obfuscation != "" {
+		logger := log.New(os.Stderr, "[!] ", 0)
+		logger.Fatal("You cannot choose both the encryption and obfuscation options; please select only one!\n")
+	}
 
 	// Call function named ConvertShellcode2Hex
 	convertedShellcode, payloadLength := Converters.ConvertShellcode2Hex(rawShellcode, foundLanguage)
@@ -125,6 +133,9 @@ func main() {
 	if options.encryption != "" {
 		// Call function named ValidateArgument
 		Arguments.ValidateArgument("enc", options.encryption, []string{"XOR", "RC4", "AES", "ROT"})
+
+		// Call function ValidateKeySize
+		options.key = Arguments.ValidateKeySize(options.key, options.encryption)
 
 		// Call function named DetectEncryption
 		encryptedShellcode, encryptedLength, key, passphrase, iv := Encryptors.DetectEncryption(options.encryption, rawShellcode, options.key, foundLanguage)
@@ -148,5 +159,11 @@ func main() {
 				return
 			}
 		}
+	}
+
+	// Obfuscation option is enable
+	if options.obfuscation != "" {
+		// Call function named ValidateArgument
+		Arguments.ValidateArgument("obf", options.obfuscation, []string{"IPv4", "IPv6", "MAC", "UUID"})
 	}
 }
