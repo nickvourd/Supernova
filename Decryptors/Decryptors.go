@@ -918,6 +918,39 @@ func main() {
 }
 `
 
+// python aes template
+var __python_aes__ = `
+from cryptography.hazmat.primitives.ciphers import Cipher, algorithms, modes
+from cryptography.hazmat.primitives import padding
+
+def decrypt_aes_cbc(key, iv, ciphertext):
+    cipher = Cipher(algorithms.AES(key), modes.CBC(iv))
+    decryptor = cipher.decryptor()
+    padded_data = decryptor.update(ciphertext) + decryptor.finalize()
+    unpadder = padding.PKCS7(128).unpadder()
+    plaintext = unpadder.update(padded_data) + unpadder.finalize()
+    return plaintext
+
+def format_shellcode(shellcode):
+    formatted = "\\x" + "\\x".join([format(byte, '02x') for byte in shellcode])
+    return formatted
+
+def main():
+    key = b"%s"
+    iv = b"%s"
+
+    %s = b"%s"
+    plaintext = decrypt_aes_cbc(key, iv, %s)
+
+    formatted_shellcode = format_shellcode(plaintext)
+
+    print("AES Decrypted Shellcode:\n\n")
+    print(f"%s = b\"{formatted_shellcode}\"")
+
+if __name__ == "__main__":
+    main()
+`
+
 // SaveTemplae2File function
 func SaveTamplate2File(filename string, tamplate string, cipher string) {
 	// Open a file for writing. If the file doesn't exist, it will be created.
@@ -1164,13 +1197,11 @@ func DecryptorsTemplates(language string, cipher string, variable string, key in
 			// Call function named KeyDetailsFormatter
 			formattedIv := Output.KeyDetailsFormatter(iv, language)
 
-			fmt.Println(formattedIv)
-			fmt.Println(formattedKey)
 			// Config dynamic variable
-			//__go_aes__ = fmt.Sprintf(__go_aes__, variable, encryptedShellcode, formattedKey, formattedIv, variable, variable)
+			__python_aes__ = fmt.Sprintf(__python_aes__, formattedKey, formattedIv, variable, encryptedShellcode, variable, variable)
 
 			// Call function named SaveTamplate2File
-			//SaveTamplate2File(foundFilename, __go_aes__, cipher)
+			SaveTamplate2File(foundFilename, __python_aes__, cipher)
 		}
 	default:
 		logger.Fatal("Unsupported programming language")
