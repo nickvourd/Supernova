@@ -1157,6 +1157,20 @@ func DecryptorsTemplates(language string, cipher string, variable string, key in
 
 			// Call function named SaveTamplate2File
 			SaveTamplate2File(foundFilename, __python_rc4__, cipher)
+		case "aes":
+			// Call function named KeyDetailsFormatter
+			formattedKey := Output.KeyDetailsFormatter(byteKey, language)
+
+			// Call function named KeyDetailsFormatter
+			formattedIv := Output.KeyDetailsFormatter(iv, language)
+
+			fmt.Println(formattedIv)
+			fmt.Println(formattedKey)
+			// Config dynamic variable
+			//__go_aes__ = fmt.Sprintf(__go_aes__, variable, encryptedShellcode, formattedKey, formattedIv, variable, variable)
+
+			// Call function named SaveTamplate2File
+			//SaveTamplate2File(foundFilename, __go_aes__, cipher)
 		}
 	default:
 		logger.Fatal("Unsupported programming language")
