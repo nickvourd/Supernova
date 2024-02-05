@@ -16,15 +16,17 @@ func ConvertShellcode2Hex(shellcode string, language string) (string, int) {
 	// Split hex shellcode into individual hex values
 	hexValues := strings.Split(hexShellcode, "")
 
-	formattedHexShellcode := ""
+	var builder strings.Builder
 
 	// Format and add "0x" in front of each pair of hex characters
 	for i := 0; i < len(hexValues); i += 2 {
-		formattedHexShellcode += "0x" + hexValues[i] + hexValues[i+1]
+		builder.WriteString("0x" + hexValues[i] + hexValues[i+1])
 		if i < len(hexValues)-2 {
-			formattedHexShellcode += ", "
+			builder.WriteString(", ")
 		}
 	}
+
+	formattedHexShellcode := builder.String()
 
 	// Calculate shellcode size in bytes
 	shellcodeSize := len(shellcode)
