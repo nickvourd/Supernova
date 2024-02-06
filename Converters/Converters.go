@@ -16,17 +16,22 @@ func ConvertShellcode2Hex(shellcode string, language string) (string, int) {
 	// Split hex shellcode into individual hex values
 	hexValues := strings.Split(hexShellcode, "")
 
-	var builder strings.Builder
+	formattedHexShellcode := ""
 
-	// Format and add "0x" in front of each pair of hex characters
-	for i := 0; i < len(hexValues); i += 2 {
-		builder.WriteString("0x" + hexValues[i] + hexValues[i+1])
-		if i < len(hexValues)-2 {
-			builder.WriteString(", ")
+	if language == "python" {
+		for i := 0; i < len(hexValues); i += 2 {
+			formattedHexShellcode += "\\x" + hexValues[i] + hexValues[i+1]
 		}
-	}
+	} else {
+		// Format and add "0x" in front of each pair of hex characters
+		for i := 0; i < len(hexValues); i += 2 {
+			formattedHexShellcode += "0x" + hexValues[i] + hexValues[i+1]
+			if i < len(hexValues)-2 {
+				formattedHexShellcode += ", "
+			}
+		}
 
-	formattedHexShellcode := builder.String()
+	}
 
 	// Calculate shellcode size in bytes
 	shellcodeSize := len(shellcode)
@@ -48,6 +53,12 @@ func ConvertShellcode2Template(shellcode string, language string, length int, va
 		return template
 	case "rust":
 		template := fmt.Sprintf(`let %s: [u8; %d] = [%s];`, variable, length, shellcode)
+		return template
+	case "go":
+		template := fmt.Sprintf(`%s := []byte{%s};`, variable, shellcode)
+		return template
+	case "python":
+		template := fmt.Sprintf(`%s = b"%s"`, variable, shellcode)
 		return template
 	default:
 		fmt.Println("[!] Unsupported programming language:", language)
@@ -82,20 +93,31 @@ func FormatKeysToHex(byteArray []byte) string {
 }
 
 // FormatShellcode function
-func FormatShellcode(encryptedShellcode []byte) string {
+func FormatShellcode(encryptedShellcode []byte, language string) string {
 	var formattedShellcode []string
+	var shellcodeFormatted string
+
 	for _, b := range encryptedShellcode {
-		formattedShellcode = append(formattedShellcode, fmt.Sprintf("0x%02x", b))
+		if language == "python" {
+			formattedShellcode = append(formattedShellcode, fmt.Sprintf("\\x%02x", b))
+		} else {
+			formattedShellcode = append(formattedShellcode, fmt.Sprintf("0x%02x", b))
+		}
 	}
 
-	shellcodeFormatted := strings.Join(formattedShellcode, ", ")
+	// Combine elements into a single string
+	if language == "python" {
+		shellcodeFormatted = strings.Join(formattedShellcode, "")
+	} else {
+		shellcodeFormatted = strings.Join(formattedShellcode, ", ")
+	}
 
 	return shellcodeFormatted
 }
 
 // AddValues2Template function
 func AddValues2Template(operatingSystem string, template string) string {
-	if strings.ToLower(operatingSystem) == "linux" {
+	if strings.ToLower(operatingSystem) == "linux" || strings.ToLower(operatingSystem) == "windows" {
 		template = "#include <Windows.h>" + template
 	}
 

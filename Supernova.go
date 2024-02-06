@@ -9,26 +9,28 @@ import (
 	"Supernova/Utils"
 	"flag"
 	"fmt"
+	"log"
+	"os"
 	"strings"
 )
 
 // Structure
 type FlagOptions struct {
-	outFile    string
-	inputFile  string
-	language   string
-	encryption string
-	//obfuscation string
-	variable string
-	key      int
-	debug    bool
-	guide    bool
-	version  bool
+	outFile     string
+	inputFile   string
+	language    string
+	encryption  string
+	obfuscation string
+	variable    string
+	key         int
+	debug       bool
+	guide       bool
+	version     bool
 }
 
 // global variables
 var (
-	__version__   = "1.0.0"
+	__version__   = "1.1.0"
 	__license__   = "MIT"
 	__author__    = "@nickvourd"
 	__github__    = "https://github.com/nickvourd/Supernova"
@@ -44,7 +46,7 @@ var __ascii__ = `
 ███████║╚██████╔╝██║     ███████╗██║  ██║██║ ╚████║╚██████╔╝ ╚████╔╝ ██║  ██║
 ╚══════╝ ╚═════╝ ╚═╝     ╚══════╝╚═╝  ╚═╝╚═╝  ╚═══╝ ╚═════╝   ╚═══╝  ╚═╝  ╚═╝
 
-Supernova v%s - Real fucking shellcode encryptor.
+Supernova v%s - Real fucking shellcode encryptor and obfuscator.
 Supernova is an open source tool licensed under %s.
 Written with <3 by %s, %s and %s...
 Please visit %s for more...
@@ -54,14 +56,15 @@ Please visit %s for more...
 // Options function
 func Options() *FlagOptions {
 	inputFile := flag.String("i", "", "Path to the raw 64-bit shellcode")
-	encryption := flag.String("enc", "", "Shellcode encryption (i.e., ROT, XOR, RC4, AES)")
-	language := flag.String("lang", "", "Programming language to translate the shellcode (i.e., Nim, Rust, C, CSharp)")
+	encryption := flag.String("enc", "", "Shellcode encoding/encryption (i.e., ROT, XOR, RC4, AES)")
+	language := flag.String("lang", "", "Programming language to translate the shellcode (i.e., Nim, Rust, C, CSharp, Go, python)")
 	outFile := flag.String("o", "", "Name of the output file")
 	variable := flag.String("v", "shellcode", "Name of dynamic variable")
 	debug := flag.Bool("d", false, "Enable Debug mode")
 	key := flag.Int("k", 1, "Key lenght size for encryption")
 	version := flag.Bool("version", false, "Show Supernova current version")
 	guide := flag.Bool("guide", false, "Enable guide mode")
+	// obfuscation := flag.String("obf", "", "Shellcode obfuscation (i.e., IPv4, IPv6, MAC, UUID)")
 	flag.Parse()
 
 	return &FlagOptions{outFile: *outFile, inputFile: *inputFile, language: *language, encryption: *encryption, variable: *variable, debug: *debug, key: *key, version: *version, guide: *guide}
@@ -97,19 +100,25 @@ func main() {
 	// Call function named ArgumentEmpty
 	Arguments.ArgumentEmpty(options.language, 2)
 
-	// Call function named ArgumentEmpty
-	Arguments.ArgumentEmpty(options.encryption, 3)
-
-	// Call function ValidateKeySize
-	Arguments.ValidateKeySize(options.key, options.encryption)
-
 	// Check for valid values of language argument
-	foundLanguage := Arguments.ValidateArgument("lang", options.language, []string{"Nim", "Rust", "C", "CSharp"})
+	foundLanguage := Arguments.ValidateArgument("lang", options.language, []string{"Nim", "Rust", "C", "CSharp", "Go", "Python"})
+
+	// Check if the encryption or obfuscation option is not used
+	if options.encryption == "" && options.obfuscation == "" {
+		logger := log.New(os.Stderr, "[!] ", 0)
+		logger.Fatal("Please choose either the encryption option or the obfuscation option to proceed!\n")
+	}
+
+	// Check if encryption and obfuscation are used together
+	if options.encryption != "" && options.obfuscation != "" {
+		logger := log.New(os.Stderr, "[!] ", 0)
+		logger.Fatal("You cannot choose both the encryption and obfuscation options; please select only one!\n")
+	}
 
 	// Call function named ConvertShellcode2Hex
 	convertedShellcode, payloadLength := Converters.ConvertShellcode2Hex(rawShellcode, foundLanguage)
 
-	// Print payload size and choosen language
+	// Print payload size and chosen language
 	fmt.Printf("[+] Payload size: %d bytes\n\n[+] Converted payload to %s language\n\n", payloadLength, foundLanguage)
 
 	if options.debug {
@@ -125,14 +134,17 @@ func main() {
 		// Call function named ValidateArgument
 		Arguments.ValidateArgument("enc", options.encryption, []string{"XOR", "RC4", "AES", "ROT"})
 
+		// Call function ValidateKeySize
+		options.key = Arguments.ValidateKeySize(options.key, options.encryption)
+
 		// Call function named DetectEncryption
-		encryptedShellcode, encryptedLength, key, passphrase, iv := Encryptors.DetectEncryption(options.encryption, rawShellcode, options.key)
+		encryptedShellcode, encryptedLength, key, passphrase, iv := Encryptors.DetectEncryption(options.encryption, rawShellcode, options.key, foundLanguage)
 
 		// Call function named ConvertShellcode2Template
 		template := Converters.ConvertShellcode2Template(encryptedShellcode, foundLanguage, encryptedLength, options.variable)
 
 		// Print encrypted template
-		fmt.Printf("[+] The encrypted payload with %s:\n\n%s\n\n", strings.ToLower(options.encryption), template)
+		fmt.Printf("[+] The encrypted payload with %s:\n\n%s\n\n", strings.ToUpper(options.encryption), template)
 
 		// Guide option is enable
 		if options.guide {
@@ -148,4 +160,10 @@ func main() {
 			}
 		}
 	}
+
+	// Obfuscation option is enable
+	// if options.obfuscation != "" {
+		// Call function named ValidateArgument
+		// Arguments.ValidateArgument("obf", options.obfuscation, []string{"IPv4", "IPv6", "MAC", "UUID"})
+	// }
 }

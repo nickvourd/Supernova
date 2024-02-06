@@ -3,6 +3,7 @@ package Output
 import (
 	"Supernova/Utils"
 	"fmt"
+	"log"
 	"os"
 )
 
@@ -47,14 +48,37 @@ func PrintKeyDetails(key []byte) {
 }
 
 // KeyDetailsFormatter function
-func KeyDetailsFormatter(key []byte) string {
+func KeyDetailsFormatter(key []byte, language string) string {
 	var formattedKey string
 	for i, b := range key {
-		hexValue := fmt.Sprintf("%02x", b)
-		formattedKey += "0x" + hexValue
-		if i < len(key)-1 {
-			formattedKey += ", "
+		if language == "python" {
+			hexValue := fmt.Sprintf("%02x", b)
+			formattedKey += "\\x" + hexValue
+		} else {
+			hexValue := fmt.Sprintf("%02x", b)
+			formattedKey += "0x" + hexValue
+			if i < len(key)-1 {
+				formattedKey += ", "
+			}
 		}
 	}
 	return formattedKey
+}
+
+// DetectNotification function
+func DetectNotification(key int) int {
+	logger := log.New(os.Stderr, "[!] ", 0)
+	keyNotification := 0
+	switch key {
+	case 16:
+		keyNotification = 128
+	case 24:
+		keyNotification = 192
+	case 32:
+		keyNotification = 256
+	default:
+		logger.Fatal("Initial Error, valid AES key not found\n")
+	}
+
+	return keyNotification
 }

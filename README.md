@@ -1,26 +1,34 @@
 # Supernova
-Real fucking shellcode encryptor
+Real fucking shellcode encryptor and obfuscator.
 
 <p align="center">
   <img width="350" height="350" src="https://github.com/nickvourd/Supernova/blob/main/Pictures/supernova_logo.png">
 </p>
 
 ## Description
-Supernova is an open-source Golang tool that empowers users to securely encrypt their raw shellcodes. Additionally, it offers automatic conversion of the encrypted shellcode into formats compatible with various programming languages, including:
+Supernova is an open-source Golang tool that empowers users to securely encrypt/obfuscate their raw shellcodes. 
+
+Additionally, it offers automatic conversion of the encrypted shellcode into formats compatible with various programming languages, including:
 - C
 - C#
 - Rust
 - Nim
+- Golang (Community request by [@_atsika](https://twitter.com/_atsika))
+- Python
 
 It supports a variety of different ciphers, including:
 - ROT
 - XOR
 - RC4
-- AES
+- AES (AES-128-CBC, AES-192-CBC, AES-256-CBC)
 
 Moreover, this tool generates the decrypted function using the chosen cipher and language, while also supplying instructions on how to utilize it effectively. 
 
 Supernova is written in Golang, a cross-platform language, enabling its use on both Windows and Linux systems.
+
+## Version
+
+### 2.0.0
 
 ## License
 
@@ -37,6 +45,7 @@ Supernova was created with :heart: by [@nickvourd](https://twitter.com/nickvourd
 ## Table of Contents
 - [Supernova](#supernova)
   - [Description](#description)
+  - [Version](#version)
   - [License](#license)
   - [Acknowledgement](#acknowledgement)
   - [Table of Contents](#table-of-contents)
@@ -51,13 +60,13 @@ Supernova was created with :heart: by [@nickvourd](https://twitter.com/nickvourd
         - [Debug Example](#debug-example)
       - [About Output File](#about-output-file)
         - [Output File Example](#output-file-example)
-      - [About Host Identifier](#about-host-identifier)
-        - [Host Identifier Example](#host-identifier-example)
   - [Encryptions](#encryptions)
       - [ROT Encryption](#rot-encryption)
       - [XOR Encryption](#xor-encryption)
       - [RC4 Encryption](#rc4-encryption)
       - [AES Encryption](#aes-encryption)
+        - [AES-128-CBC](#aes-128-cbc)
+        - [AES-192-CBC](#aes-192-cbc)
         - [AES-256-CBC](#aes-256-cbc)
   - [References](#references)
 
@@ -82,7 +91,7 @@ go build Supernova.go
 ███████║╚██████╔╝██║     ███████╗██║  ██║██║ ╚████║╚██████╔╝ ╚████╔╝ ██║  ██║
 ╚══════╝ ╚═════╝ ╚═╝     ╚══════╝╚═╝  ╚═╝╚═╝  ╚═══╝ ╚═════╝   ╚═══╝  ╚═╝  ╚═╝
 
-Supernova v1.0.0 - Real fucking shellcode encryptor.
+Supernova v1.1.0 - Real fucking shellcode encryptor and obfuscator.
 Supernova is an open source tool licensed under MIT.
 Written with <3 by @nickvourd, @0xvm and @Papadope9...
 Please visit https://github.com/nickvourd/Supernova for more...
@@ -90,7 +99,7 @@ Please visit https://github.com/nickvourd/Supernova for more...
 Usage of Supernova.exe:
   -d    Enable Debug mode
   -enc string
-        Shellcode encryption (i.e., ROT, XOR, RC4, AES)
+        Shellcode encoding/encryption (i.e., ROT, XOR, RC4, AES)
   -guide
         Enable guide mode
   -i string
@@ -98,7 +107,7 @@ Usage of Supernova.exe:
   -k int
         Key lenght size for encryption (default 1)
   -lang string
-        Programming language to translate the shellcode (i.e., Nim, Rust, C, CSharp)
+        Programming language to translate the shellcode (i.e., Nim, Rust, C, CSharp, Go, Python)
   -o string
         Name of the output file
   -v string
@@ -197,37 +206,6 @@ Outcome:
 
 ![Output-Example](/Pictures/RC4-C-Output-Option.png)
 
-### About Host Identifier
-
-Supernova tool utilizes a utility to identify the host machine's operating system. When used in conjunction with the `-guide` option, it checks if the host machine is running Linux and, if so, adds the `<Windows.h>` header in the C language decryption templates.
-
-The following code accomplishes this in the background:
-
-```
-// AddValues2Template function
-func AddValues2Template(operatingSystem string, template string) string {
-	if strings.ToLower(operatingSystem) == "linux" {
-		template = "#include <Windows.h>" + template
-	}
-
-	return template
-}
-```
-
-#### Host Identifier Example
-
-Here is a simple example illustrating the functioning of the host identifier utility.
-
-An attacker uses AES encryption and utilizes the C language option in conjunction with `-guide` mode from Linux host machine:
-
-```
-Supernova -i /root/shellcode.bin -enc aes -lang c -guide
-```
-
-Outcome:
-
-![Host-Identifier-Example](/Pictures/Host-Identifier-Example.png)
-
 ## Encryptions
 
 ### ROT Encryption
@@ -313,35 +291,88 @@ Outcome:
 
 The Advanced Encryption Standard (AES) is a widely adopted symmetric encryption algorithm that provides strong security for various applications. It was established as a standard encryption algorithm by the U.S. National Institute of Standards and Technology (NIST) in 2001, following a competition to find a replacement for the aging Data Encryption Standard (DES). AES is known for its efficiency and robust security features, making it a cornerstone of modern cryptography.
 
-Supernova uses AES-256-CBC cipher.
+#### AES-128-CBC
 
-#### AES-256-CBC
+**AES-128** in the name refers to the key length used in the algorithm. AES-128 employs a 128-bit encryption key, resulting in 2^128 possible key combinations. This makes it computationally infeasible for attackers to brute-force the key and decrypt the encrypted data without the proper key.
 
-The "AES-256" in the name refers to the key length used in the algorithm. AES-256 employs a 256-bit encryption key, which means there are 2^256 possible key combinations, making it incredibly difficult and time-consuming for attackers to brute-force the key and decrypt the encrypted data without the proper key.
+- **Key Setup**: Before you can encrypt or decrypt data using AES-128-CBC, you need to establish a secret key of 128 bits (16 bytes). This key is known only to the sender and receiver and is used for both encryption and decryption.
+Padding: If the plaintext data is not a multiple of 128 bits (16 bytes), it needs to be padded to the nearest multiple. 
+Common padding schemes include PKCS7 padding.
 
-The "CBC" part of the name stands for Cipher Block Chaining. This mode of operation enhances the security of the encryption by chaining together the blocks of plaintext before encryption. Each block of plaintext is XORed (exclusive OR) with the previous ciphertext block before encryption, which introduces an element of randomness and dependency among blocks. This helps to prevent patterns in the plaintext from being apparent in the ciphertext, adding an extra layer of confidentiality.
+- **Initialization Vector (IV)**: An IV is a random value that is used to initialize the encryption process. The IV should be different for each message encrypted with the same key. It is typically 128 bits (16 bytes) long.
+Dividing Data into Blocks: The plaintext data is divided into blocks, each 128 bits in length.
 
-Here's a breakdown of how AES-256-CBC works:
+- **Cipher Block Chaining (CBC)**: AES-128-CBC uses CBC mode to encrypt each block of data. In CBC mode, the ciphertext of one block is XORed with the plaintext of the next block before encryption. The IV is XORed with the first block of plaintext before encryption. This chaining effect ensures that identical blocks of plaintext do not result in identical blocks of ciphertext.
 
-- Initialization Vector (IV): An IV is a random value used to initialize the encryption process. It ensures that even if the same plaintext is encrypted multiple times with the same key, the resulting ciphertext will be different due to the randomization introduced by the IV.
+- **Encryption**: Each block of plaintext is encrypted using the AES encryption algorithm with the 128-bit secret key.
 
-- Dividing Data into Blocks: The plaintext message is divided into fixed-size blocks (usually 128 bits or 16 bytes) before encryption.
+To employ Supernova with the AES-128-CBC cipher, you must select a preferred programming language, provide a raw shellcode and a key with value `128` or `16`. Additionally, the generated key is a random 16-byte value, and the generated IV is a random 16-byte value.
 
-- Chaining Blocks: Each plaintext block is XORed with the previous ciphertext block (or the IV for the first block) before encryption. This chaining helps prevent patterns from appearing in the ciphertext.
-
-- Encryption: The XORed block is then encrypted using the AES-256 encryption algorithm with the provided encryption key.
-
-To employ Supernova with the AES-256-CBC cipher, you must select a preferred programming language and provide a raw shellcode. Additionally, the generated key is a random 32-byte value, and the generated IV is a random 16-byte value.
-
-In the given illustration, the preferred programming language is Csharp:
+In the given illustration, the preferred programming language is C:
 
 ```
-.\Supernova.exe -i C:\Users\User\Desktop\shellcode.bin -enc aes -lang csharp
+.\Supernova.exe -i C:\Users\nickvourd\Desktop\shellcode.bin -enc aes -k 128 -lang c
 ```
 
 Outcome:
 
-![AES-Example](/Pictures/AES-Csharp.png)
+![AES-128-C](/Pictures/AES-128-C.png)
+
+#### AES-192-CBC
+
+**AES-192** in the name refers to the key length used in the algorithm. AES-192 employs a 192-bit encryption key, resulting in 2^192 possible key combinations. This significantly increases the complexity compared to AES-128, making it computationally infeasible for attackers to brute-force the key and decrypt the encrypted data without the proper key.
+
+- **Key Setup**: You need to establish a secret key of 192 bits (24 bytes). This key is known only to the sender and receiver and is used for both encryption and decryption.
+
+- **Padding**: If the plaintext data is not a multiple of 128 bits (16 bytes), it should be padded to the nearest multiple, typically using a padding scheme like PKCS7.
+
+- **Initialization Vector (IV)**: An IV is a random value that initializes the encryption process. The IV should be different for each message encrypted with the same key. In AES-192-CBC, it is typically 128 bits (16 bytes) long.
+
+- **Dividing Data into Blocks**: The plaintext data is divided into blocks, each 128 bits in length.
+
+- **Cipher Block Chaining (CBC)**: AES-192-CBC uses CBC mode. In this mode, the ciphertext of one block is XORed with the plaintext of the next block before encryption. The IV is XORed with the first block of plaintext before encryption, ensuring that identical blocks of plaintext do not result in identical blocks of ciphertext.
+
+- **Encryption**: Each block of plaintext is encrypted using the AES encryption algorithm with the 192-bit secret key.
+
+To employ Supernova with the AES-192-CBC cipher, you must select a preferred programming language, provide a raw shellcode and a key with value `192` or `24`. Additionally, the generated key is a random 24-byte value, and the generated IV is a random 16-byte value.
+
+In the given illustration, the preferred programming language is Rust:
+
+```
+.\Supernova.exe -i C:\Users\nickvourd\Desktop\shellcode.bin -enc aes -k 192 -lang rust
+```
+
+Outcome:
+
+![AES-192-Rust](/Pictures/AES-192-Rust.png)
+
+#### AES-256-CBC
+
+The **AES-256** in the name refers to the key length used in the algorithm. AES-256 employs a 256-bit encryption key, which means there are 2^256 possible key combinations, making it incredibly difficult and time-consuming for attackers to brute-force the key and decrypt the encrypted data without the proper key.
+
+- **Key Setup**: To use AES-256-CBC, you need a secret key of 256 bits (32 bytes). This key is kept secret and is used for both encryption and decryption.
+
+- **Padding**: If the plaintext data is not a multiple of 128 bits (16 bytes), it should be padded to the nearest multiple, typically using a padding scheme like PKCS7.
+
+- **Initialization Vector (IV)**: An IV is a random value that initializes the encryption process. The IV should be different for each message encrypted with the same key. In AES-256-CBC, it is typically 128 bits (16 bytes) long.
+
+- **Dividing Data into Blocks**: The plaintext data is divided into blocks, each 128 bits in length.
+
+- **Cipher Block Chaining (CBC)**: AES-256-CBC uses CBC mode, just like the other AES modes. In this mode, the ciphertext of one block is XORed with the plaintext of the next block before encryption. The IV is XORed with the first block of plaintext before encryption, ensuring that identical blocks of plaintext do not result in identical blocks of ciphertext.
+
+- **Encryption**: Each block of plaintext is encrypted using the AES encryption algorithm with the 256-bit secret key.
+
+To employ Supernova with the AES-256-CBC cipher, you must select a preferred programming language, provide a raw shellcode and a key with value `256` or `32`. Additionally, the generated key is a random 32-byte value, and the generated IV is a random 16-byte value.
+
+In the given illustration, the preferred programming language is Csharp:
+
+```
+.\Supernova.exe -i C:\Users\User\Desktop\shellcode.bin -enc aes -k 256 -lang csharp
+```
+
+Outcome:
+
+![AES-256-Csharp](/Pictures/AES-256-Csharp.png)
 
 ## References
 
@@ -349,6 +380,7 @@ Outcome:
 - [XOR Cipher Wikipedia](https://en.wikipedia.org/wiki/XOR_cipher)
 - [RC4 Cipher Wikipedia](https://en.wikipedia.org/wiki/RC4)
 - [AES Cipher Wikipedia](https://en.wikipedia.org/wiki/Advanced_Encryption_Standard)
+- [Block cipher mode of operation](https://en.wikipedia.org/wiki/Block_cipher_mode_of_operation)
 - [Nim (programming language)](https://en.wikipedia.org/wiki/Nim_(programming_language))
 - [Rust (programming language)](https://en.wikipedia.org/wiki/Rust_(programming_language))
 - [C Sharp (programming language)](https://en.wikipedia.org/wiki/C_Sharp_(programming_language))
