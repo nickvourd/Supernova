@@ -1,5 +1,5 @@
 # Supernova
-Real fucking shellcode encryptor and obfuscator.
+Real fucking shellcode encryptor.
 
 <p align="center">
   <img width="350" height="350" src="https://github.com/nickvourd/Supernova/blob/main/Pictures/supernova_logo.png">
@@ -37,6 +37,8 @@ This tool is licensed under the [![License: MIT](https://img.shields.io/badge/MI
 ## Acknowledgement
 
 Special thanks to my brothers [@S1ckB0y1337](https://twitter.com/S1ckB0y1337) and [@IAMCOMPROMISED](https://twitter.com/IAMCOMPROMISED), who provided invaluable assistance during the beta testing phase of the tool.
+
+Grateful acknowledgment to [@y2qaq](https://twitter.com/y2qaq) for his valuable contributions.
 
 This tool was inspired during the malware development courses of [MALDEV Academy](https://maldevacademy.com).
 
