@@ -91,7 +91,7 @@ go build Supernova.go
 ███████║╚██████╔╝██║     ███████╗██║  ██║██║ ╚████║╚██████╔╝ ╚████╔╝ ██║  ██║
 ╚══════╝ ╚═════╝ ╚═╝     ╚══════╝╚═╝  ╚═╝╚═╝  ╚═══╝ ╚═════╝   ╚═══╝  ╚═╝  ╚═╝
 
-Supernova v2.0.0 - Real fucking shellcode encryptor and obfuscator.
+Supernova v1.1.0 - Real fucking shellcode encryptor and obfuscator.
 Supernova is an open source tool licensed under MIT.
 Written with <3 by @nickvourd, @0xvm and @Papadope9...
 Please visit https://github.com/nickvourd/Supernova for more...
@@ -110,8 +110,6 @@ Usage of Supernova.exe:
         Programming language to translate the shellcode (i.e., Nim, Rust, C, CSharp, Go, Python)
   -o string
         Name of the output file
-  -obf string
-        Shellcode obfuscation (i.e., IPv4, IPv6, MAC, UUID)
   -v string
         Name of dynamic variable (default "shellcode")
   -version
