@@ -30,7 +30,7 @@ type FlagOptions struct {
 
 // global variables
 var (
-	__version__   = "2.0.0"
+	__version__   = "1.1.0"
 	__license__   = "MIT"
 	__author__    = "@nickvourd"
 	__github__    = "https://github.com/nickvourd/Supernova"
@@ -64,10 +64,10 @@ func Options() *FlagOptions {
 	key := flag.Int("k", 1, "Key lenght size for encryption")
 	version := flag.Bool("version", false, "Show Supernova current version")
 	guide := flag.Bool("guide", false, "Enable guide mode")
-	obfuscation := flag.String("obf", "", "Shellcode obfuscation (i.e., IPv4, IPv6, MAC, UUID)")
+	// obfuscation := flag.String("obf", "", "Shellcode obfuscation (i.e., IPv4, IPv6, MAC, UUID)")
 	flag.Parse()
 
-	return &FlagOptions{outFile: *outFile, inputFile: *inputFile, language: *language, encryption: *encryption, variable: *variable, debug: *debug, key: *key, version: *version, guide: *guide, obfuscation: *obfuscation}
+	return &FlagOptions{outFile: *outFile, inputFile: *inputFile, language: *language, encryption: *encryption, variable: *variable, debug: *debug, key: *key, version: *version, guide: *guide}
 }
 
 // main function
@@ -162,8 +162,8 @@ func main() {
 	}
 
 	// Obfuscation option is enable
-	if options.obfuscation != "" {
+	// if options.obfuscation != "" {
 		// Call function named ValidateArgument
-		Arguments.ValidateArgument("obf", options.obfuscation, []string{"IPv4", "IPv6", "MAC", "UUID"})
-	}
+		// Arguments.ValidateArgument("obf", options.obfuscation, []string{"IPv4", "IPv6", "MAC", "UUID"})
+	// }
 }
