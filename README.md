@@ -28,7 +28,7 @@ Supernova is written in Golang, a cross-platform language, enabling its use on b
 
 ## Version
 
-### 2.0.0
+### 1.1.0
 
 ## License
 
