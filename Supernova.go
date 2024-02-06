@@ -46,7 +46,7 @@ var __ascii__ = `
 ███████║╚██████╔╝██║     ███████╗██║  ██║██║ ╚████║╚██████╔╝ ╚████╔╝ ██║  ██║
 ╚══════╝ ╚═════╝ ╚═╝     ╚══════╝╚═╝  ╚═╝╚═╝  ╚═══╝ ╚═════╝   ╚═══╝  ╚═╝  ╚═╝
 
-Supernova v%s - Real fucking shellcode encryptor and obfuscator.
+Supernova v%s - Real fucking shellcode encryptor.
 Supernova is an open source tool licensed under %s.
 Written with <3 by %s, %s and %s...
 Please visit %s for more...
