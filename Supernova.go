@@ -104,16 +104,18 @@ func main() {
 	foundLanguage := Arguments.ValidateArgument("lang", options.language, []string{"Nim", "Rust", "C", "CSharp", "Go", "Python"})
 
 	// Check if the encryption or obfuscation option is not used
-	if options.encryption == "" && options.obfuscation == "" {
+	if options.encryption == "" {
+	// && options.obfuscation == ""
 		logger := log.New(os.Stderr, "[!] ", 0)
-		logger.Fatal("Please choose either the encryption option or the obfuscation option to proceed!\n")
+		logger.Fatal("Please choose the encryption option to proceed!\n")
+		// logger.Fatal("Please choose either the encryption option or the obfuscation option to proceed!\n")
 	}
 
 	// Check if encryption and obfuscation are used together
-	if options.encryption != "" && options.obfuscation != "" {
-		logger := log.New(os.Stderr, "[!] ", 0)
-		logger.Fatal("You cannot choose both the encryption and obfuscation options; please select only one!\n")
-	}
+	// if options.encryption != "" && options.obfuscation != "" {
+	//	logger := log.New(os.Stderr, "[!] ", 0)
+	//	logger.Fatal("You cannot choose both the encryption and obfuscation options; please select only one!\n")
+	//}
 
 	// Call function named ConvertShellcode2Hex
 	convertedShellcode, payloadLength := Converters.ConvertShellcode2Hex(rawShellcode, foundLanguage)
