@@ -951,6 +951,255 @@ if __name__ == "__main__":
     main()
 `
 
+// golang b64xor template
+var __go_b64xor__ = `
+package main
+
+import (
+    "encoding/base64"
+	"fmt"
+)
+
+func multiXORDecrypt(encryptedData, key []byte) []byte {
+	decrypted := make([]byte, len(encryptedData))
+	for i := 0; i < len(encryptedData); i++ {
+		decrypted[i] = encryptedData[i] ^ key[i%%len(key)]
+	}
+	return decrypted
+}
+
+func main() {
+	%s := []byte{%s}
+
+	multiXORKey := []byte{%s}
+
+    decryptedShellcodeBase64, _ := base64.StdEncoding.DecodeString(string(%s))
+	decryptedPayload := multiXORDecrypt(decryptedShellcodeBase64, multiXORKey)
+
+	// Print the decryptedPayload as a Go byte slice initialization
+    fmt.Println("B64Multi-XOR Decrypted Payload:\n\n")
+	fmt.Print("%s := []byte{")
+	for i, b := range decryptedPayload {
+		fmt.Printf("0x%%02x", b)
+		if i < len(decryptedPayload)-1 {
+			fmt.Print(", ")
+		}
+	}
+	fmt.Println("}")
+}
+`
+
+// golang b64rc4 template
+var __go_b64rc4__ = `
+package main
+
+import (
+    "crypto/rc4"
+    "encoding/base64"
+    "fmt"
+)
+
+func rc4Decrypt(ciphertext, key []byte) ([]byte, error) {
+    cipher, err := rc4.NewCipher(key)
+    if err != nil {
+        return nil, err
+    }
+    plaintext := make([]byte, len(ciphertext))
+    cipher.XORKeyStream(plaintext, ciphertext)
+    return plaintext, nil
+}
+
+func main() {
+    %s := []byte{%s}
+    passphrase := "%s"
+
+    key := []byte(passphrase)
+
+	decryptedShellcodeBase64, _ := base64.StdEncoding.DecodeString(string(%s))
+    decryptedPayload, err := rc4Decrypt(decryptedShellcodeBase64, key)
+    if err != nil {
+        fmt.Println("Error:", err)
+        return
+    }
+
+    // Print the decryptedPayload as a Go byte slice initialization
+	fmt.Println("B64RC4 Dencrypted Payload:\n\n")
+    fmt.Print("%s := []byte{")
+    for i, b := range decryptedPayload {
+        fmt.Printf("0x%%02x", b)
+        if i < len(decryptedPayload)-1 {
+            fmt.Print(", ")
+        }
+    }
+    fmt.Println("}")
+}
+`
+
+// go b64aes template
+var __go_b64aes__ = `
+package main
+
+import (
+    "crypto/aes"
+    "crypto/cipher"
+    "encoding/base64"
+    "fmt"
+)
+
+func AESDecrypt(encryptedData []byte, key []byte, iv []byte) []byte {
+    block, err := aes.NewCipher(key)
+    if err != nil {
+        fmt.Println("Error creating AES cipher:", err)
+        return nil
+    }
+
+    decrypter := cipher.NewCBCDecrypter(block, iv)
+
+    decrypted := make([]byte, len(encryptedData))
+    decrypter.CryptBlocks(decrypted, encryptedData)
+
+    // Remove PKCS7 padding (assuming it was used)
+    padding := decrypted[len(decrypted)-1]
+    decrypted = decrypted[:len(decrypted)-int(padding)]
+
+    return decrypted
+}
+
+func main() {
+    %s := []byte{%s}
+
+    aesKey := []byte{%s}
+    aesIV := []byte{%s}
+
+    decryptedShellcodeBase64, _ := base64.StdEncoding.DecodeString(string(%s))
+    decryptedPayload := AESDecrypt(decryptedShellcodeBase64, aesKey, aesIV)
+
+    fmt.Println("AES Decrypted Payload:\n\n")
+    fmt.Print("%s := []byte{")
+	for i, b := range decryptedPayload {
+		if i == len(decryptedPayload)-1 {
+			fmt.Printf("0x%%02x", b)
+		} else {
+			fmt.Printf("0x%%02x, ", b)
+		}
+	}
+	fmt.Println("}")
+}
+`
+
+// go chacha20
+var __go_chacha20__ = `
+package main
+
+import (
+	"golang.org/x/crypto/chacha20poly1305"
+	"fmt"
+)
+
+func Chacha20Decrypt(data []byte, key []byte) ([]byte) {
+	aead, err := chacha20poly1305.NewX(key)
+
+
+	nonceSize := aead.NonceSize()
+
+	if len(data) < nonceSize {
+		return nil
+	}
+
+	// Split nonce and ciphertext.
+	nonce, ciphertext := data[:nonceSize], data[nonceSize:]
+
+	// Decrypt the message and check it wasn't tampered with.
+	plaintext, err := aead.Open(nil, nonce, ciphertext, nil)
+	if err != nil {
+		if err.Error() == "chacha20poly1305: message authentication failed" {
+			return nil
+		}
+
+		return nil
+	}
+
+	return plaintext
+}
+
+
+func main() {
+	%s := []byte{ %s }
+	key := []byte { %s }
+
+	decryptedPayload := Chacha20Decrypt(%s, key)
+
+	fmt.Print("CHACHA20 Decrypted Payload:\n\n")
+    fmt.Print("%s := []byte{")
+	for i, b := range decryptedPayload {
+		if i == len(decryptedPayload)-1 {
+			fmt.Printf("0x%%02x", b)
+		} else {
+			fmt.Printf("0x%%02x, ", b)
+		}
+	}
+	fmt.Println("}")
+}
+`
+
+// go b64chacha20
+var __go_b64chacha20__ = `
+package main
+
+import (
+	"golang.org/x/crypto/chacha20poly1305"
+	"encoding/base64"
+
+	"fmt"
+)
+
+func Chacha20Decrypt(data []byte, key []byte) ([]byte) {
+	aead, err := chacha20poly1305.NewX(key)
+
+
+	nonceSize := aead.NonceSize()
+
+	if len(data) < nonceSize {
+		return nil
+	}
+
+	// Split nonce and ciphertext.
+	nonce, ciphertext := data[:nonceSize], data[nonceSize:]
+
+	// Decrypt the message and check it wasn't tampered with.
+	plaintext, err := aead.Open(nil, nonce, ciphertext, nil)
+	if err != nil {
+		if err.Error() == "chacha20poly1305: message authentication failed" {
+			return nil
+		}
+
+		return nil
+	}
+
+	return plaintext
+}
+
+
+func main() {
+	%s := []byte{ %s }
+	key := []byte { %s }
+
+	decryptedShellcodeBase64, _ := base64.StdEncoding.DecodeString(string(%s))
+	decryptedPayload := Chacha20Decrypt(decryptedShellcodeBase64, key)
+
+	fmt.Print("B64CHACHA20 Decrypted Payload:\n\n")
+    fmt.Print("%s := []byte{")
+	for i, b := range decryptedPayload {
+		if i == len(decryptedPayload)-1 {
+			fmt.Printf("0x%%02x", b)
+		} else {
+			fmt.Printf("0x%%02x, ", b)
+		}
+	}
+	fmt.Println("}")
+}
+`
+
 // SaveTemplae2File function
 func SaveTamplate2File(filename string, tamplate string, cipher string) {
 	// Open a file for writing. If the file doesn't exist, it will be created.
@@ -1143,12 +1392,27 @@ func DecryptorsTemplates(language string, cipher string, variable string, key in
 
 			// Call function named SaveTamplate2File
 			SaveTamplate2File(foundFilename, __go_xor__, cipher)
+		case "b64xor":
+			// Call function named KeyDetailsFormatter
+			formattedKey := Output.KeyDetailsFormatter(byteKey, language)
+
+			// Config dynamic variable
+			__go_b64xor__ = fmt.Sprintf(__go_b64xor__, variable, encryptedShellcode, formattedKey, variable, variable)
+
+			// Call function named SaveTamplate2File
+			SaveTamplate2File(foundFilename, __go_b64xor__, cipher)
 		case "rc4":
 			// Config dynamic variable
 			__go_rc4__ = fmt.Sprintf(__go_rc4__, variable, encryptedShellcode, passphrase, variable, variable)
 
 			// Call function named SaveTamplate2File
 			SaveTamplate2File(foundFilename, __go_rc4__, cipher)
+		case "b64rc4":
+			// Config dynamic variable
+			__go_b64rc4__ = fmt.Sprintf(__go_b64rc4__, variable, encryptedShellcode, passphrase, variable, variable)
+
+			// Call function named SaveTamplate2File
+			SaveTamplate2File(foundFilename, __go_b64rc4__, cipher)
 		case "aes":
 			// Call function named KeyDetailsFormatter
 			formattedKey := Output.KeyDetailsFormatter(byteKey, language)
@@ -1161,6 +1425,36 @@ func DecryptorsTemplates(language string, cipher string, variable string, key in
 
 			// Call function named SaveTamplate2File
 			SaveTamplate2File(foundFilename, __go_aes__, cipher)
+		case "b64aes":
+			// Call function named KeyDetailsFormatter
+			formattedKey := Output.KeyDetailsFormatter(byteKey, language)
+
+			// Call function named KeyDetailsFormatter
+			formattedIv := Output.KeyDetailsFormatter(iv, language)
+
+			// Config dynamic variable
+			__go_b64aes__ = fmt.Sprintf(__go_b64aes__, variable, encryptedShellcode, formattedKey, formattedIv, variable, variable)
+
+			// Call function named SaveTamplate2File
+			SaveTamplate2File(foundFilename, __go_b64aes__, cipher)
+		case "chacha20":
+			// Call function named KeyDetailsFormatter
+			formattedKey := Output.KeyDetailsFormatter(byteKey, language)
+
+			// Config dynamic variable
+			__go_chacha20__ = fmt.Sprintf(__go_chacha20__, variable, encryptedShellcode, formattedKey, variable, variable)
+
+			// Call function named SaveTamplate2File
+			SaveTamplate2File(foundFilename, __go_chacha20__, cipher)
+		case "b64chacha20":
+			// Call function named KeyDetailsFormatter
+			formattedKey := Output.KeyDetailsFormatter(byteKey, language)
+
+			// Config dynamic variable
+			__go_b64chacha20__ = fmt.Sprintf(__go_b64chacha20__, variable, encryptedShellcode, formattedKey, variable, variable)
+
+			// Call function named SaveTamplate2File
+			SaveTamplate2File(foundFilename, __go_b64chacha20__, cipher)
 		}
 	case "python":
 		extension := "py"
