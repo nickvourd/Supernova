@@ -81,7 +81,7 @@ func ValidateKeySize(key int, encryption string) int {
 		logger.Fatal("Please provide a valid key value for the size...\n")
 	}
 
-	if strings.ToLower(encryption) == "aes" {
+	if strings.ToLower(encryption) == "aes" || strings.ToLower(encryption) == "b64aes" {
 		switch key {
 		case 128, 16:
 			key = 16
