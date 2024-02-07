@@ -7,11 +7,14 @@ import (
 	"crypto/aes"
 	"crypto/cipher"
 	"crypto/rand"
+	"encoding/base64"
 	"fmt"
 	"log"
 	"math/big"
 	"os"
 	"strings"
+
+	"golang.org/x/crypto/chacha20poly1305"
 )
 
 // Rc4Context represents the state of the RC4 encryption algorithm.
@@ -124,6 +127,32 @@ func RC4Encryption(data []byte, key []byte) []byte {
 	return encrypted
 }
 
+// Encrypt data using given key (32 bytes)
+// https://github.com/alinz/crypto.go/blob/main/chacha20.go
+func Chacha20Encryption(data []byte, key []byte) ([]byte, error) {
+	if len(key) != 32 {
+		logger := log.New(os.Stderr, "[!] ", 0)
+		logger.Fatal("Bad key length, expected 32 bytes\n")
+	}
+
+	aead, err := chacha20poly1305.NewX(key)
+	if err != nil {
+		return nil, err
+	}
+
+	nonceSize := aead.NonceSize()
+	// Select a random nonce, and leave capacity for the ciphertext.
+	nonce := make([]byte, nonceSize, nonceSize+len(data)+aead.Overhead())
+
+	_, err = rand.Read(nonce)
+	if err != nil {
+		return nil, err
+	}
+
+	// Encrypt the message and append the ciphertext to the nonce.
+	return aead.Seal(nonce, nonce, data, nil), nil
+}
+
 // CaesarEncryption function implements the Caesar encryption algorithm
 func CaesarEncryption(shellcode []byte, shift int) []byte {
 	encrypted := make([]byte, len(shellcode))
@@ -166,6 +195,32 @@ func DetectEncryption(cipher string, shellcode string, key int, language string)
 
 		// Call function named FormatShellcode
 		shellcodeFormatted := Converters.FormatShellcode(encryptedShellcode, language)
+
+		return shellcodeFormatted, len(encryptedShellcode), xorKey, "", nil
+	case "b64xor":
+		// Call function named GenerateRandomBytes
+		xorKey := GenerateRandomBytes(shift)
+
+		// Print generated XOR key
+		fmt.Printf("[+] Generated XOR key: ")
+
+		// Call function named PrintKeyDetails
+		Output.PrintKeyDetails(xorKey)
+
+		// Call function named XOREncryption
+		encryptedShellcode := XOREncryption(shellcodeInBytes, xorKey)
+
+		// Convert encryptedShellcode to Base64
+		encryptedShellcodeBase64 := base64.StdEncoding.EncodeToString(encryptedShellcode)
+
+		// Convert Base64 string to []byte
+		encryptedShellcodeBytes := []byte(encryptedShellcodeBase64)
+
+		// Print length changed notification
+		fmt.Printf("[+] New Payload size: %d bytes\n\n", len(encryptedShellcodeBytes))
+
+		// Call function named FormatShellcode
+		shellcodeFormatted := Converters.FormatShellcode(encryptedShellcodeBytes, language)
 
 		return shellcodeFormatted, len(encryptedShellcode), xorKey, "", nil
 	case "rot":
@@ -218,6 +273,54 @@ func DetectEncryption(cipher string, shellcode string, key int, language string)
 		shellcodeFormatted := Converters.FormatShellcode(encryptedShellcode, language)
 
 		return shellcodeFormatted, len(encryptedShellcode), key, "", iv
+	case "b64aes":
+		// Set key from argument key
+		keySize := key
+
+		// Generate a random 32-byte key and a random 16-byte IV
+		key := GenerateRandomBytes(keySize)
+		iv := GenerateRandomBytes(ivSize)
+
+		// Print generated key
+		fmt.Printf("[+] Generated key (32-byte): ")
+
+		// Call function named PrintKeyDetails
+		Output.PrintKeyDetails(key)
+
+		// Print generated key
+		fmt.Printf("[+] Generated IV (16-byte): ")
+
+		// Call function named PrintKeyDetails
+		Output.PrintKeyDetails(iv)
+
+		// Call function named DetectNotification
+		keyNotification := Output.DetectNotification(keySize)
+
+		// Print AES-<keyNotification>-CBC notification
+		fmt.Printf("[+] Using AES-%d-CBC encryption\n\n", keyNotification)
+
+		// Encrypt the shellcode using AES-256-CBC
+		encryptedShellcode, err := AESEncryption(key, iv, shellcodeInBytes)
+		if err != nil {
+			panic(err)
+		}
+
+		// Print length changed notification
+		fmt.Printf("[+] New Payload size: %d bytes\n\n", len(encryptedShellcode))
+
+		// Convert encryptedShellcode to Base64
+		encryptedShellcodeBase64 := base64.StdEncoding.EncodeToString(encryptedShellcode)
+
+		// Convert Base64 string to []byte
+		encryptedShellcodeBytes := []byte(encryptedShellcodeBase64)
+
+		// Print length changed notification
+		fmt.Printf("[+] New Payload size: %d bytes\n\n", len(encryptedShellcodeBytes))
+
+		// Call function named FormatShellcode
+		shellcodeFormatted := Converters.FormatShellcode(encryptedShellcodeBytes, language)
+
+		return shellcodeFormatted, len(encryptedShellcode), key, "", iv
 	case "rc4":
 		// Call function named GenerateRandomPassphrase
 		randomPassphrase := GenerateRandomPassphrase(key)
@@ -235,6 +338,78 @@ func DetectEncryption(cipher string, shellcode string, key int, language string)
 		shellcodeFormatted := Converters.FormatShellcode(encryptedShellcode, language)
 
 		return shellcodeFormatted, len(encryptedShellcode), rc4Key, randomPassphrase, nil
+	case "b64rc4":
+		// Call function named GenerateRandomPassphrase
+		randomPassphrase := GenerateRandomPassphrase(key)
+
+		// Convert passphrase to bytes
+		rc4Key := []byte(randomPassphrase)
+
+		// Print generated passphrase
+		fmt.Printf("[+] Generated passphrase: %s\n\n", randomPassphrase)
+
+		// Call function named RC4Encryption
+		encryptedShellcode := RC4Encryption(shellcodeInBytes, rc4Key)
+
+		// Convert encryptedShellcode to Base64
+		encryptedShellcodeBase64 := base64.StdEncoding.EncodeToString(encryptedShellcode)
+
+		// Convert Base64 string to []byte
+		encryptedShellcodeBytes := []byte(encryptedShellcodeBase64)
+
+		// Print length changed notification
+		fmt.Printf("[+] New Payload size: %d bytes\n\n", len(encryptedShellcodeBytes))
+
+		// Call function named FormatShellcode
+		shellcodeFormatted := Converters.FormatShellcode(encryptedShellcodeBytes, language)
+
+		return shellcodeFormatted, len(encryptedShellcode), rc4Key, randomPassphrase, nil
+	case "chacha20":
+		// Call function named GenerateRandomBytes
+		chacha20Key := GenerateRandomBytes(32)
+
+		// Print generated Chacha2 key
+		fmt.Printf("[+] Generated Chacha20 key: ")
+
+		// Call function named PrintKeyDetails
+		Output.PrintKeyDetails(chacha20Key)
+
+		// Call function named Chacha20Encryption
+		encryptedShellcode, _ := Chacha20Encryption(shellcodeInBytes, chacha20Key)
+
+		// Call function named FormatShellcode
+		shellcodeFormatted := Converters.FormatShellcode(encryptedShellcode, language)
+
+		return shellcodeFormatted, len(encryptedShellcode), chacha20Key, "", nil
+	case "b64chacha20":
+		// Call function named GenerateRandomBytes
+		chacha20Key := GenerateRandomBytes(32)
+
+		// Print generated Chacha2 key
+		fmt.Printf("[+] Generated Chacha20 key: ")
+
+		// Call function named PrintKeyDetails
+		Output.PrintKeyDetails(chacha20Key)
+
+		// Call function named Chacha20Encryption
+		encryptedShellcode, err := Chacha20Encryption(shellcodeInBytes, chacha20Key)
+		if err != nil {
+			panic(err)
+		}
+
+		// Convert encryptedShellcode to Base64
+		encryptedShellcodeBase64 := base64.StdEncoding.EncodeToString(encryptedShellcode)
+
+		// Convert Base64 string to []byte
+		encryptedShellcodeBytes := []byte(encryptedShellcodeBase64)
+
+		// Print length changed notification
+		fmt.Printf("[+] New Payload size: %d bytes\n\n", len(encryptedShellcodeBytes))
+
+		// Call function named FormatShellcode
+		shellcodeFormatted := Converters.FormatShellcode(encryptedShellcodeBytes, language)
+
+		return shellcodeFormatted, len(encryptedShellcode), chacha20Key, "", nil
 	default:
 		logger.Fatal("Unsupported encryption cipher")
 		return "", 0, nil, "", nil
