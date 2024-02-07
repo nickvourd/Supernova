@@ -1279,6 +1279,8 @@ func DecryptorsTemplates(language string, cipher string, variable string, key in
 
 			// Call function named SaveTamplate2File
 			SaveTamplate2File(foundFilename, __csharp_aes__, cipher)
+		default:
+			fmt.Printf("[!] Guide mode does not support the %s in CSharp language, yet!\n\n", cipher)
 		}
 	case "c":
 		extension := "c"
@@ -1323,6 +1325,8 @@ func DecryptorsTemplates(language string, cipher string, variable string, key in
 
 			// Call function named SaveTamplate2File
 			SaveTamplate2File(foundFilename, __c_aes__, cipher)
+		default:
+			fmt.Printf("[!] Guide mode does not support the %s in C language, yet!\n\n", cipher)
 		}
 	case "rust":
 		extension := "rs"
@@ -1367,6 +1371,8 @@ func DecryptorsTemplates(language string, cipher string, variable string, key in
 
 			// Call function named SaveTamplate2File
 			SaveTamplate2File(foundFilename, __rust_aes__, cipher)
+		default:
+			fmt.Printf("[!] Guide mode does not support the %s in Rust language, yet!\n\n", cipher)
 		}
 	case "nim":
 		fmt.Printf("[!] Guide mode does not support Nim language, yet!\n\n")
@@ -1455,6 +1461,8 @@ func DecryptorsTemplates(language string, cipher string, variable string, key in
 
 			// Call function named SaveTamplate2File
 			SaveTamplate2File(foundFilename, __go_b64chacha20__, cipher)
+		default:
+			fmt.Printf("[!] Guide mode does not support the %s in Go language, yet!\n\n", cipher)
 		}
 	case "python":
 		extension := "py"
@@ -1496,6 +1504,8 @@ func DecryptorsTemplates(language string, cipher string, variable string, key in
 
 			// Call function named SaveTamplate2File
 			SaveTamplate2File(foundFilename, __python_aes__, cipher)
+		default:
+			fmt.Printf("[!] Guide mode does not support the %s in Python language, yet!\n\n", cipher)
 		}
 	default:
 		logger.Fatal("Unsupported programming language")
