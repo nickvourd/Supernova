@@ -60,6 +60,8 @@ func ConvertShellcode2Template(shellcode string, language string, length int, va
 	case "python":
 		template := fmt.Sprintf(`%s = b"%s"`, variable, shellcode)
 		return template
+	case "raw":
+		return shellcode
 	default:
 		fmt.Println("[!] Unsupported programming language:", language)
 		os.Exit(1)
@@ -122,4 +124,12 @@ func AddValues2Template(operatingSystem string, template string) string {
 	}
 
 	return template
+}
+
+// CleanShellcodeString function
+func CleanShellcodeString(s string) string {
+	s = strings.ReplaceAll(s, " ", "")
+	s = strings.ReplaceAll(s, "0x", "")
+	s = strings.ReplaceAll(s, ",", "")
+	return s
 }
