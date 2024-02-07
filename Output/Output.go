@@ -1,7 +1,9 @@
 package Output
 
 import (
+	"Supernova/Converters"
 	"Supernova/Utils"
+	"encoding/hex"
 	"fmt"
 	"log"
 	"os"
@@ -81,4 +83,39 @@ func DetectNotification(key int) int {
 	}
 
 	return keyNotification
+}
+
+// SaveShellcodeToFile function
+func SaveShellcodeToFile(shellcode, filename string) error {
+	// Removes Spaces and the "0x" prefix from the string
+	shellcode = Converters.CleanShellcodeString(shellcode)
+
+	// Decodes shellcode string into byte array
+	data, err := hex.DecodeString(shellcode)
+	if err != nil {
+		fmt.Println("Error decoding shellcode: ", err)
+		return err
+	}
+
+	file, err := os.Create(filename)
+	if err != nil {
+		fmt.Println("Error creating file: ", err)
+		return err
+	}
+	defer file.Close()
+
+	_, err = file.Write(data)
+	if err != nil {
+		fmt.Println("Error writing to file: ", err)
+		return err
+	}
+
+	absolutePath, err := Utils.GetAbsolutePath(filename)
+	if err != nil {
+		fmt.Println("Error:", err)
+		return err
+	}
+
+	fmt.Printf("[+] Save encrypted shellcode file to " + absolutePath + "\n\n")
+	return nil
 }
