@@ -16,22 +16,27 @@ func ConvertShellcode2Hex(shellcode string, language string) (string, int) {
 	// Split hex shellcode into individual hex values
 	hexValues := strings.Split(hexShellcode, "")
 
-	formattedHexShellcode := ""
+	var builder strings.Builder
 
 	if language == "python" {
 		for i := 0; i < len(hexValues); i += 2 {
-			formattedHexShellcode += "\\x" + hexValues[i] + hexValues[i+1]
+			builder.WriteString("\\x")
+			builder.WriteString(hexValues[i])
+			builder.WriteString(hexValues[i+1])
 		}
 	} else {
 		// Format and add "0x" in front of each pair of hex characters
 		for i := 0; i < len(hexValues); i += 2 {
-			formattedHexShellcode += "0x" + hexValues[i] + hexValues[i+1]
+			builder.WriteString("0x")
+			builder.WriteString(hexValues[i])
+			builder.WriteString(hexValues[i+1])
 			if i < len(hexValues)-2 {
-				formattedHexShellcode += ", "
+				builder.WriteString(", ")
 			}
 		}
-
 	}
+
+	formattedHexShellcode := builder.String()
 
 	// Calculate shellcode size in bytes
 	shellcodeSize := len(shellcode)
@@ -60,6 +65,8 @@ func ConvertShellcode2Template(shellcode string, language string, length int, va
 	case "python":
 		template := fmt.Sprintf(`%s = b"%s"`, variable, shellcode)
 		return template
+	case "raw":
+		return shellcode
 	default:
 		fmt.Println("[!] Unsupported programming language:", language)
 		os.Exit(1)
@@ -122,4 +129,12 @@ func AddValues2Template(operatingSystem string, template string) string {
 	}
 
 	return template
+}
+
+// CleanShellcodeString function
+func CleanShellcodeString(s string) string {
+	s = strings.ReplaceAll(s, " ", "")
+	s = strings.ReplaceAll(s, "0x", "")
+	s = strings.ReplaceAll(s, ",", "")
+	return s
 }

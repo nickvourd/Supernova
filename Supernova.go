@@ -56,8 +56,8 @@ Please visit %s for more...
 // Options function
 func Options() *FlagOptions {
 	inputFile := flag.String("i", "", "Path to the raw 64-bit shellcode")
-	encryption := flag.String("enc", "", "Shellcode encoding/encryption (i.e., ROT, XOR, RC4, AES)")
-	language := flag.String("lang", "", "Programming language to translate the shellcode (i.e., Nim, Rust, C, CSharp, Go, python)")
+	encryption := flag.String("enc", "", "Shellcode encoding/encryption (i.e., ROT, XOR, RC4, AES, CHACHA20, B64XOR, B64RC4, B64AES, B64CHACHA20)")
+	language := flag.String("lang", "", "Programming language to translate the shellcode (i.e., Nim, Rust, C, CSharp, Go, Python, RAW)")
 	outFile := flag.String("o", "", "Name of the output file")
 	variable := flag.String("v", "shellcode", "Name of dynamic variable")
 	debug := flag.Bool("d", false, "Enable Debug mode")
@@ -101,11 +101,11 @@ func main() {
 	Arguments.ArgumentEmpty(options.language, 2)
 
 	// Check for valid values of language argument
-	foundLanguage := Arguments.ValidateArgument("lang", options.language, []string{"Nim", "Rust", "C", "CSharp", "Go", "Python"})
+	foundLanguage := Arguments.ValidateArgument("lang", options.language, []string{"Nim", "Rust", "C", "CSharp", "Go", "Python", "RAW"})
 
 	// Check if the encryption or obfuscation option is not used
 	if options.encryption == "" {
-	// && options.obfuscation == ""
+		// && options.obfuscation == ""
 		logger := log.New(os.Stderr, "[!] ", 0)
 		logger.Fatal("Please choose the encryption option to proceed!\n")
 		// logger.Fatal("Please choose either the encryption option or the obfuscation option to proceed!\n")
@@ -134,7 +134,10 @@ func main() {
 	// Encryption option is enable
 	if options.encryption != "" {
 		// Call function named ValidateArgument
-		Arguments.ValidateArgument("enc", options.encryption, []string{"XOR", "RC4", "AES", "ROT"})
+		Arguments.ValidateArgument("enc", options.encryption, []string{
+			"XOR", "RC4", "AES", "ROT", "CHACHA20",
+			"B64XOR", "B64RC4", "B64AES", "B64CHACHA20",
+		})
 
 		// Call function ValidateKeySize
 		options.key = Arguments.ValidateKeySize(options.key, options.encryption)
@@ -155,17 +158,26 @@ func main() {
 
 		// Outfile option is enable
 		if options.outFile != "" {
-			err := Output.SaveOutputToFile(template, options.outFile)
-			if err != nil {
-				fmt.Println("Error:", err)
-				return
+			language := strings.ToLower(options.language)
+			if language == "raw" {
+				err := Output.SaveShellcodeToFile(template, options.outFile)
+				if err != nil {
+					fmt.Println("Error:", err)
+					return
+				}
+			} else {
+				err := Output.SaveOutputToFile(template, options.outFile)
+				if err != nil {
+					fmt.Println("Error:", err)
+					return
+				}
 			}
 		}
 	}
 
 	// Obfuscation option is enable
 	// if options.obfuscation != "" {
-		// Call function named ValidateArgument
-		// Arguments.ValidateArgument("obf", options.obfuscation, []string{"IPv4", "IPv6", "MAC", "UUID"})
+	// Call function named ValidateArgument
+	// Arguments.ValidateArgument("obf", options.obfuscation, []string{"IPv4", "IPv6", "MAC", "UUID"})
 	// }
 }
