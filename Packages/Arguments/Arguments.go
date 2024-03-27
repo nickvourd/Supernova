@@ -128,7 +128,7 @@ func ArgumentEmpty(statement string, option int) {
 
 // ValidateArgument function
 func ValidateArgument(argName string, argValue string, validValues []string) string {
-	// Add aliases
+	// Add aliases for the laguage names
 	if strings.ToLower(argValue) == "golang" || strings.ToLower(argValue) == "go-lang" {
 		argValue = "go"
 	}
@@ -151,6 +151,18 @@ func ValidateArgument(argName string, argValue string, validValues []string) str
 
 	if strings.ToLower(argValue) == "c#" {
 		argValue = "csharp"
+	}
+
+	if strings.ToLower(argValue) == "bin" {
+		argValue = "raw"
+	}
+
+	if strings.ToLower(argValue) == "rustlang" || strings.ToLower(argValue) == "rust-lang" {
+		argValue = "rust"
+	}
+
+	if strings.ToLower(argValue) == "nimlang" || strings.ToLower(argValue) == "nim-lang" {
+		argValue = "nim"
 	}
 
 	for _, valid := range validValues {
