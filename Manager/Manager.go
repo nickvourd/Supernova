@@ -22,10 +22,14 @@ func EncryptionManager(Key int, Encryption string, Obfuscation string, Variable 
 
 	// if Obfuscation is empty
 	if Obfuscation == "" {
+		switch fileSizeFlag {
 		// if fileSizeFlag is true
-		if fileSizeFlag {
+		case true:
 			fmt.Printf("[!] The size of the encrypted shellcode exceeds the maximum display limit.\n\n[!] Supernova cannot display it on the screen.\n\n")
-		} else {
+		default:
+			if foundLanguage == "raw" {
+				fmt.Printf("[!] The encrypted shellcode is displayed in raw format represented as hexadecimal on the terminal.\n\n")
+			}
 			// Print encrypted template
 			fmt.Printf("[+] The encrypted payload with %s:\n\n%s\n\n", strings.ToUpper(Encryption), template)
 		}
