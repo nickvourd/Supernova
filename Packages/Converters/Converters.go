@@ -32,7 +32,8 @@ func ConvertShellcode2Hex(shellcode string, language string) (string, int) {
 
 	var builder strings.Builder
 
-	if language == "python" {
+	// Format and add "\x" in front of each pair of hex characters
+	if language == "python" || language == "perl" || language == "c" || language == "ruby" {
 		for i := 0; i < len(hexValues); i += 2 {
 			builder.WriteString("\\x")
 			builder.WriteString(hexValues[i])
@@ -81,6 +82,15 @@ func ConvertShellcode2Template(shellcode string, language string, length int, va
 		return template
 	case "raw":
 		return shellcode
+	case "powershell":
+		template := fmt.Sprintf(`[Byte[]] $%s = %s`, variable, shellcode)
+		return template
+	case "perl":
+		template := fmt.Sprintf(`my $%s = "%s"`, variable, shellcode)
+		return template
+	case "ruby":
+		template := fmt.Sprintf(`%s = "%s"`, variable, shellcode)
+		return template
 	default:
 		fmt.Println("[!] Unsupported programming language:", language)
 		os.Exit(1)
@@ -94,7 +104,7 @@ func FormatShellcode(encryptedShellcode []byte, language string) string {
 	var shellcodeFormatted string
 
 	for _, b := range encryptedShellcode {
-		if language == "python" {
+		if language == "python" || language == "perl" || language == "c" || language == "ruby" {
 			formattedShellcode = append(formattedShellcode, fmt.Sprintf("\\x%02x", b))
 		} else {
 			formattedShellcode = append(formattedShellcode, fmt.Sprintf("0x%02x", b))
@@ -102,7 +112,7 @@ func FormatShellcode(encryptedShellcode []byte, language string) string {
 	}
 
 	// Combine elements into a single string
-	if language == "python" {
+	if language == "python" || language == "perl" || language == "c" || language == "ruby" {
 		shellcodeFormatted = strings.Join(formattedShellcode, "")
 	} else {
 		shellcodeFormatted = strings.Join(formattedShellcode, ", ")

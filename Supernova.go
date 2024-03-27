@@ -9,6 +9,7 @@ import (
 	"log"
 	"os"
 	"strings"
+	"time"
 )
 
 // main function
@@ -44,7 +45,7 @@ func main() {
 	Arguments.ArgumentEmpty(options.Language, 2)
 
 	// Call function ValidateArgument
-	foundLanguage := Arguments.ValidateArgument("lang", options.Language, []string{"Nim", "Rust", "C", "CSharp", "Go", "Python", "Raw"})
+	foundLanguage := Arguments.ValidateArgument("lang", options.Language, []string{"Nim", "Rust", "C", "CSharp", "Go", "Python", "PowerShell", "Perl", "Ruby", "Raw"})
 
 	if options.Encryption == "" && options.Obfuscation == "" {
 		logger := log.New(os.Stderr, "[!] ", 0)
@@ -96,11 +97,22 @@ func main() {
 
 	// Encryption option is enable
 	if options.Encryption != "" {
+		// Record the start time
+		encryptionStartTime := time.Now()
+
 		// Call function named EncryptionManager
 		template, encryptedShellcode = Manager.EncryptionManager(options.Key, options.Encryption, options.Obfuscation, options.Debug, options.Variable, rawShellcode, foundLanguage, fileSizeFlag)
+
+		// Record the end time
+		encryptionEndTime := time.Now()
+
+		// Calculate the duration
+		encryptionDuration := encryptionEndTime.Sub(encryptionStartTime)
+
+		fmt.Printf("[+] Payload encryption with %s completed successfully! (Took: %s)\n\n", strings.ToUpper(options.Encryption), encryptionDuration)
 	}
 
-	// Obfuscation option is enable
+	// Obfuscation option is enables
 	if options.Obfuscation != "" {
 		fmt.Println(encryptedShellcode)
 	}
