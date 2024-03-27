@@ -10,7 +10,7 @@ import (
 )
 
 // EncryptionManager function
-func EncryptionManager(Key int, Encryption string, Obfuscation string, Variable string, rawShellcode string, foundLanguage string, fileSizeFlag bool) (string, string) {
+func EncryptionManager(Key int, Encryption string, Obfuscation string, Debug bool, Variable string, rawShellcode string, foundLanguage string, fileSizeFlag bool) (string, string) {
 	// Call function ValidateKeySize
 	Key = Arguments.ValidateKeySize(Key, Encryption)
 
@@ -20,18 +20,35 @@ func EncryptionManager(Key int, Encryption string, Obfuscation string, Variable 
 	// Call function named ConvertShellcode2Template
 	template := Converters.ConvertShellcode2Template(encryptedShellcode, foundLanguage, encryptedLength, Variable)
 
-	// if Obfuscation is empty
+	// Check if Obfuscation is empty
 	if Obfuscation == "" {
-		switch fileSizeFlag {
-		// if fileSizeFlag is true
-		case true:
+		// Handle the case when Obfuscation is empty
+		if fileSizeFlag {
+			// If fileSizeFlag is true
 			fmt.Printf("[!] The size of the encrypted shellcode exceeds the maximum display limit.\n\n[!] Supernova cannot display it on the screen.\n\n")
-		default:
+		} else {
 			if foundLanguage == "raw" {
+				// If the foundLanguage is "raw"
 				fmt.Printf("[!] The encrypted shellcode is displayed in raw format represented as hexadecimal on the terminal.\n\n")
 			}
-			// Print encrypted template
+			// Print the encrypted template
 			fmt.Printf("[+] The encrypted payload with %s:\n\n%s\n\n", strings.ToUpper(Encryption), template)
+		}
+	} else {
+		// Handle the case when Obfuscation is not empty
+		if Debug {
+			// If Debug mode is enabled
+			if fileSizeFlag {
+				// If fileSizeFlag is true
+				fmt.Printf("[!] The size of the encrypted shellcode exceeds the maximum display limit.\n\n[!] Supernova cannot display it on the screen.\n\n")
+			} else {
+				if foundLanguage == "raw" {
+					// If the foundLanguage is "raw"
+					fmt.Printf("[!] The encrypted shellcode is displayed in raw format represented as hexadecimal on the terminal.\n\n")
+				}
+				// Print the encrypted template
+				fmt.Printf("[+] The encrypted payload with %s:\n\n%s\n\n", strings.ToUpper(Encryption), template)
+			}
 		}
 	}
 

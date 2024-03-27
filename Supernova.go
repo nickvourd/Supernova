@@ -76,12 +76,16 @@ func main() {
 	// Print payload size and chosen language
 	fmt.Printf("[+] Payload size: %d bytes\n\n[+] Converted payload to %s language\n\n", payloadLength, strings.ToUpper(foundLanguage))
 
-	// Debug true
+	// if Debug true
 	if options.Debug {
-		// If fileSizeFlag is true
-		if fileSizeFlag {
+		switch fileSizeFlag {
+		case true:
 			fmt.Printf("[!] The size of the original raw shellcode exceeds the maximum display limit.\n\n[!] Supernova cannot display it on the screen.\n\n")
-		} else {
+		default:
+			// if language is raw
+			if foundLanguage == "raw" {
+				fmt.Printf("[!] The original shellcode is displayed in raw format represented as hexadecimal on the terminal.\n\n")
+			}
 			// Call function named ConvertShellcode2Template
 			template := Converters.ConvertShellcode2Template(convertedShellcode, foundLanguage, payloadLength, options.Variable)
 
@@ -93,7 +97,7 @@ func main() {
 	// Encryption option is enable
 	if options.Encryption != "" {
 		// Call function named EncryptionManager
-		template, encryptedShellcode = Manager.EncryptionManager(options.Key, options.Encryption, options.Obfuscation, options.Variable, rawShellcode, foundLanguage, fileSizeFlag)
+		template, encryptedShellcode = Manager.EncryptionManager(options.Key, options.Encryption, options.Obfuscation, options.Debug, options.Variable, rawShellcode, foundLanguage, fileSizeFlag)
 	}
 
 	// Obfuscation option is enable
