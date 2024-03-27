@@ -1,8 +1,8 @@
 package Output
 
 import (
-	"Supernova/Converters"
-	"Supernova/Utils"
+	"Supernova/Packages/Converters"
+	"Supernova/Packages/Utils"
 	"encoding/hex"
 	"fmt"
 	"log"

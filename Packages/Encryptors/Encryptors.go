@@ -1,8 +1,8 @@
 package Encryptors
 
 import (
-	"Supernova/Converters"
-	"Supernova/Output"
+	"Supernova/Packages/Converters"
+	"Supernova/Packages/Output"
 	"bytes"
 	"crypto/aes"
 	"crypto/cipher"

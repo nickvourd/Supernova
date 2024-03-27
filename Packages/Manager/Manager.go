@@ -1,10 +1,10 @@
 package Manager
 
 import (
-	"Supernova/Arguments"
-	"Supernova/Converters"
-	"Supernova/Encryptors"
-	"Supernova/Output"
+	"Supernova/Packages/Arguments"
+	"Supernova/Packages/Converters"
+	"Supernova/Packages/Encryptors"
+	"Supernova/Packages/Output"
 	"fmt"
 	"strings"
 )

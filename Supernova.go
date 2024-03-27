@@ -1,10 +1,10 @@
 package main
 
 import (
-	"Supernova/Arguments"
-	"Supernova/Converters"
-	"Supernova/Manager"
-	"Supernova/Utils"
+	"Supernova/Packages/Arguments"
+	"Supernova/Packages/Converters"
+	"Supernova/Packages/Manager"
+	"Supernova/Packages/Utils"
 	"fmt"
 	"log"
 	"os"
