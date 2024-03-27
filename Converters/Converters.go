@@ -8,7 +8,21 @@ import (
 	"strings"
 )
 
-// ConvertShellcode2Hex
+// ConvertShellcode2String function
+func ConvertShellcode2String(shellcodePath string) (string, error) {
+	// Read the contents of the file into a byte slice
+	fileContent, err := ioutil.ReadFile(shellcodePath)
+	if err != nil {
+		return "", err
+	}
+
+	// Convert the byte slice to a string
+	rawShellcode := strings.TrimSpace(string(fileContent))
+
+	return rawShellcode, nil
+}
+
+// ConvertShellcode2Hex function
 func ConvertShellcode2Hex(shellcode string, language string) (string, int) {
 	// Convert raw shellcode to hexadecimal
 	hexShellcode := hex.EncodeToString([]byte(shellcode))
@@ -74,31 +88,6 @@ func ConvertShellcode2Template(shellcode string, language string, length int, va
 	}
 }
 
-// ConvertShellcode2String function
-func ConvertShellcode2String(shellcodePath string) (string, error) {
-	// Read the contents of the file into a byte slice
-	fileContent, err := ioutil.ReadFile(shellcodePath)
-	if err != nil {
-		return "", err
-	}
-
-	// Convert the byte slice to a string
-	rawShellcode := strings.TrimSpace(string(fileContent))
-
-	return rawShellcode, nil
-}
-
-// FormatKeysToHex function
-func FormatKeysToHex(byteArray []byte) string {
-	var hexBytes []string
-	for _, byteVal := range byteArray[:len(byteArray)-1] {
-		hexBytes = append(hexBytes, fmt.Sprintf("0x%02x", byteVal))
-	}
-	hexBytes = append(hexBytes, fmt.Sprintf("0x%02x", byteArray[len(byteArray)-1]))
-
-	return strings.Join(hexBytes, ", ")
-}
-
 // FormatShellcode function
 func FormatShellcode(encryptedShellcode []byte, language string) string {
 	var formattedShellcode []string
@@ -120,15 +109,6 @@ func FormatShellcode(encryptedShellcode []byte, language string) string {
 	}
 
 	return shellcodeFormatted
-}
-
-// AddValues2Template function
-func AddValues2Template(operatingSystem string, template string) string {
-	if strings.ToLower(operatingSystem) == "linux" || strings.ToLower(operatingSystem) == "windows" {
-		template = "#include <Windows.h>" + template
-	}
-
-	return template
 }
 
 // CleanShellcodeString function

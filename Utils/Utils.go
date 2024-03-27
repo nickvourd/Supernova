@@ -9,13 +9,12 @@ import (
 	"strings"
 )
 
-// Version function
-func Version() {
-	Version := runtime.Version()
-	Version = strings.Replace(Version, "go1.", "", -1)
-	VerNumb, _ := strconv.ParseFloat(Version, 64)
-	if VerNumb >= 19.1 {
-	} else {
+// CheckGoVersio function
+func CheckGoVersion() {
+	version := runtime.Version()
+	version = strings.Replace(version, "go1.", "", -1)
+	verNumb, _ := strconv.ParseFloat(version, 64)
+	if verNumb < 19.1 {
 		logger := log.New(os.Stderr, "[!] ", 0)
 		logger.Fatal("The version of Go is to old, please update to version 1.19.1 or later...\n")
 	}
@@ -29,23 +28,4 @@ func GetAbsolutePath(filename string) (string, error) {
 		return "", err
 	}
 	return absolutePath, nil
-}
-
-// HostIdentifier function
-func HostIdentifier() string {
-	// Get OS of host machine
-	osName := runtime.GOOS
-	var operatingSystem string
-
-	switch osName {
-	case "windows":
-		operatingSystem = "Windows"
-	case "linux":
-		operatingSystem = "Linux"
-	default:
-		logger := log.New(os.Stderr, "[!] ", 0)
-		logger.Fatal("Unsupported Operating System...\n")
-	}
-
-	return operatingSystem
 }

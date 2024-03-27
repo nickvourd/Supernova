@@ -8,35 +8,103 @@ import (
 	"strings"
 )
 
-// ArgumentLength function
-func ArgumentLength(versionFlag bool) {
-	logger := log.New(os.Stderr, "[!] ", 0)
-	// if no arguments print help menu
-	if len(os.Args) == 1 {
-		fmt.Println("Usage of Suprenova.exe:")
-		flag.PrintDefaults()
-		os.Exit(0)
-		// If arguments are more than 2
-	} else if len(os.Args) > 2 {
-		// if versionFlag is enabled
-		if versionFlag {
-			logger.Fatal("You cannot use the -version flag in conjunction with other arguments.")
-		}
+// FlagOptions struct represents the options parsed from command line flags
+type FlagOptions struct {
+	OutFile     string
+	InputFile   string
+	Language    string
+	Encryption  string
+	Obfuscation string
+	Variable    string
+	Debug       bool
+	Key         int
+	Version     bool
+}
+
+var (
+	version = "2.0.0"
+	license = "MIT"
+	authors = [...]string{"@nickvourd", "@Papadope9"}
+	github  = "https://github.com/nickvourd/Supernova"
+	ascii   = `
+
+███████╗██╗   ██╗██████╗ ███████╗██████╗ ███╗   ██╗ ██████╗ ██╗   ██╗ █████╗ 
+██╔════╝██║   ██║██╔══██╗██╔════╝██╔══██╗████╗  ██║██╔═══██╗██║   ██║██╔══██╗
+███████╗██║   ██║██████╔╝█████╗  ██████╔╝██╔██╗ ██║██║   ██║██║   ██║███████║
+╚════██║██║   ██║██╔═══╝ ██╔══╝  ██╔══██╗██║╚██╗██║██║   ██║╚██╗ ██╔╝██╔══██║
+███████║╚██████╔╝██║     ███████╗██║  ██║██║ ╚████║╚██████╔╝ ╚████╔╝ ██║  ██║
+╚══════╝ ╚═════╝ ╚═╝     ╚══════╝╚═╝  ╚═╝╚═╝  ╚═══╝ ╚═════╝   ╚═══╝  ╚═╝  ╚═╝
+
+Supernova v%s - Real fucking shellcode encryptor & obfuscator tool.
+Supernova is an open source tool licensed under %s.
+Written with <3 by %s and %s...
+Please visit %s for more...
+
+`
+)
+
+// PrintAscii function
+func PrintAscii() {
+	fmt.Printf(ascii, version, license, authors[0], authors[1], github)
+}
+
+// Options function
+// Options function parses command line flags and returns FlagOptions
+func Options() *FlagOptions {
+	inputFile := flag.String("input", "", "Path to a raw shellcode")
+	encryption := flag.String("enc", "", "Shellcode encoding/encryption (i.e., ROT, XOR, RC4, AES, CHACHA20)")
+	language := flag.String("lang", "", "Programming language to translate the shellcode (i.e., Nim, Rust, C, CSharp, Go, Python, Raw)")
+	outFile := flag.String("output", "", "Name of the output shellcode file")
+	variable := flag.String("var", "shellcode", "Name of dynamic variable")
+	debug := flag.Bool("debug", false, "Enable Debug mode")
+	key := flag.Int("key", 1, "Key length size for encryption")
+	version := flag.Bool("version", false, "Show Supernova current version")
+	obfuscation := flag.String("obf", "", "Shellcode obfuscation (i.e., IPV4, IPV6, MAC, UUID)")
+	flag.Parse()
+
+	return &FlagOptions{
+		OutFile:     *outFile,
+		InputFile:   *inputFile,
+		Language:    *language,
+		Encryption:  *encryption,
+		Variable:    *variable,
+		Debug:       *debug,
+		Key:         *key,
+		Version:     *version,
+		Obfuscation: *obfuscation,
 	}
 }
 
-// ShowVersion function
-func ShowVersion(version string, versionFlag bool) {
-	// if arguments are 2
-	if len(os.Args) == 2 {
-		// if versionFlag is enabled
+// ShowHelp function
+func ShowHelp() {
+	fmt.Println("Usage of Suprenova:")
+	flag.PrintDefaults()
+	os.Exit(0)
+}
+
+// ArgumentLength function
+func ArgumentLength(versionFlag bool) {
+	logger := log.New(os.Stderr, "[!] ", 0)
+	switch len(os.Args) {
+	case 1:
+		// if no arguments print help menu
+		// Call function named ShowHelp
+		ShowHelp()
+	case 2:
+		// if one argument
 		if versionFlag {
+			// if version flag exists
 			fmt.Printf("[+] Current version: " + version + "\n\n")
 			os.Exit(0)
 		} else {
-			fmt.Println("Usage of Suprenova.exe:")
-			flag.PrintDefaults()
-			os.Exit(0)
+			// if version flag not exists
+			// Call function named ShowHelp
+			ShowHelp()
+		}
+	default:
+		// if version flag exists
+		if versionFlag {
+			logger.Fatal("You cannot use the '-version' flag in conjunction with other arguments.\n\n")
 		}
 	}
 }
@@ -47,9 +115,11 @@ func ArgumentEmpty(statement string, option int) {
 		logger := log.New(os.Stderr, "[!] ", 0)
 		switch option {
 		case 1:
-			logger.Fatal("Please provide a path to a file containing raw 64-bit shellcode.")
+			logger.Fatal("The '-input' flag specifying the path to raw shellcode is mandatory.\n\n")
 		case 2:
-			logger.Fatal("Please provide a valid value for the programming language (e.g., C, CSharp, Rust, Nim, Go, Python).")
+			logger.Fatal("The '-lang' flag specifying a valid language option is mandatory (e.g., C, CSharp, Rust, Nim, Go, Python, Raw).\n\n")
+		case 3:
+			logger.Fatal("The size of the provided raw shellcode is too large!\n\n[!] The '-output' flag specifying the path to output shellcode is mandatory.\n\n")
 		default:
 			logger.Fatal("Invalid option specified for ArgumentEmpty function.")
 		}
@@ -69,19 +139,57 @@ func ValidateArgument(argName string, argValue string, validValues []string) str
 		}
 	}
 
-	fmt.Printf("[!] Invalid value '%s' for argument '%s'. Valid values are: %v\n", argValue, argName, validValues)
+	fmt.Printf("[!] Invalid value '%s' for argument '%s'. Valid values are: %v\n\n", argValue, argName, validValues)
 	os.Exit(1)
 	return ""
+}
+
+// ShellcodeSizeValidation function
+func ShellcodeSizeValidation(filename string) bool {
+	// set starting flag
+	stagelessFlag := false
+	logger := log.New(os.Stderr, "[!] ", 0)
+	// Open the file
+	file, err := os.Open(filename)
+	if err != nil {
+		logger.Fatal(err)
+	}
+	defer file.Close()
+
+	// Get the file information
+	fileInfo, err := file.Stat()
+	if err != nil {
+		logger.Fatal(err)
+	}
+
+	// Get the file size
+	fileSize := fileInfo.Size()
+
+	// Convert 197 KB to bytes
+	sizeThresholdKB := 197
+	sizeThresholdBytes := int64(sizeThresholdKB) * 1024
+
+	// Check if the file size is equal or greater than 197KB
+	if fileSize >= sizeThresholdBytes {
+		stagelessFlag = true
+	} else {
+		stagelessFlag = false
+	}
+
+	return stagelessFlag
 }
 
 // ValidateKeySize function
 func ValidateKeySize(key int, encryption string) int {
 	logger := log.New(os.Stderr, "[!] ", 0)
+
+	// if key is negative number or zero
 	if key <= 0 {
-		logger.Fatal("Please provide a valid key value for the size...\n")
+		logger.Fatal("The provided key value is not valid.\n\n[!] Please provide a valid key value for the size.\n\n")
 	}
 
-	if strings.ToLower(encryption) == "aes" || strings.ToLower(encryption) == "b64aes" {
+	// if encryption is AES
+	if strings.ToLower(encryption) == "aes" {
 		switch key {
 		case 128, 16:
 			key = 16
@@ -90,8 +198,19 @@ func ValidateKeySize(key int, encryption string) int {
 		case 256, 32:
 			key = 32
 		default:
-			logger.Fatal("Provide a valid AES key:\n\nFor AES-128-CBC:\n\n-k 128 or -k 16\n\nFor AES-192-CBC:\n\n-k 192 or -k 24\n\nFor AES-256-CBC:\n\n-k 256 or -k 32\n\n")
+			logger.Fatal("Provide a valid AES key:\n\nFor AES-128-CBC: -key 128 or -key 16\n\nFor AES-192-CBC: -key 192 or -key 24\n\nFor AES-256-CBC: -key 256 or -key 32\n\n")
 		}
 	}
+
+	// if encryption is chacha20
+	if strings.ToLower(encryption) == "chacha20" {
+		switch key {
+		case 32:
+			key = 32
+		default:
+			logger.Fatal("Provide a valid Chacha20 key: -key 32\n\n")
+		}
+	}
+
 	return key
 }
