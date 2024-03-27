@@ -128,12 +128,12 @@ func ArgumentEmpty(statement string, option int) {
 
 // ValidateArgument function
 func ValidateArgument(argName string, argValue string, validValues []string) string {
-	// Add aliases for the laguage names
+	// Add aliases for the language command-line names
 	if strings.ToLower(argValue) == "golang" || strings.ToLower(argValue) == "go-lang" {
 		argValue = "go"
 	}
 
-	if strings.ToLower(argValue) == "pwsh" || strings.ToLower(argValue) == "ps1" {
+	if strings.ToLower(argValue) == "pwsh" || strings.ToLower(argValue) == "ps1" || strings.ToLower(argValue) == "pshell" {
 		argValue = "powershell"
 	}
 
@@ -149,7 +149,7 @@ func ValidateArgument(argName string, argValue string, validValues []string) str
 		argValue = "perl"
 	}
 
-	if strings.ToLower(argValue) == "c#" {
+	if strings.ToLower(argValue) == "c#" || strings.ToLower(argValue) == "cs" || strings.ToLower(argValue) == "c-sharp" {
 		argValue = "csharp"
 	}
 
@@ -157,7 +157,7 @@ func ValidateArgument(argName string, argValue string, validValues []string) str
 		argValue = "raw"
 	}
 
-	if strings.ToLower(argValue) == "rustlang" || strings.ToLower(argValue) == "rust-lang" {
+	if strings.ToLower(argValue) == "rustlang" || strings.ToLower(argValue) == "rust-lang" || strings.ToLower(argValue) == "rs" {
 		argValue = "rust"
 	}
 
