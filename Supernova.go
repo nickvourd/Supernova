@@ -45,7 +45,7 @@ func main() {
 	Arguments.ArgumentEmpty(options.Language, 2)
 
 	// Call function ValidateArgument
-	foundLanguage := Arguments.ValidateArgument("lang", options.Language, []string{"Nim", "Rust", "C", "CSharp", "Go", "Python", "PowerShell", "Perl", "Ruby", "Raw"})
+	foundLanguage := Arguments.ValidateArgument("lang", options.Language, []string{"Nim", "Rust", "C", "CSharp", "Go", "Python", "PowerShell", "Perl", "Ruby", "Java", "Raw"})
 
 	if options.Encryption == "" && options.Obfuscation == "" {
 		logger := log.New(os.Stderr, "[!] ", 0)

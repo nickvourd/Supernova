@@ -53,7 +53,7 @@ func PrintAscii() {
 func Options() *FlagOptions {
 	inputFile := flag.String("input", "", "Path to a raw shellcode")
 	encryption := flag.String("enc", "", "Shellcode encoding/encryption (i.e., ROT, XOR, RC4, AES, CHACHA20)")
-	language := flag.String("lang", "", "Programming language to translate the shellcode (i.e., Nim, Rust, C, CSharp, Go, Python, PowerShell, Perl, Ruby, Raw)")
+	language := flag.String("lang", "", "Programming language to translate the shellcode (i.e., Nim, Rust, C, CSharp, Go, Python, PowerShell, Perl, Ruby, Java, Raw)")
 	outFile := flag.String("output", "", "Name of the output shellcode file")
 	variable := flag.String("var", "shellcode", "Name of dynamic variable")
 	debug := flag.Bool("debug", false, "Enable Debug mode")
@@ -117,7 +117,7 @@ func ArgumentEmpty(statement string, option int) {
 		case 1:
 			logger.Fatal("The '-input' flag specifying the path to raw shellcode is mandatory.\n\n")
 		case 2:
-			logger.Fatal("The '-lang' flag specifying a valid language option is mandatory (e.g., C, CSharp, Rust, Nim, Go, Python, PowerShell, Perl, Ruby, Raw).\n\n")
+			logger.Fatal("The '-lang' flag specifying a valid language option is mandatory (e.g., C, CSharp, Rust, Nim, Go, Python, PowerShell, Perl, Ruby, Java, Raw).\n\n")
 		case 3:
 			logger.Fatal("The size of the provided raw shellcode is too large!\n\n[!] The '-output' flag specifying the path to output shellcode is mandatory.\n\n")
 		default:
