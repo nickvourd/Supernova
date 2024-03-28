@@ -55,7 +55,6 @@ func DetectObfuscation(obfuscation string, shellcode []string) {
 		obfuscatedShellcodeString := IPv4Obfuscation(shellcodeStr)
 
 		fmt.Println(obfuscatedShellcodeString)
-
 	case "ipv6":
 		fmt.Println("IPv6 Hello")
 	case "mac":

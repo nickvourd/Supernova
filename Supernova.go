@@ -140,7 +140,7 @@ func main() {
 		// Calculate the duration
 		encryptionDuration := encryptionEndTime.Sub(encryptionStartTime)
 
-		fmt.Println(encryptionDuration)
+		fmt.Printf("\n[+] Payload obfuscation with %s completed successfully! (Completed in %s)\n\n", strings.ToUpper(options.Obfuscation), encryptionDuration)
 	}
 
 	// Call function named OutputManager
