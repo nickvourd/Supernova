@@ -238,7 +238,7 @@ func ValidateKeySize(key int, encryption string) int {
 		case 256, 32:
 			key = 32
 		default:
-			logger.Fatal("Provide a valid AES key:\n\nFor AES-128-CBC: -key 128 or -key 16\n\nFor AES-192-CBC: -key 192 or -key 24\n\nFor AES-256-CBC: -key 256 or -key 32\n\n")
+			logger.Fatal("Provide a valid AES key:\n\n~> For AES-128-CBC: '-key 128' or '-key 16'\n\n~> For AES-192-CBC: '-key 192' or '-key 24'\n\n~> For AES-256-CBC: '-key 256' or '-key 32'\n\n")
 		}
 	}
 
