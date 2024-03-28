@@ -102,6 +102,6 @@ func ObfuscationManager(shellcode []byte, Obfuscation string, Language string, V
 		}
 
 		// Print the obfuscated template
-		fmt.Printf("[+] The obfuscated payload with %s:\n\n%s\n\n", strings.ToUpper(Obfuscation), template)
+		fmt.Printf("[+] The obfuscated payload as %s:\n\n%s\n\n", strings.ToUpper(Obfuscation), template)
 	}
 }

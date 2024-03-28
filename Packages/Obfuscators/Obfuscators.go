@@ -8,6 +8,11 @@ import (
 	"strings"
 )
 
+// MacObfuscation function
+func MacObfuscation(shellcode string) {
+	fmt.Println(shellcode)
+}
+
 // IPv6Obfuscation function
 func IPv6Obfuscation(shellcode string) []string {
 	// Remove all spaces
@@ -15,7 +20,7 @@ func IPv6Obfuscation(shellcode string) []string {
 
 	// Check if the length of the string is less than 32
 	if len(shellcode) < 32 {
-		fmt.Println("[!] The input string is too short.")
+		fmt.Println("[!] The input string is too short!")
 		os.Exit(1)
 		return nil
 	}
@@ -108,7 +113,11 @@ func DetectObfuscation(obfuscation string, shellcode []string) string {
 		// Remove comma
 		obfuscatedShellcodeString = obfuscatedShellcodeString[:len(obfuscatedShellcodeString)-2]
 	case "mac":
-		fmt.Println("MAC Hello")
+		// Call function named ConvertShellcodeHex2String
+		shellcodeStr := Converters.ConvertShellcodeHex2String(shellcode)
+
+		// Call function named MacObfuscation
+		MacObfuscation(shellcodeStr)
 	case "uuid":
 		fmt.Println("UUID Hello")
 	default:
