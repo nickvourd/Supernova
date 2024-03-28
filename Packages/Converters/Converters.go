@@ -3,7 +3,6 @@ package Converters
 import (
 	"encoding/hex"
 	"fmt"
-	"io/ioutil"
 	"os"
 	"strconv"
 	"strings"
@@ -12,7 +11,7 @@ import (
 // ConvertShellcode2String function
 func ConvertShellcode2String(shellcodePath string) (string, error) {
 	// Read the contents of the file into a byte slice
-	fileContent, err := ioutil.ReadFile(shellcodePath)
+	fileContent, err := os.ReadFile(shellcodePath)
 	if err != nil {
 		return "", err
 	}
@@ -180,4 +179,46 @@ func ShellcodeDecimalArray2String(decArray []int) string {
 
 	// Trim any trailing space and return the resulting string
 	return strings.TrimSpace(str)
+}
+
+// ConvertObfShellcode2Template function
+func ConvertObfShellcode2Template(shellcode string, language string, variable string) string {
+	switch language {
+	case "c":
+		template := fmt.Sprintf(`char *%s[] = {%s};`, variable, shellcode)
+		return template
+	case "csharp":
+		template := fmt.Sprintf(`string[] %s = new string[] {%s};`, variable, shellcode)
+		return template
+	case "nim":
+		template := fmt.Sprintf(`var %s = [%s]`, variable, shellcode)
+		return template
+	case "rust":
+		template := fmt.Sprintf(`let %s = [%s];`, variable, shellcode)
+		return template
+	case "go":
+		template := fmt.Sprintf(`%s := [...]string{%s}`, variable, shellcode)
+		return template
+	case "python":
+		template := fmt.Sprintf(`%s = [%s]`, variable, shellcode)
+		return template
+	case "raw":
+		return shellcode
+	case "powershell":
+		template := fmt.Sprintf(`$%s = @(%s)`, variable, shellcode)
+		return template
+	case "perl":
+		template := fmt.Sprintf(`my @%s = (%s);`, variable, shellcode)
+		return template
+	case "ruby":
+		template := fmt.Sprintf(`%s = [%s]`, variable, shellcode)
+		return template
+	case "java":
+		template := fmt.Sprintf(`String[] %s = {%s};`, variable, shellcode)
+		return template
+	default:
+		fmt.Println("[!] Unsupported programming language:", language)
+		os.Exit(1)
+		return ""
+	}
 }

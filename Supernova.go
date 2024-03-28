@@ -125,13 +125,13 @@ func main() {
 			shellcode = encryptedShellcode
 
 			// Call function named ObfuscationManager
-			Manager.ObfuscationManager(shellcode, strings.ToLower(options.Obfuscation))
+			Manager.ObfuscationManager(shellcode, strings.ToLower(options.Obfuscation), foundLanguage, options.Variable, fileSizeFlag)
 		} else {
 			// Convert raw shellcode to bytes
 			shellcode = []byte(rawShellcode)
 
 			// Call function named ObfuscationManager
-			Manager.ObfuscationManager(shellcode, strings.ToLower(options.Obfuscation))
+			Manager.ObfuscationManager(shellcode, strings.ToLower(options.Obfuscation), foundLanguage, options.Variable, fileSizeFlag)
 		}
 
 		// Record the end time
@@ -140,7 +140,7 @@ func main() {
 		// Calculate the duration
 		encryptionDuration := encryptionEndTime.Sub(encryptionStartTime)
 
-		fmt.Printf("\n[+] Payload obfuscation with %s completed successfully! (Completed in %s)\n\n", strings.ToUpper(options.Obfuscation), encryptionDuration)
+		fmt.Printf("[+] Payload obfuscation with %s completed successfully! (Completed in %s)\n\n", strings.ToUpper(options.Obfuscation), encryptionDuration)
 	}
 
 	// Call function named OutputManager

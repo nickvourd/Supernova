@@ -40,9 +40,13 @@ func IPv4Obfuscation(shellcode string) string {
 }
 
 // DetectObfuscation function
-func DetectObfuscation(obfuscation string, shellcode []string) {
+func DetectObfuscation(obfuscation string, shellcode []string) string {
 	// Set logger for errors
 	logger := log.New(os.Stderr, "[!] ", 0)
+
+	// Declare variables
+	var obfuscatedShellcodeString string
+
 	switch obfuscation {
 	case "ipv4":
 		// Call function named ShellcodeFromStringHex2Decimal
@@ -52,9 +56,7 @@ func DetectObfuscation(obfuscation string, shellcode []string) {
 		shellcodeStr := Converters.ShellcodeDecimalArray2String(shellcodeDecArray)
 
 		// Call function named IPv4Obfuscation
-		obfuscatedShellcodeString := IPv4Obfuscation(shellcodeStr)
-
-		fmt.Println(obfuscatedShellcodeString)
+		obfuscatedShellcodeString = IPv4Obfuscation(shellcodeStr)
 	case "ipv6":
 		fmt.Println("IPv6 Hello")
 	case "mac":
@@ -64,4 +66,6 @@ func DetectObfuscation(obfuscation string, shellcode []string) {
 	default:
 		logger.Fatal("Unsupported obfuscation technique")
 	}
+
+	return obfuscatedShellcodeString
 }

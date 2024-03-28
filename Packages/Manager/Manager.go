@@ -78,7 +78,7 @@ func OutputManager(OutFile string, Language string, template string) {
 }
 
 // ObfuscationManager function
-func ObfuscationManager(shellcode []byte, Obfuscation string) {
+func ObfuscationManager(shellcode []byte, Obfuscation string, Language string, Variable string, fileSizeFlag bool) {
 
 	// Call function named ShellcodeFromByteString
 	formattedStringShellcode := Converters.ShellcodeFromByte2String(shellcode)
@@ -87,5 +87,16 @@ func ObfuscationManager(shellcode []byte, Obfuscation string) {
 	shellcodeHexArray := strings.Split(formattedStringShellcode, " ")
 
 	// Call function named DetectObfuscation
-	Obfuscators.DetectObfuscation(Obfuscation, shellcodeHexArray)
+	ObfuscatedShellcode := Obfuscators.DetectObfuscation(Obfuscation, shellcodeHexArray)
+
+	// Call function named ConvertObfShellcode2Template
+	template := Converters.ConvertObfShellcode2Template(ObfuscatedShellcode, Language, Variable)
+
+	// If fileSizeFlag is true
+	if fileSizeFlag {
+		fmt.Printf("[!] The size of the obfuscated shellcode exceeds the maximum display limit.\n\n[!] Supernova cannot display it on the screen.\n\n")
+	} else {
+		// Print the obfuscated template
+		fmt.Printf("[+] The obfuscated payload with %s:\n\n%s\n\n", strings.ToUpper(Obfuscation), template)
+	}
 }
