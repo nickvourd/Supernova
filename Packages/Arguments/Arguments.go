@@ -22,11 +22,12 @@ type FlagOptions struct {
 }
 
 var (
-	version = "2.0.0"
-	license = "MIT"
-	authors = [...]string{"@nickvourd", "@Papadope9"}
-	github  = "https://github.com/nickvourd/Supernova"
-	ascii   = `
+	version     = "2.0.0"
+	versionName = "Grand Canyon"
+	license     = "MIT"
+	authors     = [...]string{"@nickvourd", "@Papadope9"}
+	github      = "https://github.com/nickvourd/Supernova"
+	ascii       = `
 
 ███████╗██╗   ██╗██████╗ ███████╗██████╗ ███╗   ██╗ ██████╗ ██╗   ██╗ █████╗ 
 ██╔════╝██║   ██║██╔══██╗██╔════╝██╔══██╗████╗  ██║██╔═══██╗██║   ██║██╔══██╗
@@ -94,7 +95,7 @@ func ArgumentLength(versionFlag bool) {
 		// if one argument
 		if versionFlag {
 			// if version flag exists
-			fmt.Printf("[+] Current version: " + version + "\n\n")
+			fmt.Printf("[+] Current version: " + version + "\n\n[+] Version name: " + versionName + "\n\n")
 			os.Exit(0)
 		} else {
 			// if version flag not exists
