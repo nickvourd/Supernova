@@ -1,6 +1,7 @@
 package Arguments
 
 import (
+	"Supernova/Colors"
 	"flag"
 	"fmt"
 	"log"
@@ -35,7 +36,9 @@ var (
 ╚════██║██║   ██║██╔═══╝ ██╔══╝  ██╔══██╗██║╚██╗██║██║   ██║╚██╗ ██╔╝██╔══██║
 ███████║╚██████╔╝██║     ███████╗██║  ██║██║ ╚████║╚██████╔╝ ╚████╔╝ ██║  ██║
 ╚══════╝ ╚═════╝ ╚═╝     ╚══════╝╚═╝  ╚═╝╚═╝  ╚═══╝ ╚═════╝   ╚═══╝  ╚═╝  ╚═╝
+`
 
+	text = `
 Supernova v%s - Real fucking shellcode encryptor & obfuscator tool.
 Supernova is an open source tool licensed under %s.
 Written with <3 by %s and %s...
@@ -46,7 +49,10 @@ Please visit %s for more...
 
 // PrintAscii function
 func PrintAscii() {
-	fmt.Printf(ascii, version, license, authors[0], authors[1], github)
+	// Initialize RandomColor
+	randomColor := Colors.RandomColor()
+	fmt.Print(randomColor(ascii))
+	fmt.Printf(text, version, license, authors[0], authors[1], github)
 }
 
 // Options function
@@ -95,7 +101,7 @@ func ArgumentLength(versionFlag bool) {
 		// if one argument
 		if versionFlag {
 			// if version flag exists
-			fmt.Printf("[+] Current version: " + version + "\n\n[+] Version name: " + versionName + "\n\n")
+			fmt.Printf("[+] Current version: " + Colors.BoldRed(version) + "\n\n[+] Version name: " + Colors.BoldRed(versionName) + "\n\n")
 			os.Exit(0)
 		} else {
 			// if version flag not exists
