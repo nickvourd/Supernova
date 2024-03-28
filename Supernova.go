@@ -121,7 +121,7 @@ func main() {
 
 		// if fileSizeFlag is enabled
 		if fileSizeFlag {
-			fmt.Printf("[!] Please be patient as Supernova processes your request.\n\n[!] The input payload size is large, so it may take some time to complete!\n\n")
+			fmt.Printf("[!] Please be patient as Supernova processes your request.\n\n")
 		}
 
 		// Encryption option is enable
