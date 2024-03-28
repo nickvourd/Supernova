@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"io/ioutil"
 	"os"
+	"strconv"
 	"strings"
 )
 
@@ -142,4 +143,41 @@ func CleanShellcodeString(s string) string {
 	s = strings.ReplaceAll(s, "0x", "")
 	s = strings.ReplaceAll(s, ",", "")
 	return s
+}
+
+// ShellcodeFromByte2String function
+// Function to convert byte array to string representation
+func ShellcodeFromByte2String(shellcode []byte) string {
+	var builder strings.Builder
+	for _, b := range shellcode {
+		builder.WriteString(fmt.Sprintf("%02x ", b))
+	}
+	return builder.String()
+}
+
+// hexToDecimal function
+// Function to convert array of hexadecimal strings to decimal integers
+func ShellcodeFromStringHex2Decimal(shellcode []string) []int {
+	decArray := make([]int, len(shellcode))
+	for i, hexStr := range shellcode {
+		decVal, _ := strconv.ParseInt(hexStr, 16, 64)
+		decArray[i] = int(decVal)
+	}
+	return decArray
+}
+
+// ShellcodeDecimalArray2String function
+// Function to convert a array of decimal to strings
+func ShellcodeDecimalArray2String(decArray []int) string {
+	// Create an empty string
+	str := ""
+
+	// Iterate over each decimal value in the array
+	for _, dec := range decArray {
+		// Convert the decimal value to string and append it to the string with a space
+		str += strconv.Itoa(dec) + " "
+	}
+
+	// Trim any trailing space and return the resulting string
+	return strings.TrimSpace(str)
 }

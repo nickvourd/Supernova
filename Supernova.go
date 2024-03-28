@@ -15,8 +15,9 @@ import (
 // main function
 func main() {
 	// Declare variables
-	template := ""
+	var template string
 	var encryptedShellcode []byte
+	var shellcode []byte
 
 	// Call function named PrintAscii
 	Arguments.PrintAscii()
@@ -50,7 +51,7 @@ func main() {
 
 	if options.Encryption == "" && options.Obfuscation == "" {
 		logger := log.New(os.Stderr, "[!] ", 0)
-		logger.Fatal("Please choose either the encryption option or the obfuscation option to proceed, or select both.\n")
+		logger.Fatal("Please choose either the Encryption option (-enc) or the Obfuscation option (-obf) to proceed, or select both.\n\n")
 	}
 
 	// if Encryption option is enable
@@ -115,10 +116,31 @@ func main() {
 
 	// Obfuscation option is enables
 	if options.Obfuscation != "" {
+		// Record the start time
+		encryptionStartTime := time.Now()
+
 		// Encryption option is enable
 		if options.Encryption != "" {
-			fmt.Println(encryptedShellcode)
+			// Set as shellcode the encryptedShellcode (byte)
+			shellcode = encryptedShellcode
+
+			// Call function named ObfuscationManager
+			Manager.ObfuscationManager(shellcode, strings.ToLower(options.Obfuscation))
+		} else {
+			// Convert raw shellcode to bytes
+			shellcode = []byte(rawShellcode)
+
+			// Call function named ObfuscationManager
+			Manager.ObfuscationManager(shellcode, strings.ToLower(options.Obfuscation))
 		}
+
+		// Record the end time
+		encryptionEndTime := time.Now()
+
+		// Calculate the duration
+		encryptionDuration := encryptionEndTime.Sub(encryptionStartTime)
+
+		fmt.Println(encryptionDuration)
 	}
 
 	// Call function named OutputManager

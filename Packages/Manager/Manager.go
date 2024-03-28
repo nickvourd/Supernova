@@ -4,6 +4,7 @@ import (
 	"Supernova/Packages/Arguments"
 	"Supernova/Packages/Converters"
 	"Supernova/Packages/Encryptors"
+	"Supernova/Packages/Obfuscators"
 	"Supernova/Packages/Output"
 	"fmt"
 	"strings"
@@ -74,4 +75,17 @@ func OutputManager(OutFile string, Language string, template string) {
 			}
 		}
 	}
+}
+
+// ObfuscationManager function
+func ObfuscationManager(shellcode []byte, Obfuscation string) {
+
+	// Call function named ShellcodeFromByteString
+	formattedStringShellcode := Converters.ShellcodeFromByte2String(shellcode)
+
+	// Convert string to array of hexadecimal strings
+	shellcodeHexArray := strings.Split(formattedStringShellcode, " ")
+
+	// Call function named DetectObfuscation
+	Obfuscators.DetectObfuscation(Obfuscation, shellcodeHexArray)
 }
