@@ -119,6 +119,11 @@ func main() {
 		// Record the start time
 		encryptionStartTime := time.Now()
 
+		// if fileSizeFlag is enabled
+		if fileSizeFlag {
+			fmt.Printf("[!] Please be patient as Supernova processes your request.\n\n[!] The input payload size is large, so it may take some time to complete!\n\n")
+		}
+
 		// Encryption option is enable
 		if options.Encryption != "" {
 			// Set as shellcode the encryptedShellcode (byte)

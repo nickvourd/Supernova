@@ -96,6 +96,11 @@ func ObfuscationManager(shellcode []byte, Obfuscation string, Language string, V
 	if fileSizeFlag {
 		fmt.Printf("[!] The size of the obfuscated shellcode exceeds the maximum display limit.\n\n[!] Supernova cannot display it on the screen.\n\n")
 	} else {
+		if Language == "raw" {
+			// If the Language is "raw"
+			fmt.Printf("[!] The obfuscated shellcode is displayed in raw format represented as human-readable string on the terminal.\n\n")
+		}
+
 		// Print the obfuscated template
 		fmt.Printf("[+] The obfuscated payload with %s:\n\n%s\n\n", strings.ToUpper(Obfuscation), template)
 	}
