@@ -1,7 +1,7 @@
 package Arguments
 
 import (
-	"Supernova/Colors"
+	"Supernova/Packages/Colors"
 	"flag"
 	"fmt"
 	"log"
