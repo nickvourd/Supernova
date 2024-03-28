@@ -155,7 +155,7 @@ func Chacha20Encryption(data []byte, key []byte) ([]byte, error) {
 }
 
 // DetectEncryption function
-func DetectEncryption(cipher string, shellcode string, key int, language string) (string, int) {
+func DetectEncryption(cipher string, shellcode string, key int, language string) (string, int, []byte) {
 	// Set logger for errors
 	logger := log.New(os.Stderr, "[!] ", 0)
 
@@ -185,7 +185,7 @@ func DetectEncryption(cipher string, shellcode string, key int, language string)
 		// Call function named FormatShellcode
 		shellcodeFormatted := Converters.FormatShellcode(encryptedShellcode, language)
 
-		return shellcodeFormatted, len(encryptedShellcode)
+		return shellcodeFormatted, len(encryptedShellcode), encryptedShellcode
 	case "rot":
 		// Print selected shift key
 		fmt.Printf("[+] Selected Shift key: %d\n\n", shift)
@@ -196,7 +196,7 @@ func DetectEncryption(cipher string, shellcode string, key int, language string)
 		// Call function named FormatShellcode
 		shellcodeFormatted := Converters.FormatShellcode(encryptedShellcode, language)
 
-		return shellcodeFormatted, len(encryptedShellcode)
+		return shellcodeFormatted, len(encryptedShellcode), encryptedShellcode
 	case "aes":
 		// Set key from argument key
 		keySize := key
@@ -235,7 +235,7 @@ func DetectEncryption(cipher string, shellcode string, key int, language string)
 		// Call function named FormatShellcode
 		shellcodeFormatted := Converters.FormatShellcode(encryptedShellcode, language)
 
-		return shellcodeFormatted, len(encryptedShellcode)
+		return shellcodeFormatted, len(encryptedShellcode), encryptedShellcode
 	case "rc4":
 		// Call function named GenerateRandomPassphrase
 		randomPassphrase := GenerateRandomPassphrase(key)
@@ -252,7 +252,7 @@ func DetectEncryption(cipher string, shellcode string, key int, language string)
 		// Call function named FormatShellcode
 		shellcodeFormatted := Converters.FormatShellcode(encryptedShellcode, language)
 
-		return shellcodeFormatted, len(encryptedShellcode)
+		return shellcodeFormatted, len(encryptedShellcode), encryptedShellcode
 	case "chacha20":
 		// Call function named GenerateRandomBytes
 		chacha20Key := GenerateRandomBytes(key)
@@ -266,12 +266,15 @@ func DetectEncryption(cipher string, shellcode string, key int, language string)
 		// Call function named Chacha20Encryption
 		encryptedShellcode, _ := Chacha20Encryption(shellcodeInBytes, chacha20Key)
 
+		// Print length changed notification
+		fmt.Printf("[+] New Payload size: %d bytes\n\n", len(encryptedShellcode))
+
 		// Call function named FormatShellcode
 		shellcodeFormatted := Converters.FormatShellcode(encryptedShellcode, language)
 
-		return shellcodeFormatted, len(encryptedShellcode)
+		return shellcodeFormatted, len(encryptedShellcode), encryptedShellcode
 	default:
 		logger.Fatal("Unsupported encryption cipher")
-		return "", 0
+		return "", 0, nil
 	}
 }

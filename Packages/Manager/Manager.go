@@ -10,12 +10,12 @@ import (
 )
 
 // EncryptionManager function
-func EncryptionManager(Key int, Encryption string, Obfuscation string, Debug bool, Variable string, rawShellcode string, foundLanguage string, fileSizeFlag bool) (string, string) {
+func EncryptionManager(Key int, Encryption string, Obfuscation string, Debug bool, Variable string, rawShellcode string, foundLanguage string, fileSizeFlag bool) (string, []byte) {
 	// Call function ValidateKeySize
 	Key = Arguments.ValidateKeySize(Key, Encryption)
 
 	// Call function named DetectEncryption
-	encryptedShellcode, encryptedLength := Encryptors.DetectEncryption(Encryption, rawShellcode, Key, foundLanguage)
+	encryptedShellcode, encryptedLength, decEncryptedShellcode := Encryptors.DetectEncryption(Encryption, rawShellcode, Key, foundLanguage)
 
 	// Call function named ConvertShellcode2Template
 	template := Converters.ConvertShellcode2Template(encryptedShellcode, foundLanguage, encryptedLength, Variable)
@@ -52,7 +52,7 @@ func EncryptionManager(Key int, Encryption string, Obfuscation string, Debug boo
 		}
 	}
 
-	return template, encryptedShellcode
+	return template, decEncryptedShellcode
 }
 
 // OutputManager function

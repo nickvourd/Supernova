@@ -14,8 +14,9 @@ import (
 
 // main function
 func main() {
+	// Declare variables
 	template := ""
-	encryptedShellcode := ""
+	var encryptedShellcode []byte
 
 	// Call function named PrintAscii
 	Arguments.PrintAscii()
@@ -114,7 +115,10 @@ func main() {
 
 	// Obfuscation option is enables
 	if options.Obfuscation != "" {
-		fmt.Println(encryptedShellcode)
+		// Encryption option is enable
+		if options.Encryption != "" {
+			fmt.Println(encryptedShellcode)
+		}
 	}
 
 	// Call function named OutputManager
