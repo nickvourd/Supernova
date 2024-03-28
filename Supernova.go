@@ -81,7 +81,7 @@ func main() {
 	if options.Debug {
 		switch fileSizeFlag {
 		case true:
-			fmt.Printf("[!] The size of the original raw shellcode exceeds the maximum display limit.\n\n[!] Supernova cannot display it on the screen.\n\n")
+			fmt.Printf("[!] The size of the original shellcode exceeds the maximum display limit.\n\n[!] Supernova cannot display it on the screen.\n\n")
 		default:
 			// if language is raw
 			if foundLanguage == "raw" {
