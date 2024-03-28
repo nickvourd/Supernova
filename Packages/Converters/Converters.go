@@ -8,6 +8,19 @@ import (
 	"strings"
 )
 
+// ConvertShellcodeHex2String function
+func ConvertShellcodeHex2String(shellcode []string) string {
+	// Variable declaration
+	var formattedShellcode string
+
+	// Join hexadecimal strings into one string with space after every two characters
+	for _, hexStr := range shellcode {
+		formattedShellcode += hexStr + " "
+	}
+
+	return formattedShellcode
+}
+
 // ConvertShellcode2String function
 func ConvertShellcode2String(shellcodePath string) (string, error) {
 	// Read the contents of the file into a byte slice

@@ -8,6 +8,42 @@ import (
 	"strings"
 )
 
+// IPv6Obfuscation function
+func IPv6Obfuscation(shellcode string) []string {
+	// Remove all spaces
+	shellcode = strings.ReplaceAll(shellcode, " ", "")
+
+	// Check if the length of the string is less than 32
+	if len(shellcode) < 32 {
+		fmt.Println("[!] The input string is too short.")
+		os.Exit(1)
+		return nil
+	}
+
+	// Split the string every 32 characters
+	var parts []string
+	for i := 0; i < len(shellcode); i += 32 {
+		// Check if there are enough characters left
+		if i+32 > len(shellcode) {
+			parts = append(parts, shellcode[i:])
+			break
+		}
+		parts = append(parts, shellcode[i:i+32])
+	}
+
+	// Add ":" every four characters of 32, exclude the last four
+	for i, part := range parts {
+		var newPart string
+		for j := 0; j < len(part)-4; j += 4 {
+			newPart += part[j:j+4] + ":"
+		}
+		newPart += part[len(part)-4:]
+		parts[i] = "\"" + newPart + "\", "
+	}
+
+	return parts
+}
+
 // IPv4Obfuscation function
 func IPv4Obfuscation(shellcode string) string {
 	// Split the original string into chunks of four digits
@@ -58,7 +94,19 @@ func DetectObfuscation(obfuscation string, shellcode []string) string {
 		// Call function named IPv4Obfuscation
 		obfuscatedShellcodeString = IPv4Obfuscation(shellcodeStr)
 	case "ipv6":
-		fmt.Println("IPv6 Hello")
+		// Call function named ConvertShellcodeHex2String
+		shellcodeStr := Converters.ConvertShellcodeHex2String(shellcode)
+
+		// Call function named IPv6Obfuscation
+		obfuscatedShellcode := IPv6Obfuscation(shellcodeStr)
+
+		// Add any part to a string
+		for _, part := range obfuscatedShellcode {
+			obfuscatedShellcodeString += part
+		}
+
+		// Remove comma
+		obfuscatedShellcodeString = obfuscatedShellcodeString[:len(obfuscatedShellcodeString)-2]
 	case "mac":
 		fmt.Println("MAC Hello")
 	case "uuid":
