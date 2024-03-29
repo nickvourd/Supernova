@@ -41,7 +41,7 @@ var (
 	text = `
 Supernova v%s - Real fucking shellcode encryptor & obfuscator tool.
 Supernova is an open source tool licensed under %s.
-Written with <3 by %s and %s...
+Written with <3 by %s and %s.
 Please visit %s for more...
 
 `

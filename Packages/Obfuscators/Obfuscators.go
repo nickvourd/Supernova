@@ -61,6 +61,9 @@ func UUIDObfuscation(shellcode string) string {
 		result = append(result, fmt.Sprintf("\"%s-%s-%s-%s-%s\"", segment1, segment2, segment3, segment4, segment5))
 	}
 
+	// Call function named UUIDTrimmer
+	result = Converters.UUIDTrimmer(result)
+
 	// Join the result array into a single string.
 	finalResult = strings.Join(result, ", ")
 
