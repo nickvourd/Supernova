@@ -4,37 +4,39 @@ import (
 	"encoding/hex"
 	"fmt"
 	"os"
-	"regexp"
 	"strconv"
 	"strings"
 )
 
 // UUIDTrimmer function
 func UUIDTrimmer(uuidShellcode []string) []string {
-	// Regular expression to match trailing hyphens after characters
-	re := regexp.MustCompile(`[^-]-+$`)
-
 	// Process each UUID in the slice
 	for i, uuid := range uuidShellcode {
 		// Check if this is the last UUID in the slice
 		if i == len(uuidShellcode)-1 {
-			//fmt.Println("Before:", uuid)
+			// Developer's debug
+			// fmt.Println("Before:", uuid)
 
-			// Replace trailing hyphens after characters
-			cleanedUUID := re.ReplaceAllString(uuid, "")
-			//fmt.Println("After:", cleanedUUID)
+			// Repeat the replacement until there are no more trailing hyphens after characters
+			for strings.HasSuffix(uuid, "-\"") {
+				uuid = strings.Replace(uuid, "-\"", "\"", 1)
+			}
 
 			// Update the last UUID in the slice
-			uuidShellcode[i] = cleanedUUID
+			uuidShellcode[i] = uuid
+
+			// Developer's debug
+			//fmt.Println("After:", uuidShellcode[i]) // Print the updated UUID
 		}
 	}
 
 	// Check if the last element is only hyphens
 	lastElement := uuidShellcode[len(uuidShellcode)-1]
 	//fmt.Println(lastElement)
-	if lastElement == "\"----\"" {
+	if lastElement == "\"\"" {
 		// If yes, remove the last element
 		uuidShellcode = uuidShellcode[:len(uuidShellcode)-1]
+		// Developer's debug
 		//fmt.Println(uuidShellcode[len(uuidShellcode)-1])
 	}
 
