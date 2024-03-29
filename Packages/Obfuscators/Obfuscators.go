@@ -8,6 +8,65 @@ import (
 	"strings"
 )
 
+// LittleEndian function
+func LittleEndian(slice []string) []string {
+	newSlice := make([]string, len(slice))
+	copy(newSlice, slice)
+	for i := len(newSlice)/2 - 1; i >= 0; i-- {
+		opp := len(newSlice) - 1 - i
+		newSlice[i], newSlice[opp] = newSlice[opp], newSlice[i]
+	}
+	return newSlice
+}
+
+// GetSegment function
+func GetSegment(segment []string, start, end int) string {
+	if start >= len(segment) {
+		return ""
+	}
+	if end > len(segment) {
+		end = len(segment)
+	}
+
+	return strings.Join(LittleEndian(segment[start:end]), "")
+}
+
+// UUIDObfuscation function
+func UUIDObfuscation(shellcode string) string {
+	// Split the shellcode into hex pairs.
+	hexPairs := strings.Split(shellcode, " ")
+
+	var result []string
+	var finalResult string
+
+	// Iterate over the hex pairs in groups of 18.
+	for i := 0; i < len(hexPairs); i += 18 {
+		// Determine the end of the current group.
+		end := i + 18
+		if end > len(hexPairs) {
+			end = len(hexPairs)
+		}
+
+		// Get the current group of hex pairs.
+		segment := hexPairs[i:end]
+
+		// Split the segment into five parts to form a UUID.
+		segment1 := GetSegment(segment, 0, 4)
+		segment2 := GetSegment(segment, 4, 6)
+		segment3 := GetSegment(segment, 6, 8)
+		segment4 := GetSegment(segment, 8, 10)
+		segment5 := GetSegment(segment, 10, 16)
+
+		// Append the formatted UUID to the result.
+		result = append(result, fmt.Sprintf("\"%s-%s-%s-%s-%s\"", segment1, segment2, segment3, segment4, segment5))
+	}
+
+	// Join the result array into a single string.
+	finalResult = strings.Join(result, ", ")
+
+	return finalResult
+}
+
 // MacObfuscation function
 func MacObfuscation(shellcode string) string {
 	// split the shellcode string by space separator
@@ -151,7 +210,11 @@ func DetectObfuscation(obfuscation string, shellcode []string) string {
 		// Call function named MacObfuscation
 		obfuscatedShellcodeString = MacObfuscation(shellcodeStr)
 	case "uuid":
-		fmt.Println("UUID Hello")
+		// Call function named ConvertShellcodeHex2String
+		shellcodeStr := Converters.ConvertShellcodeHex2String(shellcode)
+
+		//Call function named UUIDObfuscation
+		UUIDObfuscation(shellcodeStr)
 	default:
 		logger.Fatal("Unsupported obfuscation technique")
 	}
