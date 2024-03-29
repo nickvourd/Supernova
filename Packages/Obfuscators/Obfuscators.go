@@ -214,7 +214,7 @@ func DetectObfuscation(obfuscation string, shellcode []string) string {
 		shellcodeStr := Converters.ConvertShellcodeHex2String(shellcode)
 
 		//Call function named UUIDObfuscation
-		UUIDObfuscation(shellcodeStr)
+		obfuscatedShellcodeString = UUIDObfuscation(shellcodeStr)
 	default:
 		logger.Fatal("Unsupported obfuscation technique")
 	}
