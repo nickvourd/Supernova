@@ -57,18 +57,45 @@ func EncryptionManager(Key int, Encryption string, Obfuscation string, Debug boo
 }
 
 // OutputManager function
-func OutputManager(OutFile string, Language string, template string) {
-	// Outfile option is enable
+func OutputManager(OutFile string, Language string, template string, Encryption string, Obfuscation string) {
+	language := strings.ToLower(Language)
+	// Declare variables
+	var encryptionFlag bool
+
 	if OutFile != "" {
-		language := strings.ToLower(Language)
-		if language == "raw" {
-			err := Output.SaveShellcodeToFile(template, OutFile)
-			if err != nil {
-				fmt.Println("[!] Error:", err)
-				return
+		// Encrytpion option is enable
+		if Encryption != "" {
+			// Obfuscation option is enable
+			if Obfuscation != "" {
+				// Call function named SaveOutputToFile
+				err := Output.SaveOutputToFile(template, OutFile, encryptionFlag)
+				if err != nil {
+					fmt.Println("[!] Error:", err)
+					return
+				}
+			} else {
+				if language == "raw" {
+					// Call function named SaveShellcodeToFile
+					err := Output.SaveShellcodeToFile(template, OutFile)
+					if err != nil {
+						fmt.Println("[!] Error:", err)
+						return
+					}
+				} else {
+					// Set encryptionFlag true
+					encryptionFlag = true
+
+					// Call function named SaveOutputToFile
+					err := Output.SaveOutputToFile(template, OutFile, encryptionFlag)
+					if err != nil {
+						fmt.Println("[!] Error:", err)
+						return
+					}
+				}
 			}
 		} else {
-			err := Output.SaveOutputToFile(template, OutFile)
+			// Call function named SaveOutputToFile
+			err := Output.SaveOutputToFile(template, OutFile, encryptionFlag)
 			if err != nil {
 				fmt.Println("[!] Error:", err)
 				return
@@ -78,7 +105,7 @@ func OutputManager(OutFile string, Language string, template string) {
 }
 
 // ObfuscationManager function
-func ObfuscationManager(shellcode []byte, Obfuscation string, Language string, Variable string, fileSizeFlag bool) {
+func ObfuscationManager(shellcode []byte, Obfuscation string, Language string, Variable string, fileSizeFlag bool) string {
 
 	// Call function named ShellcodeFromByteString
 	formattedStringShellcode := Converters.ShellcodeFromByte2String(shellcode)
@@ -99,4 +126,6 @@ func ObfuscationManager(shellcode []byte, Obfuscation string, Language string, V
 		// Print the obfuscated template
 		fmt.Printf("[+] The obfuscated payload as %s:\n\n%s\n\n", strings.ToUpper(Obfuscation), template)
 	}
+
+	return template
 }

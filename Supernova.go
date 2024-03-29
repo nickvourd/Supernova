@@ -130,13 +130,13 @@ func main() {
 			shellcode = encryptedShellcode
 
 			// Call function named ObfuscationManager
-			Manager.ObfuscationManager(shellcode, strings.ToLower(options.Obfuscation), foundLanguage, options.Variable, fileSizeFlag)
+			template = Manager.ObfuscationManager(shellcode, strings.ToLower(options.Obfuscation), foundLanguage, options.Variable, fileSizeFlag)
 		} else {
 			// Convert raw shellcode to bytes
 			shellcode = []byte(rawShellcode)
 
 			// Call function named ObfuscationManager
-			Manager.ObfuscationManager(shellcode, strings.ToLower(options.Obfuscation), foundLanguage, options.Variable, fileSizeFlag)
+			template = Manager.ObfuscationManager(shellcode, strings.ToLower(options.Obfuscation), foundLanguage, options.Variable, fileSizeFlag)
 		}
 
 		// Record the end time
@@ -149,5 +149,5 @@ func main() {
 	}
 
 	// Call function named OutputManager
-	Manager.OutputManager(options.OutFile, foundLanguage, template)
+	Manager.OutputManager(options.OutFile, foundLanguage, template, options.Encryption, options.Obfuscation)
 }

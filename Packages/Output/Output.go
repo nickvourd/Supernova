@@ -42,7 +42,7 @@ func DetectNotification(key int) int {
 }
 
 // SaveOutputToFile function
-func SaveOutputToFile(outputData string, filename string) error {
+func SaveOutputToFile(outputData string, filename string, statement bool) error {
 	// Open the file for writing
 	file, err := os.Create(filename)
 	if err != nil {
@@ -63,7 +63,13 @@ func SaveOutputToFile(outputData string, filename string) error {
 		return err
 	}
 
-	fmt.Printf("[+] The encrypted shellcode saved to " + absolutePath + " file.\n\n")
+	//fmt.Println(statement)
+	if statement {
+		fmt.Printf("[+] The encrypted shellcode saved to " + absolutePath + " file.\n\n")
+	} else {
+		fmt.Printf("[+] The obfuscated shellcode saved to " + absolutePath + " file.\n\n")
+	}
+
 	return nil
 }
 
