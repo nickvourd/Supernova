@@ -9,8 +9,40 @@ import (
 )
 
 // MacObfuscation function
-func MacObfuscation(shellcode string) {
-	fmt.Println(shellcode)
+func MacObfuscation(shellcode string) string {
+	// split the shellcode string by space separator
+	split := strings.Split(shellcode, " ")
+
+	// initialize an empty slice to store the resulting groups
+	var result []string
+
+	// iterate over the split shellcode with a step of 6
+	for i := 0; i < len(split); i += 6 {
+		// define the end index for the current group
+		end := i + 6
+		// if the end index exceeds the length of split, set it to the length of split
+		if end > len(split) {
+			end = len(split)
+		}
+		// create a group of up to 6 elements
+		group := split[i:end]
+
+		// if the group has less than 6 elements, join them with "-" and wrap each element in quotes
+		if len(group) < 6 {
+			result = append(result, fmt.Sprintf("\"%s\"", strings.Join(group, "-")))
+		} else {
+			// if the group has exactly 6 elements, join them with "-" and wrap each element in quotes
+			result = append(result, fmt.Sprintf("\"%s-%s-%s-%s-%s-%s\"", group[0], group[1], group[2], group[3], group[4], group[5]))
+		}
+	}
+
+	// join the resulting groups with ", " separator
+	output := strings.Join(result, ", ")
+
+	// trim any trailing ", \"-\"" from the output string
+	output = strings.TrimSuffix(output, ", \"-\"")
+
+	return output
 }
 
 // IPv6Obfuscation function
@@ -117,7 +149,7 @@ func DetectObfuscation(obfuscation string, shellcode []string) string {
 		shellcodeStr := Converters.ConvertShellcodeHex2String(shellcode)
 
 		// Call function named MacObfuscation
-		MacObfuscation(shellcodeStr)
+		obfuscatedShellcodeString = MacObfuscation(shellcodeStr)
 	case "uuid":
 		fmt.Println("UUID Hello")
 	default:
