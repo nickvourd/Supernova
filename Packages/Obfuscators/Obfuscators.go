@@ -72,39 +72,42 @@ func UUIDObfuscation(shellcode string) string {
 	return finalResult
 }
 
-// MacObfuscation function
 func MacObfuscation(shellcode string) string {
-	// split the shellcode string by space separator
+	// Trim leading and trailing spaces from the shellcode string
+	shellcode = strings.TrimSpace(shellcode)
+
+	// Split the shellcode string by space separator
 	split := strings.Split(shellcode, " ")
 
-	// initialize an empty slice to store the resulting groups
+	// Initialize an empty slice to store the resulting groups
 	var result []string
 
-	// iterate over the split shellcode with a step of 6
+	// Iterate over the split shellcode with a step of 6
 	for i := 0; i < len(split); i += 6 {
-		// define the end index for the current group
+		// Define the end index for the current group
 		end := i + 6
-		// if the end index exceeds the length of split, set it to the length of split
+		// If the end index exceeds the length of split, set it to the length of split
 		if end > len(split) {
 			end = len(split)
 		}
-		// create a group of up to 6 elements
+		// Create a group of up to 6 elements
 		group := split[i:end]
 
-		// if the group has less than 6 elements, join them with "-" and wrap each element in quotes
+		// If the group has less than 6 elements, generate and append random hex values
 		if len(group) < 6 {
-			result = append(result, fmt.Sprintf("\"%s\"", strings.Join(group, "-")))
-		} else {
-			// if the group has exactly 6 elements, join them with "-" and wrap each element in quotes
-			result = append(result, fmt.Sprintf("\"%s-%s-%s-%s-%s-%s\"", group[0], group[1], group[2], group[3], group[4], group[5]))
+			// Generate and append random hex values to the group
+			for j := len(group); j < 6; j++ {
+				randomHex := fmt.Sprintf("%X", rand.Intn(256))
+				group = append(group, strings.ToLower(randomHex))
+			}
 		}
+
+		// Join the elements of the group with "-" separator and wrap each element in quotes
+		result = append(result, fmt.Sprintf("\"%s-%s-%s-%s-%s-%s\"", group[0], group[1], group[2], group[3], group[4], group[5]))
 	}
 
-	// join the resulting groups with ", " separator
+	// Join the resulting groups with ", " separator
 	output := strings.Join(result, ", ")
-
-	// trim any trailing ", \"-\"" from the output string
-	output = strings.TrimSuffix(output, ", \"-\"")
 
 	return output
 }
@@ -116,6 +119,8 @@ func IPv6Obfuscation(shellcode string) ([]string, int, []string) {
 
 	// Initialize the counter for the random hexadecimal values
 	randomHexCount := 0
+
+	// Declare string array
 	var randomHexValues []string
 
 	// Check if the length of the string is not a multiple of 32
