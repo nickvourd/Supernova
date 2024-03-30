@@ -259,6 +259,7 @@ func DetectObfuscation(obfuscation string, shellcode []string) string {
 	var obfuscatedShellcodeString string
 	var hexString string
 	var pronousChar string = "character"
+	var pronous string = "it"
 
 	switch obfuscation {
 	case "ipv4":
@@ -298,6 +299,13 @@ func DetectObfuscation(obfuscation string, shellcode []string) string {
 		}
 
 		fmt.Printf("	" + hexString + "\n\n")
+
+		// If count more than one
+		if randomHexCount > 1 {
+			pronous = "them"
+		}
+
+		fmt.Printf("[!] Be sure to remove %s during the implementation process!\n\n", pronous)
 
 		// Add any part to a string
 		for _, part := range obfuscatedShellcode {
