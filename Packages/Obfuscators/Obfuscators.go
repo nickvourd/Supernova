@@ -72,7 +72,7 @@ func UUIDObfuscation(shellcode string) string {
 	return finalResult
 }
 
-func MacObfuscation(shellcode string) string {
+func MacObfuscation(shellcode string) (string, int, []string) {
 	// Trim leading and trailing spaces from the shellcode string
 	shellcode = strings.TrimSpace(shellcode)
 
@@ -81,6 +81,10 @@ func MacObfuscation(shellcode string) string {
 
 	// Initialize an empty slice to store the resulting groups
 	var result []string
+
+	// Initialize a counter for the random hex values
+	var randomHexCount int
+	var randomHexValues []string
 
 	// Iterate over the split shellcode with a step of 6
 	for i := 0; i < len(split); i += 6 {
@@ -99,6 +103,8 @@ func MacObfuscation(shellcode string) string {
 			for j := len(group); j < 6; j++ {
 				randomHex := fmt.Sprintf("%X", rand.Intn(256))
 				group = append(group, strings.ToLower(randomHex))
+				randomHexValues = append(randomHexValues, randomHex)
+				randomHexCount++
 			}
 		}
 
@@ -109,7 +115,7 @@ func MacObfuscation(shellcode string) string {
 	// Join the resulting groups with ", " separator
 	output := strings.Join(result, ", ")
 
-	return output
+	return output, randomHexCount, randomHexValues
 }
 
 // IPv6Obfuscation function
@@ -288,29 +294,31 @@ func DetectObfuscation(obfuscation string, shellcode []string) string {
 			pronousChar = "characters"
 		}
 
-		fmt.Printf("[+] Configure payload length evenly for IPv6 obfuscation by adding %d random %s:\n\n", randomHexCount, pronousChar)
+		if randomHexCount > 0 {
+			fmt.Printf("[+] Configure payload length evenly for IPv6 obfuscation by adding %d random %s:\n\n", randomHexCount, pronousChar)
 
-		// Iterate over each character
-		for i, char := range randomHexValues {
-			// Convert the character to its hexadecimal representation
-			hexValue := fmt.Sprintf("0x%X", char[0])
+			// Iterate over each character
+			for i, char := range randomHexValues {
+				// Convert the character to its hexadecimal representation
+				hexValue := fmt.Sprintf("0x%X", char[0])
 
-			// Append the hexadecimal representation to the string
-			if i < len(randomHexValues)-1 {
-				hexString += fmt.Sprintf("%s => byte(%s), ", strings.ToLower(char), strings.ToLower(hexValue))
-			} else {
-				hexString += fmt.Sprintf("%s => byte(%s)", strings.ToLower(char), strings.ToLower(hexValue))
+				// Append the hexadecimal representation to the string
+				if i < len(randomHexValues)-1 {
+					hexString += fmt.Sprintf("%s => byte(%s), ", strings.ToLower(char), strings.ToLower(hexValue))
+				} else {
+					hexString += fmt.Sprintf("%s => byte(%s)", strings.ToLower(char), strings.ToLower(hexValue))
+				}
 			}
+
+			fmt.Printf("	" + hexString + "\n\n")
+
+			// If count more than one
+			if randomHexCount > 1 {
+				pronous = "them"
+			}
+
+			fmt.Printf("[!] Be sure to remove %s during the implementation process!\n\n", pronous)
 		}
-
-		fmt.Printf("	" + hexString + "\n\n")
-
-		// If count more than one
-		if randomHexCount > 1 {
-			pronous = "them"
-		}
-
-		fmt.Printf("[!] Be sure to remove %s during the implementation process!\n\n", pronous)
 
 		// Add any part to a string
 		for _, part := range obfuscatedShellcode {
@@ -324,7 +332,40 @@ func DetectObfuscation(obfuscation string, shellcode []string) string {
 		shellcodeStr := Converters.ConvertShellcodeHex2String(shellcode)
 
 		// Call function named MacObfuscation
-		obfuscatedShellcodeString = MacObfuscation(shellcodeStr)
+		obfuscatedShellcodeString, randomHexCount, randomHexValues := MacObfuscation(shellcodeStr)
+
+		// If count more than one
+		if randomHexCount > 1 {
+			pronousChar = "characters"
+		}
+
+		if randomHexCount > 0 {
+			fmt.Printf("[+] Configure payload length evenly for IPv6 obfuscation by adding %d random %s:\n\n", randomHexCount, pronousChar)
+
+			// Iterate over each character
+			for i, char := range randomHexValues {
+				// Convert the character to its hexadecimal representation
+				hexValue := fmt.Sprintf("0x%X", char[0])
+
+				// Append the hexadecimal representation to the string
+				if i < len(randomHexValues)-1 {
+					hexString += fmt.Sprintf("%s => byte(%s), ", strings.ToLower(char), strings.ToLower(hexValue))
+				} else {
+					hexString += fmt.Sprintf("%s => byte(%s)", strings.ToLower(char), strings.ToLower(hexValue))
+				}
+			}
+
+			fmt.Printf("	" + hexString + "\n\n")
+
+			// If count more than one
+			if randomHexCount > 1 {
+				pronous = "them"
+			}
+
+			fmt.Printf("[!] Be sure to remove %s during the implementation process!\n\n", pronous)
+		}
+
+		return obfuscatedShellcodeString
 	case "uuid":
 		// Call function named ConvertShellcodeHex2String
 		shellcodeStr := Converters.ConvertShellcodeHex2String(shellcode)
