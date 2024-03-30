@@ -238,6 +238,7 @@ func DetectObfuscation(obfuscation string, shellcode []string) string {
 
 	// Declare variables
 	var obfuscatedShellcodeString string
+	var hexString string
 
 	switch obfuscation {
 	case "ipv4":
@@ -258,10 +259,20 @@ func DetectObfuscation(obfuscation string, shellcode []string) string {
 
 		fmt.Printf("[+] Configure payload length evenly for IPv6 obfuscation by adding %d random characters:\n\n", randomHexCount)
 
-		// Concatenate all elements of the slice with spaces between them
-		concatenated := strings.Join(randomHexValues, " ")
+		// Iterate over each character
+		for i, char := range randomHexValues {
+			// Convert the character to its hexadecimal representation
+			hexValue := fmt.Sprintf("0x%X", char[0])
 
-		fmt.Printf("	" + concatenated + "\n\n")
+			// Append the hexadecimal representation to the string
+			if i < len(randomHexValues)-1 {
+				hexString += fmt.Sprintf("%s => byte(%s), ", char, strings.ToLower(hexValue))
+			} else {
+				hexString += fmt.Sprintf("%s => byte(%s)", char, strings.ToLower(hexValue))
+			}
+		}
+
+		fmt.Printf("	" + hexString + "\n\n")
 
 		// Add any part to a string
 		for _, part := range obfuscatedShellcode {
