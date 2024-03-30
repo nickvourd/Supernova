@@ -32,7 +32,7 @@ Supernova supports various obfuscation techniques, which make the malicious shel
 - IPv4
 - IPv6
 - MAC
-- UUID
+- UUID (Supported by [@S1ckB0y1337](https://twitter.com/S1ckB0y1337))
 
 Supernova is written in Golang, a cross-platform language, enabling its use on both Windows and Linux systems.
 
