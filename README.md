@@ -95,7 +95,7 @@ go build Supernova
 
 ## Usage
 
-:information_source: Please refer to the [Supernova wiki](https://github.com/nickvourd/Supernova/wiki) for detailed usage instructions and examples of commands.
+:information_source: Please refer to the [Supernova Wiki](https://github.com/nickvourd/Supernova/wiki) for detailed usage instructions and examples of commands.
 
 ```
 
