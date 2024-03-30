@@ -3,10 +3,11 @@ Real fucking shellcode encryptor & obfuscator.
 
 <p align="center">
   <img width="350" height="350" src="/Pictures/Supernova-Logo.png">
+  [![License: MIT](https://img.shields.io/badge/MIT-License-yellow.svg)](LICENSE).
 </p>
 
 ## Description
-Supernova is an open-source Golang tool that empowers users to securely encrypt and/or obfuscate their raw shellcode. This tool is licensed under the [![License: MIT](https://img.shields.io/badge/MIT-License-yellow.svg)](LICENSE).
+Supernova is an open-source Golang tool that empowers users to securely encrypt and/or obfuscate their raw shellcode.
 
 ## Table of Contents
 - [Supernova](#supernova)
