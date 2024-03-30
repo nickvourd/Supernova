@@ -8,7 +8,7 @@ Real fucking shellcode encryptor & obfuscator.
 ## Description
 Supernova is an open-source Golang tool that empowers users to securely encrypt and/or obfuscate their raw shellcode.
 
-Additionally, it offers automatic conversion of the encrypted shellcode into formats compatible with various programming languages, including:
+Additionally, Supernova offers automatic conversion of the encrypted shellcode into formats compatible with various programming languages, including:
 - C
 - C#
 - Rust
@@ -21,14 +21,14 @@ Additionally, it offers automatic conversion of the encrypted shellcode into for
 - Ruby
 - Raw (Implemented by [@y2qaq](https://twitter.com/y2qaq))
 
-It supports a variety of different ciphers, including:
+Supports a variety of different ciphers, including:
 - ROT
 - XOR
 - RC4
 - AES (AES-128-CBC, AES-192-CBC, AES-256-CBC)
 - Chacha20 (Implemented by [@y2qaq](https://twitter.com/y2qaq))
 
-Supernova supports various obfuscation techniques, which make the malicious shellcode appear as if it were:
+Supports various obfuscation techniques, which make the malicious shellcode appear as if it were:
 - IPv4
 - IPv6
 - MAC
