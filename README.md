@@ -66,6 +66,32 @@ Supernova was created with :heart: by [@nickvourd](https://twitter.com/nickvourd
 
 ## Installation
 
+### Go Installation
+
+Supernova requires GoLang to be preinstalled on the system. You can install GoLang from the [official website](https://go.dev/doc/install).
+
+:information_source: From your Kali Linux machine run `sudo apt install golang -y`.
+
+### Supernova Manual Installation
+
+1) To install Supernova manually, clone the repository by executing the following command:
+
+```
+git clone https://github.com/nickvourd/Supernova.git
+```
+
+2) Once the repository is cloned, navigate into the Supernova directory:
+
+```
+cd Supernova
+```
+
+3) Install third-party dependencies:
+
+```
+go get
+```
+
 ## References
 
 - [Caesar Cipher Wikipedia](https://en.wikipedia.org/wiki/Caesar_cipher)
