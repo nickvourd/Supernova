@@ -266,9 +266,9 @@ func DetectObfuscation(obfuscation string, shellcode []string) string {
 
 			// Append the hexadecimal representation to the string
 			if i < len(randomHexValues)-1 {
-				hexString += fmt.Sprintf("%s => byte(%s), ", char, strings.ToLower(hexValue))
+				hexString += fmt.Sprintf("%s => byte(%s), ", strings.ToLower(char), strings.ToLower(hexValue))
 			} else {
-				hexString += fmt.Sprintf("%s => byte(%s)", char, strings.ToLower(hexValue))
+				hexString += fmt.Sprintf("%s => byte(%s)", strings.ToLower(char), strings.ToLower(hexValue))
 			}
 		}
 
