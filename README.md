@@ -4,7 +4,7 @@ Real fucking shellcode encryptor & obfuscator.
 <p align="center">
   <img width="350" height="350" src="/Pictures/Supernova-Logo.png"><br /><br />
   <img alt="Static Badge" src="https://img.shields.io/badge/License-MIT-green?link=https%3A%2F%2Fgithub.com%2Fnickvourd%2FSupernova%2Fblob%2Fmain%2FLICENSE">
-  <img alt="Static Badge" src="https://img.shields.io/badge/Version-2.0.0%20(Thunderstorm)-red?link=https%3A%2F%2Fgithub.com%2Fnickvourd%2FSupernova%2Freleases">
+  <img alt="Static Badge" src="https://img.shields.io/badge/Version-2.0.0%20(Thunder)-red?link=https%3A%2F%2Fgithub.com%2Fnickvourd%2FSupernova%2Freleases">
 </p>
 
 ## Description
