@@ -66,7 +66,7 @@ Supernova was created with :heart: by [@nickvourd](https://twitter.com/nickvourd
 
 ## Installation
 
-### Go Installation
+### Golang Installation
 
 Supernova requires GoLang to be preinstalled on the system. You can install GoLang from the [official website](https://go.dev/doc/install).
 
