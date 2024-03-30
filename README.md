@@ -89,7 +89,13 @@ cd Supernova
 3) Install third-party dependencies:
 
 ```
-go get
+go mod download
+```
+
+4) Build Supernova with the following command:
+
+```
+go build Supernova
 ```
 
 ## References
