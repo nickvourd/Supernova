@@ -12,7 +12,7 @@ Supernova is an open-source Golang tool that empowers users to securely encrypt 
 
 Supernova supports various features beyond those typically found in a common shellcode encryptor tool. Please refer to the <a href="#features"> Features</a> section for more information.
 
-For command line usage and example, please refer to our wiki.
+For command line usags and examples, please refer to our wiki.
 
 ## Table of Contents
 - [Supernova](#supernova)
