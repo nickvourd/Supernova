@@ -58,6 +58,7 @@ Supernova was created with :heart: by [@nickvourd](https://twitter.com/nickvourd
 ## Table of Contents
 - [Supernova](#supernova)
   - [Description](#description)
+  - [Features](#features)
   - [Version](#version)
   - [License](#license)
   - [Acknowledgement](#acknowledgement)
