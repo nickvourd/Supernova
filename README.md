@@ -75,6 +75,6 @@ Supernova was created with :heart: by [@nickvourd](https://twitter.com/nickvourd
 - [Block cipher mode of operation](https://en.wikipedia.org/wiki/Block_cipher_mode_of_operation)
 - [Sector7 Institute](https://institute.sektor7.net/)
 - [MalDev Academy](https://maldevacademy.com/)
-- [OSEP-Code-Snippets](https://github.com/chvancooten/OSEP-Code-Snippets)
+- [OSEP-Code-Snippets GitHub by Chvancooten](https://github.com/chvancooten/OSEP-Code-Snippets)
 - [From the Front Lines | Hive Ransomware Deploys Novel IPfuscation Technique To Avoid Detection by SentinelOne](https://www.sentinelone.com/blog/hive-ransomware-deploys-novel-ipfuscation-technique/)
 - [Shellcode Obfuscation by Bordergate](https://www.bordergate.co.uk/shellcode-obfuscation/)
