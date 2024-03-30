@@ -72,12 +72,6 @@ Supernova is written in Golang, a cross-platform language, enabling its use on b
 
 ### Golang Installation
 
-Supernova requires GoLang to be preinstalled on the system. You can install GoLang from the [official website](https://go.dev/doc/install).
-
-:information_source: From your Kali Linux machine run `sudo apt install golang -y`.
-
-### Supernova Installation
-
 You can use the [precompiled binaries](https://github.com/nickvourd/Supernova/releases), or you can manually install Supernova by following the next steps:
 
 1) Clone the repository by executing the following command:
