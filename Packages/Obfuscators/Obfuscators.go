@@ -165,6 +165,7 @@ func IPv4Obfuscation(shellcode string) string {
 	// Variables eclaration
 	var pronous string = "it"
 	var pronousNum string = "number"
+	var result string
 
 	// Split the original string into chunks of four digits
 	chunks := strings.Fields(shellcode)
@@ -220,16 +221,26 @@ func IPv4Obfuscation(shellcode string) string {
 
 	fmt.Printf("[+] Configure payload length evenly for IPv4 obfuscation by adding %d random %s:\n\n", count, pronousNum)
 
-	for i := 0; i < count; i++ {
-		fmt.Printf("	%d => byte(%s)\n", addedNumbers[i], hexRepresentations[i])
+	// Iterate over each element and build the result string
+	for i, num := range addedNumbers {
+		hexRep := hexRepresentations[i]
+
+		// Append the formatted string to the result
+		if i < count-1 {
+			result += fmt.Sprintf("%d => byte(%s), ", num, strings.ToLower(hexRep))
+		} else {
+			result += fmt.Sprintf("%d => byte(%s)", num, strings.ToLower(hexRep))
+		}
 	}
+
+	fmt.Printf("	" + result + "\n\n")
 
 	// if generated numbers are more than one
 	if count > 1 {
 		pronous = "them"
 	}
 
-	fmt.Printf("\n[!] Be sure to remove %s during the implementation process!\n\n", pronous)
+	fmt.Printf("[!] Be sure to remove %s during the implementation process!\n\n", pronous)
 
 	// Join the last remaining elements into a string with dots
 	configResult := strings.Join(chunkResult, ".")
