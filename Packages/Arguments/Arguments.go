@@ -26,7 +26,7 @@ var (
 	version     = "2.0.0"
 	versionName = "Grand Canyon"
 	license     = "MIT"
-	authors     = [...]string{"@nickvourd", "@Papadope9"}
+	authors     = [...]string{"@nickvourd", "@Papadope9", "0xvm"}
 	github      = "https://github.com/nickvourd/Supernova"
 	ascii       = `
 
@@ -41,7 +41,7 @@ var (
 	text = `
 Supernova v%s - Real fucking shellcode encryptor & obfuscator tool.
 Supernova is an open source tool licensed under %s.
-Written with <3 by %s and %s.
+Written with <3 by %s, %s and %s.
 Please visit %s for more...
 
 `
@@ -52,7 +52,7 @@ func PrintAscii() {
 	// Initialize RandomColor
 	randomColor := Colors.RandomColor()
 	fmt.Print(randomColor(ascii))
-	fmt.Printf(text, version, license, authors[0], authors[1], github)
+	fmt.Printf(text, version, license, authors[0], authors[1], authors[2], github)
 }
 
 // Options function
