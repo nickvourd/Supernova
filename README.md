@@ -8,7 +8,9 @@ Real fucking shellcode encryptor & obfuscator.
 </p>
 
 ## Description
-Supernova is an open-source Golang tool that empowers users to securely encrypt and/or obfuscate their raw shellcode. Supernova supports various features beyond those typically found in a common shellcode encryptor tool. Please refer to the <a href="#features"> Features</a> section for more information.
+Supernova is an open-source Golang tool that empowers users to securely encrypt and/or obfuscate their raw shellcode. 
+
+Supernova supports various features beyond those typically found in a common shellcode encryptor tool. Please refer to the <a href="#features"> Features</a> section for more information.
 
 ## Table of Contents
 - [Supernova](#supernova)
