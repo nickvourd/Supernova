@@ -230,28 +230,30 @@ func IPv4Obfuscation(shellcode string) string {
 		pronousNum = "numbers"
 	}
 
-	fmt.Printf("[+] Configure payload length evenly for IPv4 obfuscation by adding %d random %s:\n\n", count, pronousNum)
+	if count > 0 {
+		fmt.Printf("[+] Configure payload length evenly for IPv4 obfuscation by adding %d random %s:\n\n", count, pronousNum)
 
-	// Iterate over each element and build the result string
-	for i, num := range addedNumbers {
-		hexRep := hexRepresentations[i]
+		// Iterate over each element and build the result string
+		for i, num := range addedNumbers {
+			hexRep := hexRepresentations[i]
 
-		// Append the formatted string to the result
-		if i < count-1 {
-			result += fmt.Sprintf("%d => byte(%s), ", num, strings.ToLower(hexRep))
-		} else {
-			result += fmt.Sprintf("%d => byte(%s)", num, strings.ToLower(hexRep))
+			// Append the formatted string to the result
+			if i < count-1 {
+				result += fmt.Sprintf("%d => byte(%s), ", num, strings.ToLower(hexRep))
+			} else {
+				result += fmt.Sprintf("%d => byte(%s)", num, strings.ToLower(hexRep))
+			}
 		}
+
+		fmt.Printf("	" + result + "\n\n")
+
+		// if generated numbers are more than one
+		if count > 1 {
+			pronous = "them"
+		}
+
+		fmt.Printf("[!] Be sure to remove %s during the implementation process!\n\n", pronous)
 	}
-
-	fmt.Printf("	" + result + "\n\n")
-
-	// if generated numbers are more than one
-	if count > 1 {
-		pronous = "them"
-	}
-
-	fmt.Printf("[!] Be sure to remove %s during the implementation process!\n\n", pronous)
 
 	// Join the last remaining elements into a string with dots
 	configResult := strings.Join(chunkResult, ".")
@@ -282,6 +284,8 @@ func DetectObfuscation(obfuscation string, shellcode []string) string {
 
 		// Call function named IPv4Obfuscation
 		obfuscatedShellcodeString = IPv4Obfuscation(shellcodeStr)
+
+		return obfuscatedShellcodeString
 	case "ipv6":
 		// Call function named ConvertShellcodeHex2String
 		shellcodeStr := Converters.ConvertShellcodeHex2String(shellcode)
@@ -327,6 +331,8 @@ func DetectObfuscation(obfuscation string, shellcode []string) string {
 
 		// Remove comma
 		obfuscatedShellcodeString = obfuscatedShellcodeString[:len(obfuscatedShellcodeString)-2]
+
+		return obfuscatedShellcodeString
 	case "mac":
 		// Call function named ConvertShellcodeHex2String
 		shellcodeStr := Converters.ConvertShellcodeHex2String(shellcode)
@@ -340,7 +346,7 @@ func DetectObfuscation(obfuscation string, shellcode []string) string {
 		}
 
 		if randomHexCount > 0 {
-			fmt.Printf("[+] Configure payload length evenly for IPv6 obfuscation by adding %d random %s:\n\n", randomHexCount, pronousChar)
+			fmt.Printf("[+] Configure payload length evenly for Mac obfuscation by adding %d random %s:\n\n", randomHexCount, pronousChar)
 
 			// Iterate over each character
 			for i, char := range randomHexValues {
@@ -372,9 +378,10 @@ func DetectObfuscation(obfuscation string, shellcode []string) string {
 
 		//Call function named UUIDObfuscation
 		obfuscatedShellcodeString = UUIDObfuscation(shellcodeStr)
+
+		return obfuscatedShellcodeString
 	default:
 		logger.Fatal("Unsupported obfuscation technique")
+		return ""
 	}
-
-	return obfuscatedShellcodeString
 }
