@@ -98,7 +98,7 @@ go mod download
 go build Supernova
 ```
 
-:information_source: Also, you can use the [compiled binaries](https://github.com/nickvourd/Supernova/releases) of Supernova.
+:information_source: Alternatively, you can use the [precompiled binaries](https://github.com/nickvourd/Supernova/releases) of Supernova.
 
 ## References
 
