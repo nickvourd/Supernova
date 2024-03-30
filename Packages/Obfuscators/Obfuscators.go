@@ -72,6 +72,7 @@ func UUIDObfuscation(shellcode string) string {
 	return finalResult
 }
 
+// MacObfuscation function
 func MacObfuscation(shellcode string) (string, int, []string) {
 	// Trim leading and trailing spaces from the shellcode string
 	shellcode = strings.TrimSpace(shellcode)
