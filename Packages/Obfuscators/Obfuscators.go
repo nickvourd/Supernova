@@ -4,8 +4,10 @@ import (
 	"Supernova/Packages/Converters"
 	"fmt"
 	"log"
+	"math/rand"
 	"os"
 	"strings"
+	"time"
 )
 
 // LittleEndian function
@@ -145,6 +147,13 @@ func IPv6Obfuscation(shellcode string) []string {
 
 // IPv4Obfuscation function
 func IPv4Obfuscation(shellcode string) string {
+	// Arrays to store added numbers and their hexadecimal representations
+	var addedNumbers []int
+	var hexRepresentations []string
+
+	// Variables eclaration
+	var pronous string = "it"
+
 	// Split the original string into chunks of four digits
 	chunks := strings.Fields(shellcode)
 
@@ -167,8 +176,45 @@ func IPv4Obfuscation(shellcode string) string {
 		}
 	}
 
+	// Seed the random number generator
+	rand.Seed(time.Now().UnixNano())
+
+	// Loop until the length of chunkResult is equal to 4
+	for len(chunkResult) < 4 {
+		// Generate a random decimal from 0 to 255
+		randomNumber := rand.Intn(256)
+
+		// Convert decimal to hexadecimal
+		randomHex := fmt.Sprintf("0x%X", randomNumber)
+
+		// Convert the random number to a string
+		randomString := fmt.Sprintf("%d", randomNumber)
+
+		// Add the random number and its hexadecimal representation to arrays
+		addedNumbers = append(addedNumbers, randomNumber)
+		hexRepresentations = append(hexRepresentations, randomHex)
+
+		// Add the random string to the slice
+		chunkResult = append(chunkResult, randomString)
+	}
+
+	// Print the message with the count of added numbers and their details
+	count := len(addedNumbers)
+	fmt.Printf("[+] Configure payload length evenly for IPv4 obfuscation by adding %d random numbers:\n\n", count)
+	for i := 0; i < count; i++ {
+		fmt.Printf("	%d => byte(%s)\n", addedNumbers[i], hexRepresentations[i])
+	}
+
+	// if generated numbers are more than one
+	if count > 1 {
+		pronous = "them"
+	}
+
+	fmt.Printf("\n[!] Be sure to remove %s during the implementation process!\n\n", pronous)
+
 	// Join the last remaining elements into a string with dots
 	configResult := strings.Join(chunkResult, ".")
+
 	shellcodeProperty += "\"" + configResult + "\""
 
 	return shellcodeProperty
