@@ -62,6 +62,7 @@ Supernova was created with :heart: by [@nickvourd](https://twitter.com/nickvourd
   - [Acknowledgement](#acknowledgement)
   - [Table of Contents](#table-of-contents)
   - [Installation](#installation)
+  - [Usage](#usage)
   - [References](#references)
 
 ## Installation
@@ -98,7 +99,9 @@ go mod download
 go build Supernova
 ```
 
-:information_source: Alternatively, you can use the [precompiled binaries](https://github.com/nickvourd/Supernova/releases) of Supernova.
+:information_source: <b>Alternatively, you can use the [precompiled binaries](https://github.com/nickvourd/Supernova/releases) of Supernova</b>.
+
+## Usage
 
 ## References
 
