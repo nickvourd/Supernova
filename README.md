@@ -89,7 +89,7 @@ git clone https://github.com/nickvourd/Supernova.git
 cd Supernova
 ```
 
-3) Install third-party dependencies:
+3) Install the third-party dependencies:
 
 ```
 go mod download
