@@ -72,7 +72,7 @@ Supernova requires GoLang to be preinstalled on the system. You can install GoLa
 
 :information_source: From your Kali Linux machine run `sudo apt install golang -y`.
 
-### Supernova Manual Installation
+### Supernova Installation
 
 1) To install Supernova manually, clone the repository by executing the following command:
 
@@ -97,6 +97,8 @@ go mod download
 ```
 go build Supernova
 ```
+
+:information_source: Also, you can use the [compiled binaries](https://github.com/nickvourd/Supernova/releases) of Supernova.
 
 ## References
 
