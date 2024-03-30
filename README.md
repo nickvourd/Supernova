@@ -8,7 +8,38 @@ Real fucking shellcode encryptor & obfuscator.
 ## Description
 Supernova is an open-source Golang tool that empowers users to securely encrypt and/or obfuscate their raw shellcode.
 
+## Table of Contents
+- [Supernova](#supernova)
+  - [Description](#description)
+  - [Table of Contents](#table-of-contents)
+  - [Version](#version)
+  - [License](#license)
+  - [Acknowledgement](#acknowledgement)
+  - [Features](#features)
+  - [Installation](#installation)
+  - [Usage](#usage)
+  - [References](#references)
+
+## Version
+
+### 2.0.0 (Grand Canyon)
+
+## License
+
+This tool is licensed under the [![License: MIT](https://img.shields.io/badge/MIT-License-yellow.svg)](LICENSE).
+
+## Acknowledgement
+
+Special thanks to my brothers [@S1ckB0y1337](https://twitter.com/S1ckB0y1337) and [@IAMCOMPROMISED](https://twitter.com/IAMCOMPROMISED), who provided invaluable assistance during the beta testing phase of the tool.
+
+Grateful acknowledgment to [@y2qaq](https://twitter.com/y2qaq) for his valuable contributions.
+
+This tool was inspired during the malware development courses of [MALDEV Academy](https://maldevacademy.com).
+
+Supernova was created with :heart: by [@nickvourd](https://twitter.com/nickvourd), [@Papadope9](https://twitter.com/Papadope9) and [@0xvm](https://twitter.com/0xvm).
+
 ## Features
+
 Supernova offers automatic conversion of the encrypted shellcode into formats compatible with various programming languages, including:
 - C
 - C#
@@ -36,36 +67,6 @@ Supports various obfuscation techniques, which make the malicious shellcode appe
 - UUID (Supported by [@S1ckB0y1337](https://twitter.com/S1ckB0y1337))
 
 Supernova is written in Golang, a cross-platform language, enabling its use on both Windows and Linux systems.
-
-## Version
-
-### 2.0.0 (Grand Canyon)
-
-## License
-
-This tool is licensed under the [![License: MIT](https://img.shields.io/badge/MIT-License-yellow.svg)](LICENSE).
-
-## Acknowledgement
-
-Special thanks to my brothers [@S1ckB0y1337](https://twitter.com/S1ckB0y1337) and [@IAMCOMPROMISED](https://twitter.com/IAMCOMPROMISED), who provided invaluable assistance during the beta testing phase of the tool.
-
-Grateful acknowledgment to [@y2qaq](https://twitter.com/y2qaq) for his valuable contributions.
-
-This tool was inspired during the malware development courses of [MALDEV Academy](https://maldevacademy.com).
-
-Supernova was created with :heart: by [@nickvourd](https://twitter.com/nickvourd), [@Papadope9](https://twitter.com/Papadope9) and [@0xvm](https://twitter.com/0xvm).
-
-## Table of Contents
-- [Supernova](#supernova)
-  - [Description](#description)
-  - [Features](#features)
-  - [Version](#version)
-  - [License](#license)
-  - [Acknowledgement](#acknowledgement)
-  - [Table of Contents](#table-of-contents)
-  - [Installation](#installation)
-  - [Usage](#usage)
-  - [References](#references)
 
 ## Installation
 
