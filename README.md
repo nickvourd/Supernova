@@ -77,7 +77,7 @@ Supernova requires GoLang to be preinstalled on the system. You can install GoLa
 
 You can use the [precompiled binaries](https://github.com/nickvourd/Supernova/releases), or you can manually install Supernova by following the next steps:
 
-1) To install Supernova manually, clone the repository by executing the following command:
+1) Clone the repository by executing the following command:
 
 ```
 git clone https://github.com/nickvourd/Supernova.git
