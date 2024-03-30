@@ -100,9 +100,44 @@ go build Supernova
 ```
 <br />
 
-:information_source: **Alternatively, you can use the [precompiled binaries](https://github.com/nickvourd/Supernova/releases) of Supernova**.
+:information_source: Alternatively, you can use the [precompiled binaries](https://github.com/nickvourd/Supernova/releases) of Supernova.
 
 ## Usage
+
+```
+
+███████╗██╗   ██╗██████╗ ███████╗██████╗ ███╗   ██╗ ██████╗ ██╗   ██╗ █████╗
+██╔════╝██║   ██║██╔══██╗██╔════╝██╔══██╗████╗  ██║██╔═══██╗██║   ██║██╔══██╗
+███████╗██║   ██║██████╔╝█████╗  ██████╔╝██╔██╗ ██║██║   ██║██║   ██║███████║
+╚════██║██║   ██║██╔═══╝ ██╔══╝  ██╔══██╗██║╚██╗██║██║   ██║╚██╗ ██╔╝██╔══██║
+███████║╚██████╔╝██║     ███████╗██║  ██║██║ ╚████║╚██████╔╝ ╚████╔╝ ██║  ██║
+╚══════╝ ╚═════╝ ╚═╝     ╚══════╝╚═╝  ╚═╝╚═╝  ╚═══╝ ╚═════╝   ╚═══╝  ╚═╝  ╚═╝
+
+Supernova v2.0.0 - Real fucking shellcode encryptor & obfuscator tool.
+Supernova is an open source tool licensed under MIT.
+Written with <3 by @nickvourd, @Papadope9 and 0xvm.
+Please visit https://github.com/nickvourd/Supernova for more...
+
+Usage of Suprenova:
+  -debug
+        Enable Debug mode
+  -enc string
+        Shellcode encoding/encryption (i.e., ROT, XOR, RC4, AES, CHACHA20)
+  -input string
+        Path to a raw shellcode
+  -key int
+        Key length size for encryption (default 1)
+  -lang string
+        Programming language to translate the shellcode (i.e., Nim, Rust, C, CSharp, Go, Python, PowerShell, Perl, Ruby, Java, Raw)
+  -obf string
+        Shellcode obfuscation (i.e., IPV4, IPV6, MAC, UUID)
+  -output string
+        Name of the output shellcode file
+  -var string
+        Name of dynamic variable (default "shellcode")
+  -version
+        Show Supernova current version
+```
 
 ## References
 
