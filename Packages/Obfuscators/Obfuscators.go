@@ -164,6 +164,7 @@ func IPv4Obfuscation(shellcode string) string {
 
 	// Variables eclaration
 	var pronous string = "it"
+	var pronousNum string = "number"
 
 	// Split the original string into chunks of four digits
 	chunks := strings.Fields(shellcode)
@@ -211,7 +212,14 @@ func IPv4Obfuscation(shellcode string) string {
 
 	// Print the message with the count of added numbers and their details
 	count := len(addedNumbers)
-	fmt.Printf("[+] Configure payload length evenly for IPv4 obfuscation by adding %d random numbers:\n\n", count)
+
+	// if count more than one
+	if count > 1 {
+		pronousNum = "numbers"
+	}
+
+	fmt.Printf("[+] Configure payload length evenly for IPv4 obfuscation by adding %d random %s:\n\n", count, pronousNum)
+
 	for i := 0; i < count; i++ {
 		fmt.Printf("	%d => byte(%s)\n", addedNumbers[i], hexRepresentations[i])
 	}
@@ -239,6 +247,7 @@ func DetectObfuscation(obfuscation string, shellcode []string) string {
 	// Declare variables
 	var obfuscatedShellcodeString string
 	var hexString string
+	var pronousChar string = "character"
 
 	switch obfuscation {
 	case "ipv4":
@@ -257,7 +266,12 @@ func DetectObfuscation(obfuscation string, shellcode []string) string {
 		// Call function named IPv6Obfuscation
 		obfuscatedShellcode, randomHexCount, randomHexValues := IPv6Obfuscation(shellcodeStr)
 
-		fmt.Printf("[+] Configure payload length evenly for IPv6 obfuscation by adding %d random characters:\n\n", randomHexCount)
+		// If count more than one
+		if randomHexCount > 1 {
+			pronousChar = "characters"
+		}
+
+		fmt.Printf("[+] Configure payload length evenly for IPv6 obfuscation by adding %d random %s:\n\n", randomHexCount, pronousChar)
 
 		// Iterate over each character
 		for i, char := range randomHexValues {
