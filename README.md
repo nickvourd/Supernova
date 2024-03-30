@@ -98,7 +98,7 @@ go mod download
 ```
 go build Supernova
 ```
-<br /><br />
+<br />
 :information_source: <b>Alternatively, you can use the [precompiled binaries](https://github.com/nickvourd/Supernova/releases) of Supernova</b>.
 
 ## Usage
