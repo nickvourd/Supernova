@@ -110,15 +110,26 @@ func MacObfuscation(shellcode string) string {
 }
 
 // IPv6Obfuscation function
-func IPv6Obfuscation(shellcode string) []string {
+func IPv6Obfuscation(shellcode string) ([]string, int, []string) {
 	// Remove all spaces
 	shellcode = strings.ReplaceAll(shellcode, " ", "")
 
-	// Check if the length of the string is less than 32
-	if len(shellcode) < 32 {
-		fmt.Println("[!] The input string is too short!")
-		os.Exit(1)
-		return nil
+	// Initialize the counter for the random hexadecimal values
+	randomHexCount := 0
+	var randomHexValues []string
+
+	// Check if the length of the string is not a multiple of 32
+	if len(shellcode)%32 != 0 {
+		// Calculate the number of characters needed to make it a multiple of 32
+		remaining := 32 - (len(shellcode) % 32)
+
+		// Generate random hexadecimal values and append them to the shellcode
+		for i := 0; i < remaining; i++ {
+			randomHex := fmt.Sprintf("%X", rand.Intn(16))
+			shellcode += strings.ToLower(randomHex)
+			randomHexValues = append(randomHexValues, randomHex)
+			randomHexCount++
+		}
 	}
 
 	// Split the string every 32 characters
@@ -139,10 +150,10 @@ func IPv6Obfuscation(shellcode string) []string {
 			newPart += part[j:j+4] + ":"
 		}
 		newPart += part[len(part)-4:]
-		parts[i] = "\"" + newPart + "\", "
+		parts[i] = "\"" + newPart + "\","
 	}
 
-	return parts
+	return parts, randomHexCount, randomHexValues
 }
 
 // IPv4Obfuscation function
@@ -243,7 +254,14 @@ func DetectObfuscation(obfuscation string, shellcode []string) string {
 		shellcodeStr := Converters.ConvertShellcodeHex2String(shellcode)
 
 		// Call function named IPv6Obfuscation
-		obfuscatedShellcode := IPv6Obfuscation(shellcodeStr)
+		obfuscatedShellcode, randomHexCount, randomHexValues := IPv6Obfuscation(shellcodeStr)
+
+		fmt.Printf("[+] Configure payload length evenly for IPv6 obfuscation by adding %d random characters:\n\n", randomHexCount)
+
+		// Concatenate all elements of the slice with spaces between them
+		concatenated := strings.Join(randomHexValues, " ")
+
+		fmt.Printf("	" + concatenated + "\n\n")
 
 		// Add any part to a string
 		for _, part := range obfuscatedShellcode {
