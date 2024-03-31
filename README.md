@@ -7,8 +7,7 @@ Real fucking shellcode encryptor & obfuscator.
   <img alt="Static Badge" src="https://img.shields.io/badge/Version-2.0.0%20(Thunder)-red?link=https%3A%2F%2Fgithub.com%2Fnickvourd%2FSupernova%2Freleases"><br /><br />
   <img alt="GitHub Repo stars" src="https://img.shields.io/github/stars/nickvourd/Supernova?logoColor=yellow">
   <img alt="GitHub forks" src="https://img.shields.io/github/forks/nickvourd/Supernova?logoColor=red">
-  <img alt="GitHub watchers" src="https://img.shields.io/github/watchers/nickvourd/Supernova?logoColor=blue"><br /><br />
-  <a href="https://github.com/nickvourd/Supernova/issues">Report Bug</a>
+  <img alt="GitHub watchers" src="https://img.shields.io/github/watchers/nickvourd/Supernova?logoColor=blue">
 </p>
 
 ## Description
@@ -35,6 +34,8 @@ Special thanks to my brothers [@S1ckB0y1337](https://twitter.com/S1ckB0y1337) an
 Grateful acknowledgment to [@y2qaq](https://twitter.com/y2qaq) for his valuable contributions.
 
 Special thanks to my friend [@MikeAngelowtt](https://twitter.com/MikeAngelowtt) for all our evening discussions during the development process.
+
+Special thanks to my friend [Efstratios Chatzoglou](https://www.linkedin.com/in/efstratios-chatzoglou-b2b09616b/) and his tool named [Pandora](https://github.com/efchatz/pandora), which inspired me to improve the beauty of this `README.md` file.
 
 This tool was inspired during the malware development courses of [MALDEV Academy](https://maldevacademy.com).
 
