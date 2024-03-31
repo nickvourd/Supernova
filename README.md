@@ -17,7 +17,7 @@ Supernova supports various features beyond those typically found in a common she
 
 For command-line usage and examples, please refer to our [Wiki](https://github.com/nickvourd/Supernova/wiki).
 
-If you find any bugs, don’t hesitate to [report them](https://github.com/nickvourd/Supernova/issues). Your feedback is valuable in improving the quality of this project! 
+> If you find any bugs, don’t hesitate to [report them](https://github.com/nickvourd/Supernova/issues). Your feedback is valuable in improving the quality of this project! 
 
 ## Table of Contents
 - [Supernova](#supernova)
