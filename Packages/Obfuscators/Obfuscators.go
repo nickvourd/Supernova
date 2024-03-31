@@ -102,7 +102,8 @@ func MacObfuscation(shellcode string) (string, int, []string) {
 		if len(group) < 6 {
 			// Generate and append random hex values to the group
 			for j := len(group); j < 6; j++ {
-				randomHex := fmt.Sprintf("%X", rand.Intn(256))
+				// randomHex := fmt.Sprintf("%X", rand.Intn(256))
+				randomHex := fmt.Sprintf("%02X", rand.Intn(240)+16)
 				group = append(group, strings.ToLower(randomHex))
 				randomHexValues = append(randomHexValues, randomHex)
 				randomHexCount++
