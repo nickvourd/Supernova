@@ -17,6 +17,7 @@ func LittleEndian(slice []string) []string {
 		opp := len(newSlice) - 1 - i
 		newSlice[i], newSlice[opp] = newSlice[opp], newSlice[i]
 	}
+
 	return newSlice
 }
 
