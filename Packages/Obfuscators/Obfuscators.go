@@ -33,6 +33,18 @@ func GetSegment(segment []string, start, end int) string {
 	return strings.Join(LittleEndian(segment[start:end]), "")
 }
 
+// GetSegmentNormal function (without LittleEndian)
+func GetSegmentNormal(segment []string, start, end int) string {
+	if start >= len(segment) {
+		return ""
+	}
+	if end > len(segment) {
+		end = len(segment)
+	}
+
+	return strings.Join(segment[start:end], "")
+}
+
 // UUIDObfuscation function
 func UUIDObfuscation(shellcode string) string {
 	// Split the shellcode into hex pairs.
@@ -56,8 +68,8 @@ func UUIDObfuscation(shellcode string) string {
 		segment1 := GetSegment(segment, 0, 4)
 		segment2 := GetSegment(segment, 4, 6)
 		segment3 := GetSegment(segment, 6, 8)
-		segment4 := GetSegment(segment, 8, 10)
-		segment5 := GetSegment(segment, 10, 16)
+		segment4 := GetSegmentNormal(segment, 8, 10)
+		segment5 := GetSegmentNormal(segment, 10, 16)
 
 		// Append the formatted UUID to the result.
 		result = append(result, fmt.Sprintf("\"%s-%s-%s-%s-%s\"", segment1, segment2, segment3, segment4, segment5))
