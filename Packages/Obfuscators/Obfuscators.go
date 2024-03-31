@@ -7,7 +7,6 @@ import (
 	"math/rand"
 	"os"
 	"strings"
-	"time"
 )
 
 // LittleEndian function
@@ -49,23 +48,33 @@ func GetSegmentNormal(segment []string, start, end int) string {
 
 // EnsureSegmentLength function
 // EnsureSegmentLength checks if a segment has the desired length and appends random hex if needed
-func EnsureSegmentLength(segment string, desiredLength int) string {
+func EnsureSegmentLength(segment string, desiredLength int) (string, int, []string) {
+	// Declare variables
+	var randomHexValues []string
+	totalRandomHexAdded := 0
+
 	if len(segment) < desiredLength {
 		// Append random hex values until the segment reaches the desired length
 		for len(segment) < desiredLength {
 			randomHex := fmt.Sprintf("%02X", rand.Intn(240)+16)
 			segment += strings.ToLower(randomHex)
+			randomHexValues = append(randomHexValues, randomHex)
+			totalRandomHexAdded++
 		}
 	}
-	return segment
+	return segment, totalRandomHexAdded, randomHexValues
 }
 
 // UUIDObfuscation function
-func UUIDObfuscation(shellcode string) string {
+func UUIDObfuscation(shellcode string) (string, int, []string) {
 	// Split the shellcode into hex pairs.
 	hexPairs := strings.Split(shellcode, " ")
 
+	// Initialize a counter for the random hex values
+	var randomHexCount1, randomHexCount2, randomHexCount3, randomHexCount4, randomHexCount5 int
+	var randomHexValues1, randomHexValues2, randomHexValues3, randomHexValues4, randomHexValues5 []string
 	var result []string
+	var nonEmptyStrings []string
 	var finalResult string
 
 	// Iterate over the hex pairs in groups of 18.
@@ -87,15 +96,34 @@ func UUIDObfuscation(shellcode string) string {
 		segment5 := GetSegmentNormal(segment, 10, 16)
 
 		// Ensure each segment has the desired length
-		segment1 = EnsureSegmentLength(segment1, 8)
-		segment2 = EnsureSegmentLength(segment2, 4)
-		segment3 = EnsureSegmentLength(segment3, 4)
-		segment4 = EnsureSegmentLength(segment4, 4)
-		segment5 = EnsureSegmentLength(segment5, 12)
+		segment1, randomHexCount1, randomHexValues1 = EnsureSegmentLength(segment1, 8)
+		segment2, randomHexCount2, randomHexValues2 = EnsureSegmentLength(segment2, 4)
+		segment3, randomHexCount3, randomHexValues3 = EnsureSegmentLength(segment3, 4)
+		segment4, randomHexCount4, randomHexValues4 = EnsureSegmentLength(segment4, 4)
+		segment5, randomHexCount5, randomHexValues5 = EnsureSegmentLength(segment5, 12)
 
 		// Append the formatted UUID to the result.
 		result = append(result, fmt.Sprintf("\"%s-%s-%s-%s-%s\"", segment1, segment2, segment3, segment4, segment5))
 	}
+
+	// Sum of counters
+	TotalCounter := randomHexCount1 + randomHexCount2 + randomHexCount3 + randomHexCount4 + randomHexCount5
+
+	// Function to filter out empty strings and append non-empty ones
+	filterAndAppend := func(arr []string) {
+		for _, s := range arr {
+			if s != "" {
+				nonEmptyStrings = append(nonEmptyStrings, s)
+			}
+		}
+	}
+
+	// Apply the filterAndAppend function to each array
+	filterAndAppend(randomHexValues1)
+	filterAndAppend(randomHexValues2)
+	filterAndAppend(randomHexValues3)
+	filterAndAppend(randomHexValues4)
+	filterAndAppend(randomHexValues5)
 
 	// Call function named UUIDTrimmer
 	result = Converters.UUIDTrimmer(result)
@@ -103,7 +131,7 @@ func UUIDObfuscation(shellcode string) string {
 	// Join the result array into a single string.
 	finalResult = strings.Join(result, ", ")
 
-	return finalResult
+	return finalResult, TotalCounter, nonEmptyStrings
 }
 
 // MacObfuscation function
@@ -136,7 +164,6 @@ func MacObfuscation(shellcode string) (string, int, []string) {
 		if len(group) < 6 {
 			// Generate and append random hex values to the group
 			for j := len(group); j < 6; j++ {
-				// randomHex := fmt.Sprintf("%X", rand.Intn(256))
 				randomHex := fmt.Sprintf("%02X", rand.Intn(240)+16)
 				group = append(group, strings.ToLower(randomHex))
 				randomHexValues = append(randomHexValues, randomHex)
@@ -235,9 +262,6 @@ func IPv4Obfuscation(shellcode string) string {
 			chunkResult = chunkResult[:0] // Reset chunkResult slice for the next iteration
 		}
 	}
-
-	// Seed the random number generator
-	rand.Seed(time.Now().UnixNano())
 
 	// Loop until the length of chunkResult is equal to 4
 	for len(chunkResult) < 4 {
@@ -374,7 +398,19 @@ func DetectObfuscation(obfuscation string, shellcode []string) string {
 		shellcodeStr := Converters.ConvertShellcodeHex2String(shellcode)
 
 		//Call function named UUIDObfuscation
-		obfuscatedShellcodeString = UUIDObfuscation(shellcodeStr)
+		obfuscatedShellcodeString, randomHexCount, randomHexValues := UUIDObfuscation(shellcodeStr)
+
+		// if count more than zero
+		if randomHexCount > 0 {
+			// if count more than one
+			if randomHexCount > 1 {
+				pronousChar = "characters"
+				pronous = "them"
+			}
+
+			// Call function named CustomPayloadMessage
+			CustomPayloadMessage(obfuscation, randomHexCount, randomHexValues, pronous, pronousChar)
+		}
 
 		return obfuscatedShellcodeString
 	default:
@@ -388,7 +424,11 @@ func CustomPayloadMessage(obfuscation string, randomHexCount int, randomHexValue
 	// Declare variables
 	var hexString string
 
-	fmt.Printf("[+] Configure payload length evenly for %s obfuscation by adding %d random %s:\n\n", obfuscation, randomHexCount, pronousChar)
+	if obfuscation != "ipv6" {
+		fmt.Printf("[+] Configure payload length evenly for %s obfuscation by adding %d random hex %s:\n\n", obfuscation, randomHexCount, pronousChar)
+	} else {
+		fmt.Printf("[+] Configure payload length evenly for %s obfuscation by adding %d random %s:\n\n", obfuscation, randomHexCount, pronousChar)
+	}
 
 	// Iterate over each character
 	for i, char := range randomHexValues {
