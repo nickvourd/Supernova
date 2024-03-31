@@ -26,6 +26,7 @@ func GetSegment(segment []string, start, end int) string {
 	if start >= len(segment) {
 		return ""
 	}
+
 	if end > len(segment) {
 		end = len(segment)
 	}
@@ -38,11 +39,25 @@ func GetSegmentNormal(segment []string, start, end int) string {
 	if start >= len(segment) {
 		return ""
 	}
+
 	if end > len(segment) {
 		end = len(segment)
 	}
 
 	return strings.Join(segment[start:end], "")
+}
+
+// EnsureSegmentLength function
+// EnsureSegmentLength checks if a segment has the desired length and appends random hex if needed
+func EnsureSegmentLength(segment string, desiredLength int) string {
+	if len(segment) < desiredLength {
+		// Append random hex values until the segment reaches the desired length
+		for len(segment) < desiredLength {
+			randomHex := fmt.Sprintf("%02X", rand.Intn(240)+16)
+			segment += strings.ToLower(randomHex)
+		}
+	}
+	return segment
 }
 
 // UUIDObfuscation function
@@ -70,6 +85,13 @@ func UUIDObfuscation(shellcode string) string {
 		segment3 := GetSegment(segment, 6, 8)
 		segment4 := GetSegmentNormal(segment, 8, 10)
 		segment5 := GetSegmentNormal(segment, 10, 16)
+
+		// Ensure each segment has the desired length
+		segment1 = EnsureSegmentLength(segment1, 8)
+		segment2 = EnsureSegmentLength(segment2, 4)
+		segment3 = EnsureSegmentLength(segment3, 4)
+		segment4 = EnsureSegmentLength(segment4, 4)
+		segment5 = EnsureSegmentLength(segment5, 12)
 
 		// Append the formatted UUID to the result.
 		result = append(result, fmt.Sprintf("\"%s-%s-%s-%s-%s\"", segment1, segment2, segment3, segment4, segment5))
