@@ -293,14 +293,17 @@ func DetectObfuscation(obfuscation string, shellcode []string) string {
 		// Call function named IPv6Obfuscation
 		obfuscatedShellcode, randomHexCount, randomHexValues := IPv6Obfuscation(shellcodeStr)
 
-		// If count more than one
-		if randomHexCount > 1 {
-			pronousChar = "characters"
-			pronous = "them"
-		}
+		// if count more than zero
+		if randomHexCount > 0 {
+			// if count more than one
+			if randomHexCount > 1 {
+				pronousChar = "characters"
+				pronous = "them"
+			}
 
-		// Call function named CustomPayloadMessage
-		CustomPayloadMessage(obfuscation, randomHexCount, randomHexValues, pronous, pronousChar)
+			// Call function named CustomPayloadMessage
+			CustomPayloadMessage(obfuscation, randomHexCount, randomHexValues, pronous, pronousChar)
+		}
 
 		// Add any part to a string
 		for _, part := range obfuscatedShellcode {
@@ -318,14 +321,17 @@ func DetectObfuscation(obfuscation string, shellcode []string) string {
 		// Call function named MacObfuscation
 		obfuscatedShellcodeString, randomHexCount, randomHexValues := MacObfuscation(shellcodeStr)
 
-		// If count more than one
-		if randomHexCount > 1 {
-			pronousChar = "characters"
-			pronous = "them"
-		}
+		// if count more than zero
+		if randomHexCount > 0 {
+			// if count more than one
+			if randomHexCount > 1 {
+				pronousChar = "characters"
+				pronous = "them"
+			}
 
-		// Call function named CustomPayloadMessage
-		CustomPayloadMessage(obfuscation, randomHexCount, randomHexValues, pronous, pronousChar)
+			// Call function named CustomPayloadMessage
+			CustomPayloadMessage(obfuscation, randomHexCount, randomHexValues, pronous, pronousChar)
+		}
 
 		return obfuscatedShellcodeString
 	case "uuid":
@@ -347,24 +353,23 @@ func CustomPayloadMessage(obfuscation string, randomHexCount int, randomHexValue
 	// Declare variables
 	var hexString string
 
-	if randomHexCount > 0 {
-		fmt.Printf("[+] Configure payload length evenly for %s obfuscation by adding %d random %s:\n\n", obfuscation, randomHexCount, pronousChar)
+	fmt.Printf("[+] Configure payload length evenly for %s obfuscation by adding %d random %s:\n\n", obfuscation, randomHexCount, pronousChar)
 
-		// Iterate over each character
-		for i, char := range randomHexValues {
-			// Convert the character to its hexadecimal representation
-			hexValue := fmt.Sprintf("0x%X", char[0])
+	// Iterate over each character
+	for i, char := range randomHexValues {
+		// Convert the character to its hexadecimal representation
+		hexValue := fmt.Sprintf("0x%X", char[0])
 
-			// Append the hexadecimal representation to the string
-			if i < len(randomHexValues)-1 {
-				hexString += fmt.Sprintf("%s => byte(%s), ", strings.ToLower(char), strings.ToLower(hexValue))
-			} else {
-				hexString += fmt.Sprintf("%s => byte(%s)", strings.ToLower(char), strings.ToLower(hexValue))
-			}
+		// Append the hexadecimal representation to the string
+		if i < len(randomHexValues)-1 {
+			hexString += fmt.Sprintf("%s => byte(%s), ", strings.ToLower(char), strings.ToLower(hexValue))
+		} else {
+			hexString += fmt.Sprintf("%s => byte(%s)", strings.ToLower(char), strings.ToLower(hexValue))
 		}
-
-		fmt.Printf("	" + hexString + "\n\n")
-
-		fmt.Printf("[!] Be sure to remove %s during the implementation process!\n\n", pronous)
 	}
+
+	fmt.Printf("	" + hexString + "\n\n")
+
+	fmt.Printf("[!] Be sure to remove %s during the implementation process!\n\n", pronous)
+
 }
