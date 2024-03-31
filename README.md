@@ -138,6 +138,7 @@ Usage of Suprenova:
 - [XOR Cipher Wikipedia](https://en.wikipedia.org/wiki/XOR_cipher)
 - [RC4 Cipher Wikipedia](https://en.wikipedia.org/wiki/RC4)
 - [AES Cipher Wikipedia](https://en.wikipedia.org/wiki/Advanced_Encryption_Standard)
+- [ChaCha20-Poly1305 Wikipedia](https://en.wikipedia.org/wiki/ChaCha20-Poly1305)
 - [Block cipher mode of operation](https://en.wikipedia.org/wiki/Block_cipher_mode_of_operation)
 - [Sector7 Institute](https://institute.sektor7.net/)
 - [MalDev Academy](https://maldevacademy.com/)
