@@ -358,14 +358,12 @@ func CustomPayloadMessage(obfuscation string, randomHexCount int, randomHexValue
 
 	// Iterate over each character
 	for i, char := range randomHexValues {
-		// Convert the character to its hexadecimal representation
-		hexValue := fmt.Sprintf("0x%X", char[0])
 
 		// Append the hexadecimal representation to the string
 		if i < len(randomHexValues)-1 {
-			hexString += fmt.Sprintf("%s => byte(%s), ", strings.ToLower(char), strings.ToLower(hexValue))
+			hexString += fmt.Sprintf("%s, ", strings.ToLower(char))
 		} else {
-			hexString += fmt.Sprintf("%s => byte(%s)", strings.ToLower(char), strings.ToLower(hexValue))
+			hexString += fmt.Sprintf("%s", strings.ToLower(char))
 		}
 	}
 
