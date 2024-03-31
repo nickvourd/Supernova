@@ -330,7 +330,7 @@ func DetectObfuscation(obfuscation string, shellcode []string) string {
 
 	// Declare variables
 	var obfuscatedShellcodeString string
-	var pronousChar string = "character"
+	var pronousChar string = "byte"
 	var pronous string = "it"
 
 	switch obfuscation {
@@ -384,7 +384,7 @@ func DetectObfuscation(obfuscation string, shellcode []string) string {
 		if randomHexCount > 0 {
 			// if count more than one
 			if randomHexCount > 1 {
-				pronousChar = "characters"
+				pronousChar = "bytes"
 				pronous = "them"
 			}
 
@@ -404,7 +404,7 @@ func DetectObfuscation(obfuscation string, shellcode []string) string {
 		if randomHexCount > 0 {
 			// if count more than one
 			if randomHexCount > 1 {
-				pronousChar = "characters"
+				pronousChar = "bytes"
 				pronous = "them"
 			}
 
@@ -425,7 +425,7 @@ func CustomPayloadMessage(obfuscation string, randomHexCount int, randomHexValue
 	var hexString string
 
 	if obfuscation != "ipv6" {
-		fmt.Printf("[+] Configure payload length evenly for %s obfuscation by adding %d random hex %s:\n\n", obfuscation, randomHexCount, pronousChar)
+		fmt.Printf("[+] Configure payload length evenly for %s obfuscation by adding %d random %s:\n\n", obfuscation, randomHexCount, pronousChar)
 	} else {
 		fmt.Printf("[+] Configure payload length evenly for %s obfuscation by adding %d random %s:\n\n", obfuscation, randomHexCount, pronousChar)
 	}
