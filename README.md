@@ -31,6 +31,8 @@ Special thanks to my brothers [@S1ckB0y1337](https://twitter.com/S1ckB0y1337) an
 
 Grateful acknowledgment to [@y2qaq](https://twitter.com/y2qaq) for his valuable contributions.
 
+Special thanks to my friend [@MikeAngelowtt](https://twitter.com/MikeAngelowtt) for all our evening discussions during the development process.
+
 This tool was inspired during the malware development courses of [MALDEV Academy](https://maldevacademy.com).
 
 Supernova was created with :heart: by [@nickvourd](https://twitter.com/nickvourd), [@Papadope9](https://twitter.com/Papadope9) and [@0xvm](https://twitter.com/0xvm).
@@ -61,7 +63,7 @@ Supports various obfuscation techniques, which make the malicious shellcode appe
 - IPv4
 - IPv6
 - MAC
-- UUID (Supported by [@S1ckB0y1337](https://twitter.com/S1ckB0y1337))
+- UUID (Supported by [@S1ckB0y1337](https://twitter.com/S1ckB0y1337) & [@MikeAngelowtt](https://twitter.com/MikeAngelowtt))
 
 Supernova is written in Golang, a cross-platform language, enabling its use on both Windows and Linux systems.
 
