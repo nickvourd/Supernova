@@ -198,8 +198,8 @@ func IPv6Obfuscation(shellcode string) ([]string, int, []string) {
 		remaining := 32 - (len(shellcode) % 32)
 
 		// Generate random hexadecimal values and append them to the shellcode
-		for i := 0; i < remaining; i++ {
-			randomHex := fmt.Sprintf("%X", rand.Intn(16))
+		for i := 0; i < remaining; i = i + 2 {
+			randomHex := fmt.Sprintf("%X", rand.Intn(240)+16)
 			shellcode += strings.ToLower(randomHex)
 			randomHexValues = append(randomHexValues, randomHex)
 			randomHexCount++
@@ -356,7 +356,7 @@ func DetectObfuscation(obfuscation string, shellcode []string) string {
 		if randomHexCount > 0 {
 			// if count more than one
 			if randomHexCount > 1 {
-				pronousChar = "characters"
+				pronousChar = "bytes"
 				pronous = "them"
 			}
 
@@ -370,7 +370,7 @@ func DetectObfuscation(obfuscation string, shellcode []string) string {
 		}
 
 		// Remove comma
-		obfuscatedShellcodeString = obfuscatedShellcodeString[:len(obfuscatedShellcodeString)-2]
+		obfuscatedShellcodeString = obfuscatedShellcodeString[:len(obfuscatedShellcodeString)-1]
 
 		return obfuscatedShellcodeString
 	case "mac":
@@ -424,11 +424,7 @@ func CustomPayloadMessage(obfuscation string, randomHexCount int, randomHexValue
 	// Declare variables
 	var hexString string
 
-	if obfuscation != "ipv6" {
-		fmt.Printf("[+] Configure payload length evenly for %s obfuscation by adding %d random %s:\n\n", obfuscation, randomHexCount, pronousChar)
-	} else {
-		fmt.Printf("[+] Configure payload length evenly for %s obfuscation by adding %d random %s:\n\n", obfuscation, randomHexCount, pronousChar)
-	}
+	fmt.Printf("[+] Configure payload length evenly for %s obfuscation by adding %d random %s:\n\n", obfuscation, randomHexCount, pronousChar)
 
 	// Iterate over each character
 	for i, char := range randomHexValues {
