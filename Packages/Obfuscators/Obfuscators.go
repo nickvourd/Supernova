@@ -1,6 +1,7 @@
 package Obfuscators
 
 import (
+	"Supernova/Packages/Colors"
 	"Supernova/Packages/Converters"
 	"fmt"
 	"log"
@@ -430,7 +431,7 @@ func CustomPayloadMessage(obfuscation string, randomHexCount int, randomHexValue
 	// Iterate over each character
 	for i, char := range randomHexValues {
 		// Convert the character to lowercase and append it to hexString
-		hexString += strings.ToLower(char)
+		hexString += Colors.BoldRed(strings.ToLower(char))
 
 		// Add a comma and space if it's not the last element
 		if i < len(randomHexValues)-1 {
