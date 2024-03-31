@@ -302,11 +302,11 @@ func IPv4Obfuscation(shellcode string) string {
 			// Append the formatted string to the result
 			if i < count-1 {
 				result += fmt.Sprintf(Colors.BoldRed("%d "), num)
-				result += fmt.Sprintf("=> byte(%s)", strings.ToLower(hexRep))
+				result += fmt.Sprintf("=> byte(%s)", Colors.BoldMagneta(strings.ToLower(hexRep)))
 				result += ", "
 			} else {
 				result += fmt.Sprintf(Colors.BoldRed("%d "), num)
-				result += fmt.Sprintf("=> byte(%s)", strings.ToLower(hexRep))
+				result += fmt.Sprintf("=> byte(%s)", Colors.BoldMagneta(strings.ToLower(hexRep)))
 			}
 		}
 

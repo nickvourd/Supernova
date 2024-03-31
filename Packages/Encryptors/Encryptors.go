@@ -1,6 +1,7 @@
 package Encryptors
 
 import (
+	"Supernova/Packages/Colors"
 	"Supernova/Packages/Converters"
 	"Supernova/Packages/Output"
 	"bytes"
@@ -11,6 +12,7 @@ import (
 	"log"
 	"math/big"
 	"os"
+	"strconv"
 	"strings"
 
 	"golang.org/x/crypto/chacha20poly1305"
@@ -187,8 +189,11 @@ func DetectEncryption(cipher string, shellcode string, key int, language string)
 
 		return shellcodeFormatted, len(encryptedShellcode), encryptedShellcode
 	case "rot":
+		// Convert the integer to a string
+		shiftString := strconv.Itoa(shift)
+
 		// Print selected shift key
-		fmt.Printf("[+] Selected Shift key: %d\n\n", shift)
+		fmt.Printf("[+] Selected Shift key: %s\n\n", Colors.BoldGreen(shiftString))
 
 		// Call function named XOREncryption
 		encryptedShellcode := CaesarEncryption(shellcodeInBytes, shift)
@@ -229,8 +234,11 @@ func DetectEncryption(cipher string, shellcode string, key int, language string)
 			panic(err)
 		}
 
+		// Convert the integer to a string
+		lenEncryptedShellcodeString := strconv.Itoa(len(encryptedShellcode))
+
 		// Print length changed notification
-		fmt.Printf("[+] New Payload size: %d bytes\n\n", len(encryptedShellcode))
+		fmt.Printf("[+] New Payload size: %s bytes\n\n", Colors.BoldYellow(lenEncryptedShellcodeString))
 
 		// Call function named FormatShellcode
 		shellcodeFormatted := Converters.FormatShellcode(encryptedShellcode, language)
@@ -244,7 +252,7 @@ func DetectEncryption(cipher string, shellcode string, key int, language string)
 		rc4Key := []byte(randomPassphrase)
 
 		// Print generated passphrase
-		fmt.Printf("[+] Generated passphrase: %s\n\n", randomPassphrase)
+		fmt.Printf("[+] Generated passphrase: %s\n\n", Colors.BoldGreen(randomPassphrase))
 
 		// Call function named RC4Encryption
 		encryptedShellcode := RC4Encryption(shellcodeInBytes, rc4Key)
@@ -266,8 +274,11 @@ func DetectEncryption(cipher string, shellcode string, key int, language string)
 		// Call function named Chacha20Encryption
 		encryptedShellcode, _ := Chacha20Encryption(shellcodeInBytes, chacha20Key)
 
+		// Convert the integer to a string
+		lenEncryptedShellcodeString := strconv.Itoa(len(encryptedShellcode))
+
 		// Print length changed notification
-		fmt.Printf("[+] New Payload size: %d bytes\n\n", len(encryptedShellcode))
+		fmt.Printf("[+] New Payload size: %s bytes\n\n", Colors.BoldYellow(lenEncryptedShellcodeString))
 
 		// Call function named FormatShellcode
 		shellcodeFormatted := Converters.FormatShellcode(encryptedShellcode, language)

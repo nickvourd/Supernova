@@ -2,12 +2,14 @@ package main
 
 import (
 	"Supernova/Packages/Arguments"
+	"Supernova/Packages/Colors"
 	"Supernova/Packages/Converters"
 	"Supernova/Packages/Manager"
 	"Supernova/Packages/Utils"
 	"fmt"
 	"log"
 	"os"
+	"strconv"
 	"strings"
 	"time"
 )
@@ -76,8 +78,11 @@ func main() {
 	// Call function named ConvertShellcode2Hex
 	convertedShellcode, payloadLength := Converters.ConvertShellcode2Hex(rawShellcode, foundLanguage)
 
+	// Convert the integer to a string
+	payloadLengthString := strconv.Itoa(payloadLength)
+
 	// Print payload size and chosen language
-	fmt.Printf("[+] Payload size: %d bytes\n\n[+] Converted payload to %s language\n\n", payloadLength, strings.ToUpper(foundLanguage))
+	fmt.Printf("[+] Payload size: %s bytes\n\n[+] Converted payload to %s language\n\n", Colors.BoldCyan(payloadLengthString), strings.ToUpper(foundLanguage))
 
 	// if Debug true
 	if options.Debug {

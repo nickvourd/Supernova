@@ -248,7 +248,7 @@ func ValidateKeySize(key int, encryption string) int {
 		case 32:
 			key = 32
 		default:
-			logger.Fatal("Provide a valid Chacha20 key: -key 32\n\n")
+			logger.Fatal("Provide a valid Chacha20 key: '-key 32'\n\n")
 		}
 	}
 

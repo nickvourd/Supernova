@@ -1,20 +1,25 @@
 package Output
 
 import (
+	"Supernova/Packages/Colors"
 	"Supernova/Packages/Converters"
 	"Supernova/Packages/Utils"
 	"encoding/hex"
 	"fmt"
 	"log"
 	"os"
+	"strconv"
 )
 
 // PrintKeyDetails function
 func PrintKeyDetails(key []byte) {
 	for i, b := range key {
 		decimalValue := int(b)
-		hexValue := fmt.Sprintf("%02x", b)
-		fmt.Printf("byte(0x%s) => %d", hexValue, decimalValue)
+		hexValue := fmt.Sprintf("0x%02x", b)
+
+		// Convert the integer to a string
+		decimalValueString := strconv.Itoa(decimalValue)
+		fmt.Printf("byte(%s) => %s", Colors.BoldMagneta(hexValue), Colors.BoldRed(decimalValueString))
 		if i < len(key)-1 {
 			fmt.Printf(", ")
 		}
