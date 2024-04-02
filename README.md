@@ -17,11 +17,16 @@ Supernova supports various features beyond those typically found in a common she
 
 For command-line usage and examples, please refer to our [Wiki](https://github.com/nickvourd/Supernova/wiki).
 
-> If you find any bugs, don’t hesitate to [report them](https://github.com/nickvourd/Supernova/issues). Your feedback is valuable in improving the quality of this project! 
+> If you find any bugs, don’t hesitate to [report them](https://github.com/nickvourd/Supernova/issues). Your feedback is valuable in improving the quality of this project!
+
+## Disclaimer
+
+The authors and contributors of this project are not liable for any illegal use of the tool. It is intended for educational purposes only. Users are responsible for ensuring lawful usage.
 
 ## Table of Contents
 - [Supernova](#supernova)
   - [Description](#description)
+  - [Disclaimer](#disclaimer)
   - [Table of Contents](#table-of-contents)
   - [Acknowledgement](#acknowledgement)
   - [Features](#features)
