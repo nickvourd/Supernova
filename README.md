@@ -25,6 +25,7 @@ For command-line usage and examples, please refer to our [Wiki](https://github.c
 The authors and contributors of this project are not liable for any illegal use of the tool. It is intended for educational purposes only. Users are responsible for ensuring lawful usage.
 
 ## Table of Contents
+
 - [Supernova](#supernova)
   - [Description](#description)
   - [Disclaimer](#disclaimer)
