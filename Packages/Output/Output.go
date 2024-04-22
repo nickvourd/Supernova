@@ -1,70 +1,31 @@
 package Output
 
 import (
-	"Supernova/Converters"
-	"Supernova/Utils"
+	"Supernova/Packages/Colors"
+	"Supernova/Packages/Converters"
+	"Supernova/Packages/Utils"
 	"encoding/hex"
 	"fmt"
 	"log"
 	"os"
+	"strconv"
 )
-
-// SaveOutputToFile function
-func SaveOutputToFile(outputData string, filename string) error {
-	// Open the file for writing
-	file, err := os.Create(filename)
-	if err != nil {
-		return err
-	}
-	defer file.Close()
-
-	// Write the output data to the file
-	_, err = file.WriteString(outputData)
-	if err != nil {
-		return err
-	}
-
-	// Call function named GetAbsolutePath
-	absolutePath, err := Utils.GetAbsolutePath(filename)
-	if err != nil {
-		fmt.Println("Error:", err)
-		return err
-	}
-
-	fmt.Printf("[+] Save encrypted shellcode to " + absolutePath + "\n\n")
-	return nil
-}
 
 // PrintKeyDetails function
 func PrintKeyDetails(key []byte) {
 	for i, b := range key {
 		decimalValue := int(b)
-		hexValue := fmt.Sprintf("%02x", b)
-		fmt.Printf("byte(0x%s) => %d", hexValue, decimalValue)
+		hexValue := fmt.Sprintf("0x%02x", b)
+
+		// Convert the integer to a string
+		decimalValueString := strconv.Itoa(decimalValue)
+		fmt.Printf("byte(%s) => %s", Colors.BoldMagneta(hexValue), Colors.BoldRed(decimalValueString))
 		if i < len(key)-1 {
 			fmt.Printf(", ")
 		}
 	}
 
 	fmt.Printf("\n\n")
-}
-
-// KeyDetailsFormatter function
-func KeyDetailsFormatter(key []byte, language string) string {
-	var formattedKey string
-	for i, b := range key {
-		if language == "python" {
-			hexValue := fmt.Sprintf("%02x", b)
-			formattedKey += "\\x" + hexValue
-		} else {
-			hexValue := fmt.Sprintf("%02x", b)
-			formattedKey += "0x" + hexValue
-			if i < len(key)-1 {
-				formattedKey += ", "
-			}
-		}
-	}
-	return formattedKey
 }
 
 // DetectNotification function
@@ -83,6 +44,38 @@ func DetectNotification(key int) int {
 	}
 
 	return keyNotification
+}
+
+// SaveOutputToFile function
+func SaveOutputToFile(outputData string, filename string, statement bool) error {
+	// Open the file for writing
+	file, err := os.Create(filename)
+	if err != nil {
+		return err
+	}
+	defer file.Close()
+
+	// Write the output data to the file
+	_, err = file.WriteString(outputData)
+	if err != nil {
+		return err
+	}
+
+	// Call function named GetAbsolutePath
+	absolutePath, err := Utils.GetAbsolutePath(filename)
+	if err != nil {
+		fmt.Println("[!] Error:", err)
+		return err
+	}
+
+	//fmt.Println(statement)
+	if statement {
+		fmt.Printf("[+] The encrypted shellcode saved to " + absolutePath + " file.\n\n")
+	} else {
+		fmt.Printf("[+] The obfuscated shellcode saved to " + absolutePath + " file.\n\n")
+	}
+
+	return nil
 }
 
 // SaveShellcodeToFile function
@@ -116,6 +109,6 @@ func SaveShellcodeToFile(shellcode, filename string) error {
 		return err
 	}
 
-	fmt.Printf("[+] Save encrypted shellcode file to " + absolutePath + "\n\n")
+	fmt.Printf("[+] The encrypted shellcode saved to " + absolutePath + " file.\n\n")
 	return nil
 }
