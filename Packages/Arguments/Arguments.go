@@ -26,7 +26,7 @@ var (
 	version     = "2.0"
 	versionName = "Thunder"
 	license     = "MIT"
-	authors     = [...]string{"@nickvourd", "@Papadope9", "0xvm"}
+	authors     = [...]string{"@nickvourd", "@Papadope9", "@0xvm"}
 	github      = "https://github.com/nickvourd/Supernova"
 	ascii       = `
 
