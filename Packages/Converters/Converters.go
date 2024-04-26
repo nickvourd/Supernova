@@ -146,6 +146,9 @@ func ConvertShellcode2Template(shellcode string, language string, length int, va
 	case "perl":
 		template := fmt.Sprintf(`my $%s = "%s";`, variable, shellcode)
 		return template
+	case "vba":
+		template := fmt.Sprintf(`%s = Array(%s)`, variable, shellcode)
+		return template
 	case "ruby":
 		template := fmt.Sprintf(`%s = "%s"`, variable, shellcode)
 		return template
@@ -164,11 +167,18 @@ func FormatShellcode(encryptedShellcode []byte, language string) string {
 	var formattedShellcode []string
 	var shellcodeFormatted string
 
-	for _, b := range encryptedShellcode {
+	for counter, b := range encryptedShellcode {
 		if language == "python" || language == "perl" || language == "c" || language == "ruby" {
 			formattedShellcode = append(formattedShellcode, fmt.Sprintf("\\x%02x", b))
 		} else if language == "java" {
 			formattedShellcode = append(formattedShellcode, fmt.Sprintf("(byte) 0x%02x", b))
+			// Respect VBAs string length limit
+		} else if language == "vba" {
+			if (counter%50) == 0 && counter > 0 {
+				formattedShellcode = append(formattedShellcode, fmt.Sprintf("_\n%d", b))
+			} else {
+				formattedShellcode = append(formattedShellcode, fmt.Sprintf("%d", b))
+			}
 		} else {
 			formattedShellcode = append(formattedShellcode, fmt.Sprintf("0x%02x", b))
 		}

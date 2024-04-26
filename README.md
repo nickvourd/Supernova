@@ -61,6 +61,7 @@ Supernova offers automatic conversion of the encrypted shellcode into formats co
 - Python
 - Perl
 - PowerShell
+- VBA (Implemented by [@verydamptowel](https://twitter.com/verydamptowel))
 - Java
 - Ruby
 - Raw (Implemented by [@y2qaq](https://twitter.com/y2qaq))
@@ -121,7 +122,7 @@ go build Supernova
 ███████║╚██████╔╝██║     ███████╗██║  ██║██║ ╚████║╚██████╔╝ ╚████╔╝ ██║  ██║
 ╚══════╝ ╚═════╝ ╚═╝     ╚══════╝╚═╝  ╚═╝╚═╝  ╚═══╝ ╚═════╝   ╚═══╝  ╚═╝  ╚═╝
 
-Supernova v2.0 - Real fucking shellcode encryptor & obfuscator tool.
+Supernova v2.1 - Real fucking shellcode encryptor & obfuscator tool.
 Supernova is an open source tool licensed under MIT.
 Written with <3 by @nickvourd, @Papadope9 and @0xvm.
 Please visit https://github.com/nickvourd/Supernova for more...
@@ -136,7 +137,7 @@ Usage of Suprenova:
   -key int
         Key length size for encryption (default 1)
   -lang string
-        Programming language to translate the shellcode (i.e., Nim, Rust, C, CSharp, Go, Python, PowerShell, Perl, Ruby, Java, Raw)
+        Programming language to translate the shellcode (i.e., Nim, Rust, C, CSharp, Go, Python, PowerShell, Perl, VBA, Ruby, Java, Raw)
   -obf string
         Shellcode obfuscation (i.e., IPV4, IPV6, MAC, UUID)
   -output string
