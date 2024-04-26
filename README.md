@@ -137,7 +137,7 @@ Usage of Suprenova:
   -key int
         Key length size for encryption (default 1)
   -lang string
-        Programming language to translate the shellcode (i.e., Nim, Rust, C, CSharp, Go, Python, PowerShell, Perl, Ruby, Java, Raw)
+        Programming language to translate the shellcode (i.e., Nim, Rust, C, CSharp, Go, Python, PowerShell, Perl, VBA, Ruby, Java, Raw)
   -obf string
         Shellcode obfuscation (i.e., IPV4, IPV6, MAC, UUID)
   -output string
