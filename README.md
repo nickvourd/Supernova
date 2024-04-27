@@ -40,7 +40,7 @@ The authors and contributors of this project are not liable for any illegal use 
 
 Special thanks to my brothers [@S1ckB0y1337](https://twitter.com/S1ckB0y1337) and [@IAMCOMPROMISED](https://twitter.com/IAMCOMPROMISED), who provided invaluable assistance during the beta testing phase of the tool.
 
-Grateful acknowledgment to [@y2qaq](https://twitter.com/y2qaq) for his valuable contributions.
+Grateful acknowledgment to [@y2qaq](https://twitter.com/y2qaq) and [@VeryDampTowel](https://twitter.com/VeryDampTowel) for their valuable contributions.
 
 Special thanks to my friend [@MikeAngelowtt](https://twitter.com/MikeAngelowtt) for all our evening discussions during the development process.
 
