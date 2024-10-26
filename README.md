@@ -114,7 +114,6 @@ go build Supernova
 :information_source: Please refer to the [Supernova Wiki](https://github.com/nickvourd/Supernova/wiki) for detailed usage instructions and examples of commands.
 
 ```
-
 ███████╗██╗   ██╗██████╗ ███████╗██████╗ ███╗   ██╗ ██████╗ ██╗   ██╗ █████╗
 ██╔════╝██║   ██║██╔══██╗██╔════╝██╔══██╗████╗  ██║██╔═══██╗██║   ██║██╔══██╗
 ███████╗██║   ██║██████╔╝█████╗  ██████╔╝██╔██╗ ██║██║   ██║██║   ██║███████║
@@ -122,9 +121,9 @@ go build Supernova
 ███████║╚██████╔╝██║     ███████╗██║  ██║██║ ╚████║╚██████╔╝ ╚████╔╝ ██║  ██║
 ╚══════╝ ╚═════╝ ╚═╝     ╚══════╝╚═╝  ╚═╝╚═╝  ╚═══╝ ╚═════╝   ╚═══╝  ╚═╝  ╚═╝
 
-Supernova v2.1 - Real fucking shellcode encryptor & obfuscator tool.
+Supernova v2.5 - Real fucking shellcode encryptor & obfuscator tool.
 Supernova is an open source tool licensed under MIT.
-Written with <3 by @nickvourd, @Papadope9 and @0xvm.
+Written with <3 by @nickvourd.
 Please visit https://github.com/nickvourd/Supernova for more...
 
 Usage of Suprenova:
