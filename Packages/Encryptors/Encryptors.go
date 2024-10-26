@@ -251,8 +251,11 @@ func DetectEncryption(cipher string, shellcode string, key int, language string)
 		// Convert passphrase to bytes
 		rc4Key := []byte(randomPassphrase)
 
-		// Print generated passphrase
-		fmt.Printf("[+] Generated passphrase: %s\n\n", Colors.BoldGreen(randomPassphrase))
+		// Print generated XOR key
+		fmt.Printf("[+] Generated RC4 key: ")
+
+		// Call function named PrintKeyDetails
+		Output.PrintKeyDetails(rc4Key)
 
 		// Call function named RC4Encryption
 		encryptedShellcode := RC4Encryption(shellcodeInBytes, rc4Key)

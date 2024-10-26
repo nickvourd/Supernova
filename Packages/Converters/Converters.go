@@ -81,7 +81,7 @@ func ConvertShellcode2Hex(shellcode string, language string) (string, int) {
 	var builder strings.Builder
 
 	// Format and add "\x" in front of each pair of hex characters
-	if language == "python" || language == "perl" || language == "c" || language == "ruby" {
+	if language == "python" || language == "perl" || language == "ruby" {
 		for i := 0; i < len(hexValues); i += 2 {
 			builder.WriteString("\\x")
 			builder.WriteString(hexValues[i])
@@ -121,7 +121,7 @@ func ConvertShellcode2Hex(shellcode string, language string) (string, int) {
 func ConvertShellcode2Template(shellcode string, language string, length int, variable string) string {
 	switch language {
 	case "c":
-		template := fmt.Sprintf(`unsigned char %s[] = "%s";`, variable, shellcode)
+		template := fmt.Sprintf(`unsigned char %s[] = {%s};`, variable, shellcode)
 		return template
 	case "csharp":
 		template := fmt.Sprintf(`byte[] %s = new byte[%d] {%s};`, variable, length, shellcode)
@@ -168,7 +168,7 @@ func FormatShellcode(encryptedShellcode []byte, language string) string {
 	var shellcodeFormatted string
 
 	for counter, b := range encryptedShellcode {
-		if language == "python" || language == "perl" || language == "c" || language == "ruby" {
+		if language == "python" || language == "perl" || language == "ruby" {
 			formattedShellcode = append(formattedShellcode, fmt.Sprintf("\\x%02x", b))
 		} else if language == "java" {
 			formattedShellcode = append(formattedShellcode, fmt.Sprintf("(byte) 0x%02x", b))
@@ -185,7 +185,7 @@ func FormatShellcode(encryptedShellcode []byte, language string) string {
 	}
 
 	// Combine elements into a single string
-	if language == "python" || language == "perl" || language == "c" || language == "ruby" {
+	if language == "python" || language == "perl" || language == "ruby" {
 		shellcodeFormatted = strings.Join(formattedShellcode, "")
 	} else {
 		shellcodeFormatted = strings.Join(formattedShellcode, ", ")

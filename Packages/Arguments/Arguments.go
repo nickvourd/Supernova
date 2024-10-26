@@ -23,10 +23,10 @@ type FlagOptions struct {
 }
 
 var (
-	version     = "2.1"
-	versionName = "Coaster"
+	version     = "2.5"
+	versionName = "FireStone"
 	license     = "MIT"
-	authors     = [...]string{"@nickvourd", "@Papadope9", "@0xvm"}
+	author      = "@nickvourd"
 	github      = "https://github.com/nickvourd/Supernova"
 	ascii       = `
 
@@ -41,7 +41,7 @@ var (
 	text = `
 Supernova v%s - Real fucking shellcode encryptor & obfuscator tool.
 Supernova is an open source tool licensed under %s.
-Written with <3 by %s, %s and %s.
+Written with <3 by %s.
 Please visit %s for more...
 
 `
@@ -52,7 +52,7 @@ func PrintAscii() {
 	// Initialize RandomColor
 	randomColor := Colors.RandomColor()
 	fmt.Print(randomColor(ascii))
-	fmt.Printf(text, version, license, authors[0], authors[1], authors[2], github)
+	fmt.Printf(text, version, license, author, github)
 }
 
 // Options function
