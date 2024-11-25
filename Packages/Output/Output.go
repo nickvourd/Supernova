@@ -14,12 +14,19 @@ import (
 // PrintKeyDetails function
 func PrintKeyDetails(key []byte) {
 	for i, b := range key {
+		var asciiValue string
 		decimalValue := int(b)
 		hexValue := fmt.Sprintf("0x%02x", b)
 
-		// Convert the integer to a string
-		decimalValueString := strconv.Itoa(decimalValue)
-		fmt.Printf("byte(%s) => %s", Colors.BoldMagneta(hexValue), Colors.BoldRed(decimalValueString))
+		// Determine ASCII value if printable
+		if b >= 32 && b <= 126 { // Printable ASCII range
+			asciiValue = string(b)
+			fmt.Printf("byte(%s) => %s => %s", Colors.BoldRed(hexValue), Colors.BoldMagneta(strconv.Itoa(decimalValue)), Colors.BoldGreen(asciiValue))
+		} else {
+			// Non-printable character, only show hex and decimal
+			fmt.Printf("byte(%s) => %s", Colors.BoldRed(hexValue), Colors.BoldMagneta(strconv.Itoa(decimalValue)))
+		}
+
 		if i < len(key)-1 {
 			fmt.Printf(", ")
 		}
