@@ -87,13 +87,13 @@ You can use the [precompiled binaries](https://github.com/nickvourd/Supernova/re
 
 ⚠️ Please ensure that Go is installed on your system.
 
-ℹ️ For Linux platform install the following package:
+ℹ️ For Linux platforms install the following package:
 
 ```
 sudo apt install golang -y
 ```
 
-ℹ️ For MacOS platform install the following package:
+ℹ️ For MacOS platforms install the following package:
 
 ```
 brew install go
