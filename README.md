@@ -85,6 +85,22 @@ Supernova is written in Golang, a cross-platform language, enabling its use on b
 
 You can use the [precompiled binaries](https://github.com/nickvourd/Supernova/releases), or you can manually install Supernova by following the next steps:
 
+⚠️ Please ensure that Go is installed on your system.
+
+ℹ️ For Linux platform install the following package:
+
+```
+sudo apt install golang -y
+```
+
+ℹ️ For MacOS platform install the following package:
+
+```
+brew install go
+```
+
+ℹ️ For Windows platforms, please visit the [official Go website](https://go.dev/dl/) and download the appropriate MSI file for installation.
+
 1) Clone the repository by executing the following command:
 
 ```
