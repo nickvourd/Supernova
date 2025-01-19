@@ -20,6 +20,8 @@ func main() {
 	var template string
 	var encryptedShellcode []byte
 	var shellcode []byte
+	var processType string
+	var processVerb string
 
 	// Call function named PrintAscii
 	Arguments.PrintAscii()
@@ -60,6 +62,9 @@ func main() {
 	if options.Encryption != "" {
 		// Call function named ValidateArgument
 		Arguments.ValidateArgument("enc", options.Encryption, []string{"ROT", "XOR", "RC4", "AES", "CHACHA20"})
+
+		// Call function named ManageProcess
+		processType, processVerb = Manager.ManageProcess(options.Encryption)
 	}
 
 	// Obfuscation option is enable
@@ -108,7 +113,7 @@ func main() {
 		encryptionStartTime := time.Now()
 
 		// Call function named EncryptionManager
-		template, encryptedShellcode = Manager.EncryptionManager(options.Key, options.Encryption, options.Obfuscation, options.Debug, options.Variable, rawShellcode, foundLanguage, fileSizeFlag)
+		template, encryptedShellcode = Manager.EncryptionManager(options.Key, options.Encryption, options.Obfuscation, options.Debug, options.Variable, rawShellcode, foundLanguage, fileSizeFlag, processVerb)
 
 		// Record the end time
 		encryptionEndTime := time.Now()
@@ -116,7 +121,7 @@ func main() {
 		// Calculate the duration
 		encryptionDuration := encryptionEndTime.Sub(encryptionStartTime)
 
-		fmt.Printf("[+] Payload encryption with %s completed successfully! (Completed in %s)\n\n", strings.ToUpper(options.Encryption), encryptionDuration)
+		fmt.Printf("[+] Payload %s with %s completed successfully! (Completed in %s)\n\n", strings.ToLower(processType), strings.ToUpper(options.Encryption), encryptionDuration)
 	}
 
 	// Obfuscation option is enables
@@ -154,5 +159,5 @@ func main() {
 	}
 
 	// Call function named OutputManager
-	Manager.OutputManager(options.OutFile, foundLanguage, template, options.Encryption, options.Obfuscation)
+	Manager.OutputManager(options.OutFile, foundLanguage, template, options.Encryption, options.Obfuscation, processVerb)
 }

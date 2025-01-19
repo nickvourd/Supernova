@@ -243,7 +243,7 @@ func ShellcodeDecimalArray2String(decArray []int) string {
 func ConvertObfShellcode2Template(shellcode string, language string, variable string) string {
 	switch language {
 	case "c":
-		template := fmt.Sprintf(`unsigned char *%s[] = {%s};`, variable, shellcode)
+		template := fmt.Sprintf(`unsigned char %s[] = {%s};`, variable, shellcode)
 		return template
 	case "csharp":
 		template := fmt.Sprintf(`string[] %s = new string[] {%s};`, variable, shellcode)
@@ -273,6 +273,9 @@ func ConvertObfShellcode2Template(shellcode string, language string, variable st
 		return template
 	case "java":
 		template := fmt.Sprintf(`String[] %s = {%s};`, variable, shellcode)
+		return template
+	case "vba":
+		template := fmt.Sprintf(`%s = Array(%s)`, variable, shellcode)
 		return template
 	default:
 		fmt.Println("[!] Unsupported programming language:", language)

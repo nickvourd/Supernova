@@ -310,7 +310,7 @@ func IPv4Obfuscation(shellcode string) string {
 			}
 		}
 
-		fmt.Printf("	" + result + "\n\n")
+		fmt.Print("	" + result + "\n\n")
 
 		// if generated numbers are more than one
 		if count > 1 {
@@ -442,7 +442,7 @@ func CustomPayloadMessage(obfuscation string, randomHexCount int, randomHexValue
 		}
 	}
 
-	fmt.Printf("	" + hexString + "\n\n")
+	fmt.Print("	" + hexString + "\n\n")
 
 	fmt.Printf("[!] Be sure to remove %s during the implementation process!\n\n", pronous)
 

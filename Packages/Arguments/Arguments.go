@@ -23,8 +23,8 @@ type FlagOptions struct {
 }
 
 var (
-	version     = "2.8"
-	versionName = "Ice Tea"
+	version     = "2.9"
+	versionName = "Black Tea"
 	license     = "MIT"
 	author      = "@nickvourd"
 	github      = "https://github.com/nickvourd/Supernova"
@@ -101,7 +101,7 @@ func ArgumentLength(versionFlag bool) {
 		// if one argument
 		if versionFlag {
 			// if version flag exists
-			fmt.Printf("[+] Current version: " + Colors.BoldRed(version) + "\n\n[+] Version name: " + Colors.BoldRed(versionName) + "\n\n")
+			fmt.Print("[+] Current version: " + Colors.BoldRed(version) + "\n\n[+] Version name: " + Colors.BoldRed(versionName) + "\n\n")
 			os.Exit(0)
 		} else {
 			// if version flag not exists

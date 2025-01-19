@@ -11,7 +11,7 @@ import (
 )
 
 // EncryptionManager function
-func EncryptionManager(Key int, Encryption string, Obfuscation string, Debug bool, Variable string, rawShellcode string, foundLanguage string, fileSizeFlag bool) (string, []byte) {
+func EncryptionManager(Key int, Encryption string, Obfuscation string, Debug bool, Variable string, rawShellcode string, foundLanguage string, fileSizeFlag bool, process string) (string, []byte) {
 	// Call function ValidateKeySize
 	Key = Arguments.ValidateKeySize(Key, Encryption)
 
@@ -26,14 +26,14 @@ func EncryptionManager(Key int, Encryption string, Obfuscation string, Debug boo
 		// Handle the case when Obfuscation is empty
 		if fileSizeFlag {
 			// If fileSizeFlag is true
-			fmt.Printf("[!] The size of the encrypted shellcode exceeds the maximum display limit.\n\n[!] Supernova cannot display it on the screen.\n\n")
+			fmt.Printf("[!] The size of the %s shellcode exceeds the maximum display limit.\n\n[!] Supernova cannot display it on the screen.\n\n", strings.ToLower(process))
 		} else {
 			if foundLanguage == "raw" {
 				// If the foundLanguage is "raw"
-				fmt.Printf("[!] The encrypted shellcode is displayed in raw format represented as hexadecimal on the terminal.\n\n")
+				fmt.Printf("[!] The %s shellcode is displayed in raw format represented as hexadecimal on the terminal.\n\n", strings.ToLower(process))
 			}
 			// Print the encrypted template
-			fmt.Printf("[+] The encrypted payload with %s:\n\n%s\n\n", strings.ToUpper(Encryption), template)
+			fmt.Printf("[+] The %s payload with %s:\n\n%s\n\n", strings.ToLower(process), strings.ToUpper(Encryption), template)
 		}
 	} else {
 		// Handle the case when Obfuscation is not empty
@@ -41,14 +41,14 @@ func EncryptionManager(Key int, Encryption string, Obfuscation string, Debug boo
 			// If Debug mode is enabled
 			if fileSizeFlag {
 				// If fileSizeFlag is true
-				fmt.Printf("[!] The size of the encrypted shellcode exceeds the maximum display limit.\n\n[!] Supernova cannot display it on the screen.\n\n")
+				fmt.Printf("[!] The size of the %s shellcode exceeds the maximum display limit.\n\n[!] Supernova cannot display it on the screen.\n\n", strings.ToLower(process))
 			} else {
 				if foundLanguage == "raw" {
 					// If the foundLanguage is "raw"
-					fmt.Printf("[!] The encrypted shellcode is displayed in raw format represented as hexadecimal on the terminal.\n\n")
+					fmt.Printf("[!] The %s shellcode is displayed in raw format represented as hexadecimal on the terminal.\n\n", strings.ToLower(process))
 				}
 				// Print the encrypted template
-				fmt.Printf("[+] The encrypted payload with %s:\n\n%s\n\n", strings.ToUpper(Encryption), template)
+				fmt.Printf("[+] The %s payload with %s:\n\n%s\n\n", strings.ToLower(process), strings.ToUpper(Encryption), template)
 			}
 		}
 	}
@@ -57,7 +57,7 @@ func EncryptionManager(Key int, Encryption string, Obfuscation string, Debug boo
 }
 
 // OutputManager function
-func OutputManager(OutFile string, Language string, template string, Encryption string, Obfuscation string) {
+func OutputManager(OutFile string, Language string, template string, Encryption string, Obfuscation string, process string) {
 	language := strings.ToLower(Language)
 	// Declare variables
 	var encryptionFlag bool
@@ -68,7 +68,7 @@ func OutputManager(OutFile string, Language string, template string, Encryption 
 			// Obfuscation option is enable
 			if Obfuscation != "" {
 				// Call function named SaveOutputToFile
-				err := Output.SaveOutputToFile(template, OutFile, encryptionFlag)
+				err := Output.SaveOutputToFile(template, OutFile, encryptionFlag, process)
 				if err != nil {
 					fmt.Println("[!] Error:", err)
 					return
@@ -76,7 +76,7 @@ func OutputManager(OutFile string, Language string, template string, Encryption 
 			} else {
 				if language == "raw" {
 					// Call function named SaveShellcodeToFile
-					err := Output.SaveShellcodeToFile(template, OutFile)
+					err := Output.SaveShellcodeToFile(template, OutFile, process)
 					if err != nil {
 						fmt.Println("[!] Error:", err)
 						return
@@ -86,7 +86,7 @@ func OutputManager(OutFile string, Language string, template string, Encryption 
 					encryptionFlag = true
 
 					// Call function named SaveOutputToFile
-					err := Output.SaveOutputToFile(template, OutFile, encryptionFlag)
+					err := Output.SaveOutputToFile(template, OutFile, encryptionFlag, process)
 					if err != nil {
 						fmt.Println("[!] Error:", err)
 						return
@@ -95,7 +95,7 @@ func OutputManager(OutFile string, Language string, template string, Encryption 
 			}
 		} else {
 			// Call function named SaveOutputToFile
-			err := Output.SaveOutputToFile(template, OutFile, encryptionFlag)
+			err := Output.SaveOutputToFile(template, OutFile, encryptionFlag, process)
 			if err != nil {
 				fmt.Println("[!] Error:", err)
 				return
@@ -128,4 +128,14 @@ func ObfuscationManager(shellcode []byte, Obfuscation string, Language string, V
 	}
 
 	return template
+}
+
+// ManageProcess function
+func ManageProcess(encryption string) (string, string) {
+	switch strings.ToLower(encryption) {
+	case "rot":
+		return "Encoding", "Encoded"
+	default:
+		return "Encryption", "Encrypted"
+	}
 }

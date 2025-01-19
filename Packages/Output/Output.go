@@ -9,6 +9,7 @@ import (
 	"log"
 	"os"
 	"strconv"
+	"strings"
 )
 
 // PrintKeyDetails function
@@ -54,7 +55,7 @@ func DetectNotification(key int) int {
 }
 
 // SaveOutputToFile function
-func SaveOutputToFile(outputData string, filename string, statement bool) error {
+func SaveOutputToFile(outputData string, filename string, statement bool, process string) error {
 	// Open the file for writing
 	file, err := os.Create(filename)
 	if err != nil {
@@ -77,16 +78,16 @@ func SaveOutputToFile(outputData string, filename string, statement bool) error 
 
 	//fmt.Println(statement)
 	if statement {
-		fmt.Printf("[+] The encrypted shellcode saved to " + absolutePath + " file.\n\n")
+		fmt.Printf("[+] The %s shellcode saved to %s file.\n\n", strings.ToLower(process), absolutePath)
 	} else {
-		fmt.Printf("[+] The obfuscated shellcode saved to " + absolutePath + " file.\n\n")
+		fmt.Print("[+] The obfuscated shellcode saved to " + absolutePath + " file.\n\n")
 	}
 
 	return nil
 }
 
 // SaveShellcodeToFile function
-func SaveShellcodeToFile(shellcode, filename string) error {
+func SaveShellcodeToFile(shellcode, filename string, process string) error {
 	// Removes Spaces and the "0x" prefix from the string
 	shellcode = Converters.CleanShellcodeString(shellcode)
 
@@ -116,6 +117,6 @@ func SaveShellcodeToFile(shellcode, filename string) error {
 		return err
 	}
 
-	fmt.Printf("[+] The encrypted shellcode saved to " + absolutePath + " file.\n\n")
+	fmt.Printf("[+] The %s shellcode saved to %s file.\n\n", strings.ToLower(process), absolutePath)
 	return nil
 }
