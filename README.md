@@ -8,6 +8,7 @@ Real fucking shellcode encryptor & obfuscator.
   <img alt="GitHub Repo stars" src="https://img.shields.io/github/stars/nickvourd/Supernova?logoColor=yellow">
   <img alt="GitHub forks" src="https://img.shields.io/github/forks/nickvourd/Supernova?logoColor=red">
   <img alt="GitHub watchers" src="https://img.shields.io/github/watchers/nickvourd/Supernova?logoColor=blue">
+  <img alt="GitHub contributors" src="https://img.shields.io/github/contributors/nickvourd/Supernova">
 </p>
 
 ## Description
