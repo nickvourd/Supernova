@@ -79,7 +79,7 @@ Supports various obfuscation techniques, which make the malicious shellcode appe
 - MAC
 - UUID (Supported by [@S1ckB0y1337](https://twitter.com/S1ckB0y1337) & [@MikeAngelowtt](https://twitter.com/MikeAngelowtt))
 
-Supernova is written in Golang, a cross-platform language, enabling its use on both Windows and Linux systems.
+Supernova is written in Golang, a cross-platform language, making it compatible with Windows, Linux, and macOS.
 
 ## Installation
 
