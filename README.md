@@ -44,6 +44,8 @@ Grateful acknowledgment to [@y2qaq](https://twitter.com/y2qaq) and [@VeryDampTow
 
 Special thanks to my friend [@MikeAngelowtt](https://twitter.com/MikeAngelowtt) for all our evening discussions during the development process.
 
+A heartfelt thanks to my friend [@0xvmar](https://x.com/0xvm) for his invaluable guidance and support throughout the years.
+
 Special thanks to my friend [Efstratios Chatzoglou](https://www.linkedin.com/in/efstratios-chatzoglou-b2b09616b/) and his tool named [Pandora](https://github.com/efchatz/pandora), which inspired me to improve the beauty of this `README.md` file.
 
 This tool was inspired during the malware development courses of [MALDEV Academy](https://maldevacademy.com).
