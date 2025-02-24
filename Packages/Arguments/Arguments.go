@@ -160,7 +160,7 @@ func ValidateArgument(argName string, argValue string, validValues []string) str
 		argValue = "vba"
 	}
 
-	if strings.ToLower(argValue) == "c#" || strings.ToLower(argValue) == "cs" || strings.ToLower(argValue) == "c-sharp" {
+	if strings.ToLower(argValue) == "c#" || strings.ToLower(argValue) == "cs" || strings.ToLower(argValue) == "c-sharp" || strings.ToLower(argValue) == ".net" || strings.ToLower(argValue) == "net" {
 		argValue = "csharp"
 	}
 
