@@ -3,12 +3,11 @@ Real fucking shellcode encryptor & obfuscator.
 
 <p align="center">
   <img width="350" height="350" src="/Pictures/Logo/Supernova-Logo.png"><br /><br />
-  <img alt="Static Badge" src="https://img.shields.io/badge/License-MIT-green?link=https%3A%2F%2Fgithub.com%2Fnickvourd%2FSupernova%2Fblob%2Fmain%2FLICENSE">
-  <img alt="Static Badge" src="https://img.shields.io/badge/Version-2.9%20(Black Tea)-red?link=https%3A%2F%2Fgithub.com%2Fnickvourd%2FSupernova%2Freleases"><br /><br />
-  <img alt="GitHub Repo stars" src="https://img.shields.io/github/stars/nickvourd/Supernova?logoColor=yellow">
+  <img alt="GitHub License" src="https://img.shields.io/github/license/nickvourd/Supernova?style=social&logo=GitHub&logoColor=purple">
+  <img alt="GitHub Repo stars" src="https://img.shields.io/github/stars/nickvourd/Supernova?logoColor=yellow"><br />
   <img alt="GitHub forks" src="https://img.shields.io/github/forks/nickvourd/Supernova?logoColor=red">
   <img alt="GitHub watchers" src="https://img.shields.io/github/watchers/nickvourd/Supernova?logoColor=blue">
-  <img alt="GitHub contributors" src="https://img.shields.io/github/contributors/nickvourd/Supernova?style=social&logo=GitHub&logoColor=purple">
+  <img alt="GitHub contributors" src="https://img.shields.io/github/contributors/nickvourd/Supernova?style=social&logo=GitHub&logoColor=green">
 </p>
 
 ## Description
@@ -16,6 +15,7 @@ Real fucking shellcode encryptor & obfuscator.
 Supernova is an open-source tool that empowers users to securely encrypt and/or obfuscate their raw shellcode. 
 
 ![Static Badge](https://img.shields.io/badge/Go-lang-cyan?style=flat&logoSize=auto)
+![Static Badge](https://img.shields.io/badge/Version-2.9%20(Black%20Tea)-red?link=https%3A%2F%2Fgithub.com%2Fnickvourd%2FSupernova%2Freleases)
 
 Supernova supports various features beyond those typically found in a common shellcode encryptor tool. Please refer to the <a href="#features"> Features</a> section for more information.
 
