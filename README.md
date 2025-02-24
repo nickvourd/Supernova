@@ -15,7 +15,7 @@ Real fucking shellcode encryptor & obfuscator.
 
 Supernova is an open-source tool that empowers users to securely encrypt and/or obfuscate their raw shellcode. 
 
-![Static Badge](https://img.shields.io/badge/Go-cyan?style=flat&logoSize=auto)
+![Static Badge](https://img.shields.io/badge/Go-lang-cyan?style=flat&logoSize=auto)
 
 Supernova supports various features beyond those typically found in a common shellcode encryptor tool. Please refer to the <a href="#features"> Features</a> section for more information.
 
