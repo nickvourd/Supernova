@@ -23,8 +23,8 @@ type FlagOptions struct {
 }
 
 var (
-	version     = "3.0"
-	versionName = "Red Dope"
+	version     = "3.1"
+	versionName = "Blue Moon"
 	license     = "MIT"
 	author      = "@nickvourd"
 	github      = "https://github.com/nickvourd/Supernova"
