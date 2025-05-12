@@ -5,7 +5,6 @@ import (
 	"Supernova/Packages/Converters"
 	"fmt"
 	"log"
-	"math/rand"
 	"os"
 	"strings"
 )
@@ -58,12 +57,14 @@ func EnsureSegmentLength(segment string, desiredLength int) (string, int, []stri
 	if len(segment) < desiredLength {
 		// Append random hex values until the segment reaches the desired length
 		for len(segment) < desiredLength {
-			randomHex := fmt.Sprintf("%02X", rand.Intn(240)+16)
+			//randomHex := fmt.Sprintf("%02X", rand.Intn(240)+16)
+			randomHex := "90"
 			segment += strings.ToLower(randomHex)
 			randomHexValues = append(randomHexValues, randomHex)
 			totalRandomHexAdded++
 		}
 	}
+
 	return segment, totalRandomHexAdded, randomHexValues
 }
 
@@ -166,7 +167,8 @@ func MacObfuscation(shellcode string) (string, int, []string) {
 		if len(group) < 6 {
 			// Generate and append random hex values to the group
 			for j := len(group); j < 6; j++ {
-				randomHex := fmt.Sprintf("%02X", rand.Intn(240)+16)
+				//randomHex := fmt.Sprintf("%02X", rand.Intn(240)+16)
+				randomHex := "90"
 				group = append(group, strings.ToLower(randomHex))
 				randomHexValues = append(randomHexValues, randomHex)
 				randomHexCount++
@@ -201,7 +203,8 @@ func IPv6Obfuscation(shellcode string) ([]string, int, []string) {
 
 		// Generate random hexadecimal values and append them to the shellcode
 		for i := 0; i < remaining; i = i + 2 {
-			randomHex := fmt.Sprintf("%X", rand.Intn(240)+16)
+			//randomHex := fmt.Sprintf("%X", rand.Intn(240)+16)
+			randomHex := "90"
 			shellcode += strings.ToLower(randomHex)
 			randomHexValues = append(randomHexValues, randomHex)
 			randomHexCount++
@@ -233,15 +236,10 @@ func IPv6Obfuscation(shellcode string) ([]string, int, []string) {
 }
 
 // IPv4Obfuscation function
-func IPv4Obfuscation(shellcode string) string {
+func IPv4Obfuscation(shellcode string) (string, int, []string) {
 	// Arrays to store added numbers and their hexadecimal representations
-	var addedNumbers []int
 	var hexRepresentations []string
-
-	// Variables eclaration
-	var pronous string = "it"
-	var pronousNum string = "number"
-	var result string
+	var addedNumbers []int
 
 	// Split the original string into chunks of four digits
 	chunks := strings.Fields(shellcode)
@@ -267,18 +265,15 @@ func IPv4Obfuscation(shellcode string) string {
 
 	// Loop until the length of chunkResult is equal to 4
 	for len(chunkResult) < 4 {
-		// Generate a random decimal from 0 to 255
-		randomNumber := rand.Intn(256)
-
-		// Convert decimal to hexadecimal
-		randomHex := fmt.Sprintf("0x%X", randomNumber)
+		//randomHex := fmt.Sprintf("0x%X", randomNumber)
+		randomNumber := 90
 
 		// Convert the random number to a string
 		randomString := fmt.Sprintf("%d", randomNumber)
 
 		// Add the random number and its hexadecimal representation to arrays
 		addedNumbers = append(addedNumbers, randomNumber)
-		hexRepresentations = append(hexRepresentations, randomHex)
+		hexRepresentations = append(hexRepresentations, randomString)
 
 		// Add the random string to the slice
 		chunkResult = append(chunkResult, randomString)
@@ -287,45 +282,12 @@ func IPv4Obfuscation(shellcode string) string {
 	// Print the message with the count of added numbers and their details
 	count := len(addedNumbers)
 
-	// if count more than one
-	if count > 1 {
-		pronousNum = "numbers"
-	}
-
-	if count > 0 {
-		fmt.Printf("[+] Configure payload length evenly for IPv4 obfuscation by adding %d random %s:\n\n", count, pronousNum)
-
-		// Iterate over each element and build the result string
-		for i, num := range addedNumbers {
-			hexRep := hexRepresentations[i]
-
-			// Append the formatted string to the result
-			if i < count-1 {
-				result += fmt.Sprintf(Colors.BoldRed("%d "), num)
-				result += fmt.Sprintf("=> byte(%s)", Colors.BoldMagneta(strings.ToLower(hexRep)))
-				result += ", "
-			} else {
-				result += fmt.Sprintf(Colors.BoldRed("%d "), num)
-				result += fmt.Sprintf("=> byte(%s)", Colors.BoldMagneta(strings.ToLower(hexRep)))
-			}
-		}
-
-		fmt.Print("	" + result + "\n\n")
-
-		// if generated numbers are more than one
-		if count > 1 {
-			pronous = "them"
-		}
-
-		fmt.Printf("[!] Be sure to remove %s during the implementation process!\n\n", pronous)
-	}
-
 	// Join the last remaining elements into a string with dots
 	configResult := strings.Join(chunkResult, ".")
 
 	shellcodeProperty += "\"" + configResult + "\""
 
-	return shellcodeProperty
+	return shellcodeProperty, count, hexRepresentations
 }
 
 // DetectObfuscation function
@@ -347,7 +309,19 @@ func DetectObfuscation(obfuscation string, shellcode []string) string {
 		shellcodeStr := Converters.ShellcodeDecimalArray2String(shellcodeDecArray)
 
 		// Call function named IPv4Obfuscation
-		obfuscatedShellcodeString = IPv4Obfuscation(shellcodeStr)
+		obfuscatedShellcodeString, randomHexCount, randomHexValues := IPv4Obfuscation(shellcodeStr)
+
+		// if count more than zero
+		if randomHexCount > 0 {
+			// if count more than one
+			if randomHexCount > 1 {
+				pronousChar = "bytes"
+				pronous = "them"
+			}
+
+			// Call function named CustomPayloadMessage
+			CustomPayloadMessage(obfuscation, randomHexCount, randomHexValues, pronous, pronousChar)
+		}
 
 		return obfuscatedShellcodeString
 	case "ipv6":
@@ -429,7 +403,7 @@ func CustomPayloadMessage(obfuscation string, randomHexCount int, randomHexValue
 	// Declare variables
 	var hexString string
 
-	fmt.Printf("[+] Configure payload length evenly for %s obfuscation by adding %d random %s:\n\n", obfuscation, randomHexCount, pronousChar)
+	fmt.Printf("[+] Configure payload length evenly for %s obfuscation by adding %d NOP %s:\n\n", strings.ToUpper(obfuscation), randomHexCount, pronousChar)
 
 	// Iterate over each character
 	for i, char := range randomHexValues {
@@ -444,6 +418,5 @@ func CustomPayloadMessage(obfuscation string, randomHexCount int, randomHexValue
 
 	fmt.Print("	" + hexString + "\n\n")
 
-	fmt.Printf("[!] Be sure to remove %s during the implementation process!\n\n", pronous)
-
+	//fmt.Printf("[!] Be sure to remove %s during the implementation process!\n\n", pronous)
 }
