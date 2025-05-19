@@ -68,16 +68,14 @@ func EnsureSegmentLength(segment string, desiredLength int) (string, int, []stri
 	return segment, totalRandomHexAdded, randomHexValues
 }
 
-// UUIDObfuscation function
+// UUIDObfuscation function creates a UUID string from shellcode.
 func UUIDObfuscation(shellcode string) (string, int, []string) {
 	// Split the shellcode into hex pairs.
 	hexPairs := strings.Split(shellcode, " ")
 
-	// Initialize a counter for the random hex values
-	var randomHexCount1, randomHexCount2, randomHexCount3, randomHexCount4, randomHexCount5 int
-	var randomHexValues1, randomHexValues2, randomHexValues3, randomHexValues4, randomHexValues5 []string
+	var randomHexCount int
+	var randomHexValues []string
 	var result []string
-	var nonEmptyStrings []string
 	var finalResult string
 
 	// Iterate over the hex pairs in groups of 16.
@@ -88,53 +86,35 @@ func UUIDObfuscation(shellcode string) (string, int, []string) {
 			end = len(hexPairs)
 		}
 
-		// Get the current group of hex pairs.
-		segment := hexPairs[i:end]
+		// Get the current group of hex pairs and join them into a single string.
+		segment := strings.Join(hexPairs[i:end], "")
+
+		// Ensure padding is correct.
+		paddedSegment, randomHexAdded, addedValues := EnsureSegmentLength(segment, 32)
+		randomHexCount += randomHexAdded
+		randomHexValues = append(randomHexValues, addedValues...)
+
+		// Split the padded segment back into hex pairs.
+		reSegmented := make([]string, len(paddedSegment)/2)
+		for j := 0; j < len(reSegmented); j++ {
+			reSegmented[j] = paddedSegment[2*j : 2*j+2]
+		}
 
 		// Split the segment into five parts to form a UUID.
-		segment1 := GetSegment(segment, 0, 4)
-		segment2 := GetSegment(segment, 4, 6)
-		segment3 := GetSegment(segment, 6, 8)
-		segment4 := GetSegmentNormal(segment, 8, 10)
-		segment5 := GetSegmentNormal(segment, 10, 16)
-
-		// Ensure each segment has the desired length
-		segment1, randomHexCount1, randomHexValues1 = EnsureSegmentLength(segment1, 8)
-		segment2, randomHexCount2, randomHexValues2 = EnsureSegmentLength(segment2, 4)
-		segment3, randomHexCount3, randomHexValues3 = EnsureSegmentLength(segment3, 4)
-		segment4, randomHexCount4, randomHexValues4 = EnsureSegmentLength(segment4, 4)
-		segment5, randomHexCount5, randomHexValues5 = EnsureSegmentLength(segment5, 12)
+		segment1 := GetSegment(reSegmented, 0, 4)
+		segment2 := GetSegment(reSegmented, 4, 6)
+		segment3 := GetSegment(reSegmented, 6, 8)
+		segment4 := GetSegmentNormal(reSegmented, 8, 10)
+		segment5 := GetSegmentNormal(reSegmented, 10, 16)
 
 		// Append the formatted UUID to the result.
 		result = append(result, fmt.Sprintf("\"%s-%s-%s-%s-%s\"", segment1, segment2, segment3, segment4, segment5))
 	}
 
-	// Sum of counters
-	TotalCounter := randomHexCount1 + randomHexCount2 + randomHexCount3 + randomHexCount4 + randomHexCount5
-
-	// Function to filter out empty strings and append non-empty ones
-	filterAndAppend := func(arr []string) {
-		for _, s := range arr {
-			if s != "" {
-				nonEmptyStrings = append(nonEmptyStrings, s)
-			}
-		}
-	}
-
-	// Apply the filterAndAppend function to each array
-	filterAndAppend(randomHexValues1)
-	filterAndAppend(randomHexValues2)
-	filterAndAppend(randomHexValues3)
-	filterAndAppend(randomHexValues4)
-	filterAndAppend(randomHexValues5)
-
-	// Call function named UUIDTrimmer
-	result = Converters.UUIDTrimmer(result)
-
 	// Join the result array into a single string.
 	finalResult = strings.Join(result, ", ")
 
-	return finalResult, TotalCounter, nonEmptyStrings
+	return finalResult, randomHexCount, randomHexValues
 }
 
 // MacObfuscation function
