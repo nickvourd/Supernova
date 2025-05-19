@@ -80,10 +80,10 @@ func UUIDObfuscation(shellcode string) (string, int, []string) {
 	var nonEmptyStrings []string
 	var finalResult string
 
-	// Iterate over the hex pairs in groups of 18.
-	for i := 0; i < len(hexPairs); i += 18 {
+	// Iterate over the hex pairs in groups of 16.
+	for i := 0; i < len(hexPairs); i += 16 {
 		// Determine the end of the current group.
-		end := i + 18
+		end := i + 16
 		if end > len(hexPairs) {
 			end = len(hexPairs)
 		}
