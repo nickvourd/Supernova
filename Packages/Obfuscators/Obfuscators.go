@@ -217,57 +217,65 @@ func IPv6Obfuscation(shellcode string) ([]string, int, []string) {
 
 // IPv4Obfuscation function
 func IPv4Obfuscation(shellcode string) (string, int, []string) {
-	// Arrays to store added numbers and their hexadecimal representations
-	var hexRepresentations []string
+	var hexRepresentations []string // contains decimal string values of added numbers (kept name for compatibility)
 	var addedNumbers []int
 
-	// Split the original string into chunks of four digits
+	// split the input into tokens
 	chunks := strings.Fields(shellcode)
 
-	// Initialize an empty slice to store the chunkResult
 	var chunkResult []string
+	var sb strings.Builder
+	prevLastOctet := "" // last octet of the last fully completed group
 
-	// Declare variables
-	var shellcodeProperty string
+	// iterate tokens and form full groups of 4
+	for _, token := range chunks {
+		if token == "" {
+			continue
+		}
+		chunkResult = append(chunkResult, token)
 
-	// Iterate over the chunks and add them to the chunkResult slice
-	for i, chunk := range chunks {
-		chunkResult = append(chunkResult, chunk)
+		if len(chunkResult) == 4 {
+			// join and append as a quoted group
+			if sb.Len() > 0 {
+				sb.WriteString(", ")
+			}
+			sb.WriteString(`"` + strings.Join(chunkResult, ".") + `"`)
 
-		// Add a dot after every fourth chunk, except for the last chunk
-		if (i+1)%4 == 0 && i != len(chunks)-1 {
-			// Join the slice into a string with dots
-			configResult := strings.Join(chunkResult, ".")
-			shellcodeProperty += "\"" + configResult + "\", "
-			chunkResult = chunkResult[:0] // Reset chunkResult slice for the next iteration
+			// track the last octet of this completed group
+			prevLastOctet = chunkResult[3]
+
+			// reset for next group
+			chunkResult = chunkResult[:0]
 		}
 	}
 
-	// Loop until the length of chunkResult is equal to 4
-	for len(chunkResult) < 4 {
-		//randomHex := fmt.Sprintf("0x%X", randomNumber)
-		randomNumber := 90
-
-		// Convert the random number to a string
-		randomString := fmt.Sprintf("%d", randomNumber)
-
-		// Add the random number and its hexadecimal representation to arrays
-		addedNumbers = append(addedNumbers, randomNumber)
-		hexRepresentations = append(hexRepresentations, randomString)
-
-		// Add the random string to the slice
-		chunkResult = append(chunkResult, randomString)
+	// if nothing remains, return current result
+	if len(chunkResult) == 0 {
+		return sb.String(), 0, nil
 	}
 
-	// Print the message with the count of added numbers and their details
-	count := len(addedNumbers)
+	// special rule:
+	// if remainder is exactly one token "0" and the previous group's last octet was "0",
+	// then do NOT append the padded final group
+	if len(chunkResult) == 1 && chunkResult[0] == "0" && prevLastOctet == "0" {
+		return sb.String(), 0, nil
+	}
 
-	// Join the last remaining elements into a string with dots
-	configResult := strings.Join(chunkResult, ".")
+	// otherwise pad remainder to 4 with 90
+	for len(chunkResult) < 4 {
+		randomNumber := 90
+		addedNumbers = append(addedNumbers, randomNumber)
+		hexRepresentations = append(hexRepresentations, fmt.Sprintf("%d", randomNumber))
+		chunkResult = append(chunkResult, fmt.Sprintf("%d", randomNumber))
+	}
 
-	shellcodeProperty += "\"" + configResult + "\""
+	// append final padded group
+	if sb.Len() > 0 {
+		sb.WriteString(", ")
+	}
+	sb.WriteString(`"` + strings.Join(chunkResult, ".") + `"`)
 
-	return shellcodeProperty, count, hexRepresentations
+	return sb.String(), len(addedNumbers), hexRepresentations
 }
 
 // DetectObfuscation function
@@ -303,6 +311,12 @@ func DetectObfuscation(obfuscation string, shellcode []string) string {
 			CustomPayloadMessage(obfuscation, randomHexCount, randomHexValues, pronous, pronousChar)
 		}
 
+		// Call function named CountQuotedStrings
+		countQuotedStrings := CountQuotedStrings(obfuscatedShellcodeString)
+
+		// Print total elements
+		fmt.Printf("[+] Total Elements: %s\n\n", Colors.BoldYellow(countQuotedStrings))
+
 		return obfuscatedShellcodeString
 	case "ipv6":
 		// Call function named ConvertShellcodeHex2String
@@ -331,6 +345,12 @@ func DetectObfuscation(obfuscation string, shellcode []string) string {
 		// Remove comma
 		obfuscatedShellcodeString = obfuscatedShellcodeString[:len(obfuscatedShellcodeString)-1]
 
+		// Call function named CountQuotedStrings
+		countQuotedStrings := CountQuotedStrings(obfuscatedShellcodeString)
+
+		// Print total elements
+		fmt.Printf("[+] Total Elements: %s\n\n", Colors.BoldYellow(countQuotedStrings))
+
 		return obfuscatedShellcodeString
 	case "mac":
 		// Call function named ConvertShellcodeHex2String
@@ -351,6 +371,12 @@ func DetectObfuscation(obfuscation string, shellcode []string) string {
 			CustomPayloadMessage(obfuscation, randomHexCount, randomHexValues, pronous, pronousChar)
 		}
 
+		// Call function named CountQuotedStrings
+		countQuotedStrings := CountQuotedStrings(obfuscatedShellcodeString)
+
+		// Print total elements
+		fmt.Printf("[+] Total Elements: %s\n\n", Colors.BoldYellow(countQuotedStrings))
+
 		return obfuscatedShellcodeString
 	case "uuid":
 		// Call function named ConvertShellcodeHex2String
@@ -370,6 +396,12 @@ func DetectObfuscation(obfuscation string, shellcode []string) string {
 			// Call function named CustomPayloadMessage
 			CustomPayloadMessage(obfuscation, randomHexCount, randomHexValues, pronous, pronousChar)
 		}
+
+		// Call function named CountQuotedStrings
+		countQuotedStrings := CountQuotedStrings(obfuscatedShellcodeString)
+
+		// Print total elements
+		fmt.Printf("[+] Total Elements: %s\n\n", Colors.BoldYellow(countQuotedStrings))
 
 		return obfuscatedShellcodeString
 	default:
@@ -399,4 +431,11 @@ func CustomPayloadMessage(obfuscation string, randomHexCount int, randomHexValue
 	fmt.Print("	" + hexString + "\n\n")
 
 	//fmt.Printf("[!] Be sure to remove %s during the implementation process!\n\n", pronous)
+}
+
+// CountQuotedStrings function
+func CountQuotedStrings(input string) int {
+	// Count commas and add 1
+	count := strings.Count(input, ",") + 1
+	return count
 }
