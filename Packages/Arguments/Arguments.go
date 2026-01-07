@@ -23,8 +23,8 @@ type FlagOptions struct {
 }
 
 var (
-	version     = "3.7"
-	versionName = "Blade Runner"
+	version     = "4.0"
+	versionName = "3 Stounges"
 	license     = "MIT"
 	author      = "@nickvourd"
 	github      = "https://github.com/nickvourd/Supernova"
@@ -59,14 +59,14 @@ func PrintAscii() {
 // Options function parses command line flags and returns FlagOptions
 func Options() *FlagOptions {
 	inputFile := flag.String("input", "", "Path to a raw shellcode")
-	encryption := flag.String("enc", "", "Shellcode encoding/encryption (i.e., ROT, XOR, RC4, AES, CHACHA20)")
+	encryption := flag.String("enc", "", "Shellcode encoding/encryption (i.e., ROT, XOR, RC4, AES, CHACHA20, DES, 3DES)")
 	language := flag.String("lang", "", "Programming language to translate the shellcode (i.e., Nim, Rust, C, CSharp, Go, Python, PowerShell, Perl, VBA, Ruby, Java, Raw)")
 	outFile := flag.String("output", "", "Name of the output shellcode file")
 	variable := flag.String("var", "shellcode", "Name of dynamic variable")
 	debug := flag.Bool("debug", false, "Enable Debug mode")
 	key := flag.Int("key", 1, "Key length size for encryption")
 	version := flag.Bool("version", false, "Show Supernova current version")
-	obfuscation := flag.String("obf", "", "Shellcode obfuscation (i.e., IPV4, IPV6, MAC, UUID)")
+	obfuscation := flag.String("obf", "", "Shellcode obfuscation (i.e., IPV4, IPV6, MAC, UUID, Words)")
 	flag.Parse()
 
 	return &FlagOptions{
@@ -253,6 +253,26 @@ func ValidateKeySize(key int, encryption string) int {
 			key = 32
 		default:
 			logger.Fatal("Provide a valid Chacha20 key: '-key 32'\n\n")
+		}
+	}
+
+	// if encryption is des
+	if strings.ToLower(encryption) == "des" {
+		switch key {
+		case 8:
+			key = 8
+		default:
+			logger.Fatal("Provide a valid DES key: '-key 8'\n\n")
+		}
+	}
+
+	// if encryption is 3des
+	if strings.ToLower(encryption) == "3des" {
+		switch key {
+		case 24:
+			key = 24
+		default:
+			logger.Fatal("Provide a valid 3DES key: '-key 24'\n\n")
 		}
 	}
 

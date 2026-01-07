@@ -61,7 +61,7 @@ func main() {
 	// if Encryption option is enable
 	if options.Encryption != "" {
 		// Call function named ValidateArgument
-		Arguments.ValidateArgument("enc", options.Encryption, []string{"ROT", "XOR", "RC4", "AES", "CHACHA20"})
+		Arguments.ValidateArgument("enc", options.Encryption, []string{"ROT", "XOR", "RC4", "AES", "CHACHA20", "DES", "3DES"})
 
 		// Call function named ManageProcess
 		processType, processVerb = Manager.ManageProcess(options.Encryption)
@@ -70,7 +70,7 @@ func main() {
 	// Obfuscation option is enable
 	if options.Obfuscation != "" {
 		// Call function named ValidateArgument
-		Arguments.ValidateArgument("obf", options.Obfuscation, []string{"IPV4", "IPV6", "MAC", "UUID"})
+		Arguments.ValidateArgument("obf", options.Obfuscation, []string{"IPV4", "IPV6", "MAC", "UUID", "Words"})
 	}
 
 	// Call function name ConvertShellcode2String

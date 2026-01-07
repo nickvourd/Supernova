@@ -15,7 +15,7 @@ Real fucking shellcode encryptor & obfuscator.
 Supernova is an open-source tool that empowers users to securely encrypt and/or obfuscate their raw shellcode. 
 
 ![Static Badge](https://img.shields.io/badge/Golang-cyan?style=flat&logoSize=auto)
-![Static Badge](https://img.shields.io/badge/Version-3.7%20(Blade%20Runner)-red?link=https%3A%2F%2Fgithub.com%2Fnickvourd%2FSupernova%2Freleases)
+![Static Badge](https://img.shields.io/badge/Version-4.0%20(3%20Stounges)-red?link=https%3A%2F%2Fgithub.com%2Fnickvourd%2FSupernova%2Freleases)
 
 Supernova supports various features beyond those typically found in a common shellcode encryptor tool. Please refer to the <a href="#features"> Features</a> section for more information.
 
@@ -76,6 +76,8 @@ Supports a variety of different ciphers, including:
 - XOR
 - RC4
 - AES (AES-128-CBC, AES-192-CBC, AES-256-CBC)
+- DES
+- 3DES
 - Chacha20 (Implemented by [@y2qaq](https://twitter.com/y2qaq))
 
 Supports various obfuscation techniques, which make the malicious shellcode appear as if it were:
@@ -83,6 +85,7 @@ Supports various obfuscation techniques, which make the malicious shellcode appe
 - IPv6
 - MAC
 - UUID (Supported by [@S1ckB0y1337](https://twitter.com/S1ckB0y1337) & [@MikeAngelowtt](https://twitter.com/MikeAngelowtt))
+- Words
 
 Supernova is written in Golang, a cross-platform language, making it compatible with Windows, Linux, and macOS.
 
@@ -142,7 +145,7 @@ go build Supernova
 ███████║╚██████╔╝██║     ███████╗██║  ██║██║ ╚████║╚██████╔╝ ╚████╔╝ ██║  ██║
 ╚══════╝ ╚═════╝ ╚═╝     ╚══════╝╚═╝  ╚═╝╚═╝  ╚═══╝ ╚═════╝   ╚═══╝  ╚═╝  ╚═╝
 
-Supernova v3.7 - Real fucking shellcode encryptor & obfuscator tool.
+Supernova v4.0 - Real fucking shellcode encryptor & obfuscator tool.
 Supernova is an open source tool licensed under MIT.
 Written with <3 by @nickvourd.
 Please visit https://github.com/nickvourd/Supernova for more...
@@ -151,7 +154,7 @@ Usage of Suprenova:
   -debug
         Enable Debug mode
   -enc string
-        Shellcode encoding/encryption (i.e., ROT, XOR, RC4, AES, CHACHA20)
+        Shellcode encoding/encryption (i.e., ROT, XOR, RC4, AES, CHACHA20, DES, 3DES)
   -input string
         Path to a raw shellcode
   -key int

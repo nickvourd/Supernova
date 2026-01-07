@@ -278,6 +278,62 @@ func IPv4Obfuscation(shellcode string) (string, int, []string) {
 	return sb.String(), len(addedNumbers), hexRepresentations
 }
 
+// WordsObfuscation function
+func WordsObfuscation(shellcode string) (string, map[string]string, int) {
+	// Remove all spaces and convert to lowercase
+	cleaned := strings.ToLower(strings.ReplaceAll(shellcode, " ", ""))
+
+	// Create mapping of hex characters to random words
+	charToWord := make(map[string]string)
+	usedWords := make(map[string]bool)
+
+	// Create unique mappings for each hex character
+	for _, char := range cleaned {
+		charStr := string(char)
+		if _, exists := charToWord[charStr]; !exists {
+			// Generate a unique random word
+			var word string
+			for {
+				word = Converters.GenerateRandomWordSimple()
+				if !usedWords[word] {
+					usedWords[word] = true
+					break
+				}
+			}
+			charToWord[charStr] = word
+		}
+	}
+
+	// Build the substituted string with commas and quotes
+	var result strings.Builder
+
+	for i, char := range cleaned {
+		charStr := string(char)
+		result.WriteString(`"`)
+		result.WriteString(charToWord[charStr])
+		result.WriteString(`"`)
+		// Add comma after every word except the last one
+		if i < len(cleaned)-1 {
+			result.WriteString(", ")
+		}
+	}
+
+	return result.String(), charToWord, len(charToWord)
+}
+
+// PrintWordsMapping prints the character to word mapping
+func PrintWordsMapping(mapping map[string]string) {
+	fmt.Println("[+] Character to Word Mapping:")
+	// Print in sorted order for hex characters
+	hexChars := []string{"0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "a", "b", "c", "d", "e", "f"}
+	for _, char := range hexChars {
+		if word, exists := mapping[char]; exists {
+			fmt.Printf("	%s => %s\n", Colors.BoldGreen(char), Colors.BoldRed(word))
+		}
+	}
+	fmt.Println()
+}
+
 // DetectObfuscation function
 func DetectObfuscation(obfuscation string, shellcode []string) string {
 	// Set logger for errors
@@ -402,6 +458,22 @@ func DetectObfuscation(obfuscation string, shellcode []string) string {
 
 		// Print total elements
 		fmt.Printf("[+] Total Elements: %s\n\n", Colors.BoldYellow(countQuotedStrings))
+
+		return obfuscatedShellcodeString
+	case "words":
+		// Call function named ConvertShellcodeHex2String
+		shellcodeStr := Converters.ConvertShellcodeHex2String(shellcode)
+
+		// Call function named WordsObfuscation
+		obfuscatedShellcodeString, mapping, uniqueChars := WordsObfuscation(shellcodeStr)
+
+		// Print the mapping
+		fmt.Printf("[+] Generated %s unique words for hex characters (0-9, a-f)\n\n", Colors.BoldYellow(uniqueChars))
+		PrintWordsMapping(mapping)
+
+		// Count total words
+		wordCount := len(strings.Fields(obfuscatedShellcodeString))
+		fmt.Printf("[+] Total Words: %s\n\n", Colors.BoldYellow(wordCount))
 
 		return obfuscatedShellcodeString
 	default:

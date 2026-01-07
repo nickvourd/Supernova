@@ -7,6 +7,7 @@ import (
 	"bytes"
 	"crypto/aes"
 	"crypto/cipher"
+	"crypto/des"
 	"crypto/rand"
 	"fmt"
 	"log"
@@ -156,6 +157,118 @@ func Chacha20Encryption(data []byte, key []byte) ([]byte, error) {
 	return aead.Seal(nonce, nonce, data, nil), nil
 }
 
+// DESEncryption function
+// Performs DES-CBC encryption with manual block processing
+func DESEncryption(key []byte, iv []byte, plaintext []byte) ([]byte, error) {
+	block, err := des.NewCipher(key)
+	if err != nil {
+		return nil, err
+	}
+
+	blockSize := des.BlockSize // 8 bytes for DES
+	plaintextLen := len(plaintext)
+
+	// Calculate number of blocks needed
+	numBlocks := (plaintextLen / blockSize)
+	if plaintextLen%blockSize != 0 {
+		numBlocks++
+	}
+
+	// Calculate padding needed for last block
+	padding := blockSize - (plaintextLen % blockSize)
+	if padding == blockSize {
+		padding = 0
+	}
+
+	// Allocate output buffer for all blocks
+	totalLen := numBlocks * blockSize
+	output := make([]byte, totalLen)
+	tempBlock := make([]byte, blockSize)
+
+	// Create CBC mode encrypter
+	mode := cipher.NewCBCEncrypter(block, iv)
+
+	// Process each block
+	for i := 0; i < numBlocks; i++ {
+		offset := i * blockSize
+
+		// Copy data to temp block
+		if i == numBlocks-1 && padding > 0 {
+			// Last block with padding
+			remaining := plaintextLen - offset
+			copy(tempBlock, plaintext[offset:offset+remaining])
+			// Fill padding with 0x90 (NOP instruction)
+			for j := remaining; j < blockSize; j++ {
+				tempBlock[j] = 0x90
+			}
+		} else {
+			// Full block
+			copy(tempBlock, plaintext[offset:offset+blockSize])
+		}
+
+		// Encrypt the block
+		mode.CryptBlocks(output[offset:offset+blockSize], tempBlock)
+	}
+
+	return output, nil
+}
+
+// TripleDESEncryption function
+// Performs 3DES-CBC encryption with manual block processing
+func TripleDESEncryption(key []byte, iv []byte, plaintext []byte) ([]byte, error) {
+	block, err := des.NewTripleDESCipher(key)
+	if err != nil {
+		return nil, err
+	}
+
+	blockSize := des.BlockSize
+	plaintextLen := len(plaintext)
+
+	// Calculate number of blocks needed
+	numBlocks := (plaintextLen / blockSize)
+	if plaintextLen%blockSize != 0 {
+		numBlocks++
+	}
+
+	// Calculate padding needed for last block
+	padding := blockSize - (plaintextLen % blockSize)
+	if padding == blockSize {
+		padding = 0
+	}
+
+	// Allocate output buffer for all blocks
+	totalLen := numBlocks * blockSize
+	output := make([]byte, totalLen)
+	tempBlock := make([]byte, blockSize)
+
+	// Create CBC mode encrypter
+	mode := cipher.NewCBCEncrypter(block, iv)
+
+	// Process each block
+	for i := 0; i < numBlocks; i++ {
+		offset := i * blockSize
+
+		// Copy data to temp block
+		if i == numBlocks-1 && padding > 0 {
+			// Last block with padding
+			remaining := plaintextLen - offset
+			copy(tempBlock, plaintext[offset:offset+remaining])
+			// Fill padding with 0x90 (NOP instruction)
+			for j := remaining; j < blockSize; j++ {
+				tempBlock[j] = 0x90
+			}
+		} else {
+			// Full block
+			copy(tempBlock, plaintext[offset:offset+blockSize])
+		}
+
+		// Encrypt the block
+		mode.CryptBlocks(output[offset:offset+blockSize], tempBlock)
+	}
+
+	return output, nil
+}
+
 // DetectEncryption function
 func DetectEncryption(cipher string, shellcode string, key int, language string) (string, int, []byte) {
 	// Set logger for errors
@@ -276,6 +389,86 @@ func DetectEncryption(cipher string, shellcode string, key int, language string)
 
 		// Call function named Chacha20Encryption
 		encryptedShellcode, _ := Chacha20Encryption(shellcodeInBytes, chacha20Key)
+
+		// Convert the integer to a string
+		lenEncryptedShellcodeString := strconv.Itoa(len(encryptedShellcode))
+
+		// Print length changed notification
+		fmt.Printf("[+] New Payload size: %s bytes\n\n", Colors.BoldYellow(lenEncryptedShellcodeString))
+
+		// Call function named FormatShellcode
+		shellcodeFormatted := Converters.FormatShellcode(encryptedShellcode, language)
+
+		return shellcodeFormatted, len(encryptedShellcode), encryptedShellcode
+	case "des":
+		// DES uses an 8-byte key and 8-byte IV
+		const desKeySize = 8
+		const desIVSize = 8
+
+		// Generate a random 8-byte key and a random 8-byte IV
+		key := GenerateRandomBytes(desKeySize)
+		iv := GenerateRandomBytes(desIVSize)
+
+		// Print generated key
+		fmt.Printf("[+] Generated DES key (8-byte): ")
+
+		// Call function named PrintKeyDetails
+		Output.PrintKeyDetails(key)
+
+		// Print generated IV
+		fmt.Printf("[+] Generated IV (8-byte): ")
+
+		// Call function named PrintKeyDetails
+		Output.PrintKeyDetails(iv)
+
+		// Print DES-CBC notification
+		fmt.Printf("[+] Using DES-CBC encryption\n\n")
+
+		// Encrypt the shellcode using DES-CBC
+		encryptedShellcode, err := DESEncryption(key, iv, shellcodeInBytes)
+		if err != nil {
+			panic(err)
+		}
+
+		// Convert the integer to a string
+		lenEncryptedShellcodeString := strconv.Itoa(len(encryptedShellcode))
+
+		// Print length changed notification
+		fmt.Printf("[+] New Payload size: %s bytes\n\n", Colors.BoldYellow(lenEncryptedShellcodeString))
+
+		// Call function named FormatShellcode
+		shellcodeFormatted := Converters.FormatShellcode(encryptedShellcode, language)
+
+		return shellcodeFormatted, len(encryptedShellcode), encryptedShellcode
+	case "3des":
+		// 3DES uses a 24-byte key (192-bit) and 8-byte IV
+		const tripleDesKeySize = 24
+		const tripleDesIVSize = 8
+
+		// Generate a random 24-byte key and a random 8-byte IV
+		key := GenerateRandomBytes(tripleDesKeySize)
+		iv := GenerateRandomBytes(tripleDesIVSize)
+
+		// Print generated key
+		fmt.Printf("[+] Generated 3DES key (24-byte): ")
+
+		// Call function named PrintKeyDetails
+		Output.PrintKeyDetails(key)
+
+		// Print generated IV
+		fmt.Printf("[+] Generated IV (8-byte): ")
+
+		// Call function named PrintKeyDetails
+		Output.PrintKeyDetails(iv)
+
+		// Print 3DES-CBC notification
+		fmt.Printf("[+] Using 3DES-CBC encryption\n\n")
+
+		// Encrypt the shellcode using 3DES-CBC
+		encryptedShellcode, err := TripleDESEncryption(key, iv, shellcodeInBytes)
+		if err != nil {
+			panic(err)
+		}
 
 		// Convert the integer to a string
 		lenEncryptedShellcodeString := strconv.Itoa(len(encryptedShellcode))
