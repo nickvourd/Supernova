@@ -24,7 +24,7 @@ type FlagOptions struct {
 
 var (
 	version     = "4.0"
-	versionName = "3 Stounges"
+	versionName = "3 Stooges"
 	license     = "MIT"
 	author      = "@nickvourd"
 	github      = "https://github.com/nickvourd/Supernova"
